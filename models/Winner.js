@@ -5,6 +5,7 @@ const Winner = sequelize.define("Winner", {
   fullName: DataTypes.STRING,
   phone: DataTypes.STRING,
   email: DataTypes.STRING,
+  winDate: DataTypes.STRING,
   linkId: DataTypes.STRING,
   viewed: { type: DataTypes.BOOLEAN, defaultValue: false },
   infoComplete: { type: DataTypes.BOOLEAN, defaultValue: false },
@@ -15,7 +16,12 @@ const Winner = sequelize.define("Winner", {
   description: DataTypes.TEXT,
   avatar: DataTypes.STRING,
   qrcode: DataTypes.STRING,
-  documents: DataTypes.TEXT
+  documents: DataTypes.TEXT,
+  templateId: DataTypes.INTEGER,
+  cardNumber: DataTypes.STRING,
+  shaba: DataTypes.STRING,
+  nationalId: DataTypes.STRING,
+  birthDate: DataTypes.STRING
 });
 
 module.exports = Winner;

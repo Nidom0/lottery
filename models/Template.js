@@ -6,7 +6,8 @@ const Template = sequelize.define("Template", {
   companyName: DataTypes.STRING,
   dateText: DataTypes.STRING,
   namePlaceholder: DataTypes.STRING,
-  phonePlaceholder: DataTypes.STRING
+  phonePlaceholder: DataTypes.STRING,
+  content: DataTypes.TEXT
 });
 
 module.exports = Template;

@@ -9,6 +9,8 @@ const router = express.Router();
 const uploadDir = path.join(__dirname, "..", "public", "uploads");
 fs.mkdirSync(uploadDir, { recursive: true });
 
+const allowedMimes = ["image/jpeg", "image/png", "image/webp", "image/jpg"];
+
 const storage = multer.diskStorage({
   destination: (_req, _file, cb) => cb(null, uploadDir),
   filename: (_req, file, cb) => {
@@ -18,7 +20,31 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ storage });
+const upload = multer({
+  storage,
+  fileFilter: (_req, file, cb) => {
+    if (!allowedMimes.includes(file.mimetype)) {
+      return cb(new Error("فقط فایل تصویری مجاز است."));
+    }
+    cb(null, true);
+  },
+  limits: { fileSize: 5 * 1024 * 1024 },
+});
+
+const uploadFields = upload.fields([
+  { name: "documents", maxCount: 5 },
+  { name: "avatar", maxCount: 1 },
+]);
+
+const sanitizeDigits = value => (value || "").replace(/[^0-9]/g, "");
+const parseDocs = docsStr => {
+  try {
+    return JSON.parse(docsStr || "[]");
+  } catch (err) {
+    console.error("cannot parse docs", err);
+    return [];
+  }
+};
 
 const requireCustomer = async (req, res, next) => {
   if (!req.session.customerId) return res.redirect("/customer/create-account");
@@ -30,6 +56,27 @@ const requireCustomer = async (req, res, next) => {
 
 router.get("/create-account", (req, res) => {
   res.render("Createaccount-customers", { error: null, success: null });
+});
+
+router.get("/login", (req, res) => {
+  res.render("customer-login", { error: null });
+});
+
+router.post("/login", async (req, res) => {
+  const { phone, password } = req.body;
+
+  const customer = await Winner.findOne({
+    where: { phone, accountPassword: password },
+  });
+
+  if (!customer || !customer.registrationUsed) {
+    return res.render("customer-login", {
+      error: "حسابی با این مشخصات یافت نشد یا هنوز فعال نشده است.",
+    });
+  }
+
+  req.session.customerId = customer.id;
+  return res.redirect("/customer/upload-info");
 });
 
 router.post("/create-account", async (req, res) => {
@@ -62,14 +109,7 @@ router.post("/create-account", async (req, res) => {
 });
 
 router.get("/upload-info", requireCustomer, async (req, res) => {
-  let docs = [];
-  if (req.customer.documents) {
-    try {
-      docs = JSON.parse(req.customer.documents);
-    } catch (err) {
-      console.error("cannot parse docs", err);
-    }
-  }
+  const docs = parseDocs(req.customer.documents);
 
   res.render("customer-upload", {
     customer: req.customer,
@@ -82,28 +122,50 @@ router.get("/upload-info", requireCustomer, async (req, res) => {
 router.post(
   "/upload-info",
   requireCustomer,
-  upload.array("documents", 5),
+  (req, res, next) => {
+    uploadFields(req, res, err => {
+      if (err) {
+        return res.render("customer-upload", {
+          customer: req.customer,
+          docs: parseDocs(req.customer.documents),
+          error: err.message,
+          success: null,
+        });
+      }
+      next();
+    });
+  },
   async (req, res) => {
-    const { fullName, phone, description } = req.body;
+    const { fullName, phone, description, cardNumber, shaba, nationalId, birthDate } = req.body;
 
-    let docs = [];
-    if (req.customer.documents) {
-      try {
-        docs = JSON.parse(req.customer.documents);
-      } catch {}
-    }
+    const docs = parseDocs(req.customer.documents);
 
-    const newDocs = (req.files || []).map(file => ({
+    const docFiles = Array.isArray(req.files?.documents) ? req.files.documents : [];
+    const newDocs = docFiles.map(file => ({
       file: `/public/uploads/${file.filename}`,
       name: file.originalname,
       date: new Date(),
     }));
+
+    const avatarFile = Array.isArray(req.files?.avatar) ? req.files.avatar[0] : null;
+    if (avatarFile) {
+      req.customer.avatar = `/public/uploads/${avatarFile.filename}`;
+      newDocs.unshift({
+        file: req.customer.avatar,
+        name: "کارت ملی",
+        date: new Date(),
+      });
+    }
 
     const merged = [...docs, ...newDocs];
 
     req.customer.fullName = fullName || req.customer.fullName;
     req.customer.phone = phone || req.customer.phone;
     req.customer.description = description || req.customer.description;
+    req.customer.cardNumber = sanitizeDigits(cardNumber) || req.customer.cardNumber;
+    req.customer.shaba = sanitizeDigits(shaba) || req.customer.shaba;
+    req.customer.nationalId = sanitizeDigits(nationalId) || req.customer.nationalId;
+    req.customer.birthDate = birthDate || req.customer.birthDate;
     req.customer.documents = JSON.stringify(merged);
     req.customer.infoComplete = true;
 

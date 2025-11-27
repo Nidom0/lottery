@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>ورود مشتری</title>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      background: linear-gradient(135deg,#0d0f1b,#13172b,#141a33);
+      font-family: Vazirmatn, sans-serif;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30px 12px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 520px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.45);
+      backdrop-filter: blur(14px);
+    }
+
+    h1 { margin-top: 0; margin-bottom: 12px; font-size: 26px; color: #7ec7ff; }
+    p { margin-top: 0; margin-bottom: 18px; opacity: .8; }
+
+    label { display: block; margin-bottom: 8px; font-weight: 600; }
+    input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.06);
+      color: #fff;
+      margin-bottom: 14px;
+      font-size: 15px;
+    }
+
+    input:focus { outline: 2px solid #6aa7ff; }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg,#3a8bff,#6aa7ff);
+      border: none;
+      border-radius: 14px;
+      font-weight: 800;
+      color: #0c1225;
+      cursor: pointer;
+      box-shadow: 0 10px 22px rgba(80,150,255,0.35);
+      transition: .25s;
+    }
+
+    button:hover { transform: translateY(-2px); }
+
+    .alert { padding: 12px; border-radius: 12px; margin-bottom: 14px; }
+    .alert.error { background: rgba(255,80,80,0.18); border: 1px solid rgba(255,80,80,0.4); }
+
+    .links { display: flex; justify-content: space-between; margin-top: 10px; font-size: 14px; }
+    .links a { color: #9ed5ff; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>ورود مشتری</h1>
+    <p>شماره تماس و رمز ثبت‌شده را وارد کنید تا اطلاعات خود را مشاهده یا تکمیل نمایید.</p>
+
+    <% if (error) { %>
+      <div class="alert error"><%= error %></div>
+    <% } %>
+
+    <form action="/customer/login" method="POST">
+      <label>شماره تماس</label>
+      <input type="text" name="phone" required placeholder="0912...">
+
+      <label>رمز عبور</label>
+      <input type="password" name="password" required placeholder="******">
+
+      <button type="submit">ورود</button>
+    </form>
+
+    <div class="links">
+      <a href="/customer/create-account">حساب ندارید؟ ثبت‌نام</a>
+      <a href="/">بازگشت به صفحه اصلی</a>
+    </div>
+  </div>
+</body>
+</html>

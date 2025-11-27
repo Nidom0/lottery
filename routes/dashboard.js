@@ -89,7 +89,7 @@ router.post("/lottery/registration-codes", requireAuth, async (req, res) => {
 // -------------------------------------------------------
 router.post("/lottery/create-winner", requireAuth, async (req, res) => {
   try {
-    const { fullName, phone, prize, templateId } = req.body;
+    const { fullName, phone, prize, templateId, winDate } = req.body;
 
     const randomLink = Math.floor(10000000 + Math.random() * 90000000).toString();
 
@@ -100,6 +100,7 @@ router.post("/lottery/create-winner", requireAuth, async (req, res) => {
       phone,
       prize,
       templateId,
+      winDate,
       linkId: randomLink,
       registrationCode,
       registrationUsed: false,
