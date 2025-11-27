@@ -10,6 +10,9 @@ const requireAuth = (req, res, next) => {
   return res.redirect("/admin/login");
 };
 
+const generateRegistrationCode = () =>
+  Math.floor(100000 + Math.random() * 900000).toString();
+
 // -------------------------------------------------------
 // DASHBOARD LOTTERY PAGE
 // -------------------------------------------------------
@@ -57,6 +60,31 @@ router.get("/lottery/create-winner", requireAuth, async (req, res) => {
 });
 
 // -------------------------------------------------------
+// REGISTRATION CODES PAGE
+// -------------------------------------------------------
+router.get("/lottery/registration-codes", requireAuth, async (req, res) => {
+  const winners = await Winner.findAll({ order: [["id", "DESC"]] });
+  res.render("registration-codes", { winners, message: req.query.message || null });
+});
+
+router.post("/lottery/registration-codes", requireAuth, async (req, res) => {
+  const { winnerId } = req.body;
+  const winner = await Winner.findByPk(winnerId);
+  if (!winner) return res.redirect("/dashboard/lottery/registration-codes?message=برنده پیدا نشد");
+
+  winner.registrationCode = generateRegistrationCode();
+  winner.registrationUsed = false;
+  winner.accountPassword = null;
+  await winner.save();
+
+  return res.redirect(
+    `/dashboard/lottery/registration-codes?message=کد برای ${encodeURIComponent(
+      winner.fullName
+    )} ساخته شد`
+  );
+});
+
+// -------------------------------------------------------
 // CREATE WINNER
 // -------------------------------------------------------
 router.post("/lottery/create-winner", requireAuth, async (req, res) => {
@@ -65,12 +93,16 @@ router.post("/lottery/create-winner", requireAuth, async (req, res) => {
 
     const randomLink = Math.floor(10000000 + Math.random() * 90000000).toString();
 
+    const registrationCode = generateRegistrationCode();
+
     await Winner.create({
       fullName,
       phone,
       prize,
       templateId,
       linkId: randomLink,
+      registrationCode,
+      registrationUsed: false,
       infoComplete: false,
       viewed: false,
     });

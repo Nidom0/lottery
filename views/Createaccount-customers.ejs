@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>ساخت حساب مشتری</title>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      background: linear-gradient(135deg,#0d0f1b,#13172b,#141a33);
+      font-family: Vazirmatn, sans-serif;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30px 12px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 520px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.45);
+      backdrop-filter: blur(14px);
+    }
+
+    h1 { margin-top: 0; margin-bottom: 12px; font-size: 26px; color: #7ec7ff; }
+    p { margin-top: 0; margin-bottom: 18px; opacity: .8; }
+
+    label { display: block; margin-bottom: 8px; font-weight: 600; }
+    input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.06);
+      color: #fff;
+      margin-bottom: 14px;
+      font-size: 15px;
+    }
+
+    input:focus { outline: 2px solid #6aa7ff; }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg,#3a8bff,#6aa7ff);
+      border: none;
+      border-radius: 14px;
+      font-weight: 800;
+      color: #0c1225;
+      cursor: pointer;
+      box-shadow: 0 10px 22px rgba(80,150,255,0.35);
+      transition: .25s;
+    }
+
+    button:hover { transform: translateY(-2px); }
+
+    .alert { padding: 12px; border-radius: 12px; margin-bottom: 14px; }
+    .alert.error { background: rgba(255,80,80,0.18); border: 1px solid rgba(255,80,80,0.4); }
+    .alert.success { background: rgba(120,255,180,0.18); border: 1px solid rgba(120,255,180,0.45); }
+
+    .links { display: flex; justify-content: space-between; margin-top: 10px; font-size: 14px; }
+    .links a { color: #9ed5ff; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>ساخت حساب مشتری</h1>
+    <p>برای ادامه نیاز به کد ثبت‌نامی دارید که از داشبورد ادمین صادر شده است.</p>
+
+    <% if (error) { %>
+      <div class="alert error"><%= error %></div>
+    <% } %>
+
+    <% if (success) { %>
+      <div class="alert success"><%= success %></div>
+    <% } %>
+
+    <form action="/customer/create-account" method="POST">
+      <label>شماره تماس</label>
+      <input type="text" name="phone" required placeholder="0912...">
+
+      <label>رمز عبور دلخواه</label>
+      <input type="password" name="password" required placeholder="******">
+
+      <label>کد ثبت‌نام</label>
+      <input type="text" name="code" required placeholder="مثلاً 458230">
+
+      <button type="submit">ثبت حساب و ورود</button>
+    </form>
+
+    <div class="links">
+      <a href="/">بازگشت به صفحه اصلی</a>
+      <a href="/customer/upload-info">صفحه بارگذاری</a>
+    </div>
+  </div>
+</body>
+</html>

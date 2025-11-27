@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>بارگذاری اطلاعات مشتری</title>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      background: linear-gradient(135deg,#0d0f1b,#13172b,#141a33);
+      font-family: Vazirmatn, sans-serif;
+      color: #fff;
+      min-height: 100vh;
+      padding: 30px 14px 60px;
+    }
+
+    .container { max-width: 960px; margin: 0 auto; }
+    .glass {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 18px;
+      padding: 20px;
+      margin-bottom: 18px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.45);
+      backdrop-filter: blur(12px);
+    }
+
+    h1 { margin: 0 0 10px; color: #7ec7ff; }
+    p { margin: 0 0 14px; opacity: .8; }
+
+    label { display: block; margin-bottom: 8px; font-weight: 700; }
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.05);
+      color: #fff;
+      margin-bottom: 14px;
+      font-size: 15px;
+    }
+
+    textarea { min-height: 120px; resize: vertical; }
+
+    button {
+      padding: 12px 20px;
+      background: linear-gradient(135deg,#3a8bff,#6aa7ff);
+      border: none;
+      border-radius: 12px;
+      font-weight: 800;
+      color: #0c1225;
+      cursor: pointer;
+      box-shadow: 0 8px 22px rgba(80,150,255,0.35);
+    }
+
+    .docs-list { list-style: none; padding: 0; }
+    .docs-list li { padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+
+    .alert { padding: 12px; border-radius: 12px; margin-bottom: 14px; }
+    .alert.error { background: rgba(255,80,80,0.18); border: 1px solid rgba(255,80,80,0.4); }
+    .alert.success { background: rgba(120,255,180,0.18); border: 1px solid rgba(120,255,180,0.45); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="glass">
+      <h1>بارگذاری اطلاعات برنده</h1>
+      <p>پس از ثبت اکانت با کد دریافتی، اینجا مدارک و توضیحات خود را آپلود کنید.</p>
+
+      <% if (error) { %>
+        <div class="alert error"><%= error %></div>
+      <% } %>
+
+      <% if (success) { %>
+        <div class="alert success"><%= success %></div>
+      <% } %>
+
+      <form action="/customer/upload-info" method="POST" enctype="multipart/form-data">
+        <label>نام و نام خانوادگی</label>
+        <input type="text" name="fullName" value="<%= customer.fullName || '' %>" required>
+
+        <label>شماره تماس</label>
+        <input type="text" name="phone" value="<%= customer.phone || '' %>" required>
+
+        <label>توضیحات یا آدرس</label>
+        <textarea name="description" placeholder="توضیحات خود را وارد کنید"><%= customer.description || '' %></textarea>
+
+        <label>مدارک (حداکثر ۵ فایل)</label>
+        <input type="file" name="documents" multiple>
+
+        <button type="submit">ارسال اطلاعات</button>
+      </form>
+    </div>
+
+    <div class="glass">
+      <h3 style="margin-top:0;">مدارک ارسال‌شده</h3>
+      <% if (docs.length === 0) { %>
+        <p style="opacity:.7">هنوز مدرکی بارگذاری نشده است.</p>
+      <% } %>
+      <ul class="docs-list">
+        <% docs.forEach(doc => { %>
+          <li>
+            <a href="<%= doc.file %>" target="_blank" style="color:#9ed5ff;">مشاهده فایل</a>
+            — <%= doc.name || 'بدون عنوان' %>
+            <div style="opacity:.65; font-size:13px;">
+              <%= new Date(doc.date).toLocaleString('fa-IR') %>
+            </div>
+          </li>
+        <% }) %>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>
