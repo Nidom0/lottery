@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>مدیریت تمپلیت‌ها</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <link rel="stylesheet" href="/public/css/core.css">
+  <link rel="stylesheet" href="/public/css/ui.css">
+  <link rel="stylesheet" href="/public/css/main.css">
+
+  <style>
+    body {
+      background: linear-gradient(135deg,#0d0f1b,#101326,#141a33,#0d1125);
+      font-family: Vazirmatn;
+      color: white;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 140px auto;
+      padding: 25px;
+    }
+
+    .glass-box {
+      background: rgba(255,255,255,0.06);
+      backdrop-filter: blur(18px);
+      border-radius: 18px;
+      padding: 28px;
+      border: 1px solid rgba(255,255,255,0.08);
+      margin-bottom: 35px;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.45);
+    }
+
+    .title {
+      font-size: 28px;
+      text-align: center;
+      margin-bottom: 25px;
+      color: #7ec7ff;
+      font-weight: 700;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 18px;
+      border-radius: 14px;
+      border: none;
+      background: rgba(255,255,255,0.1);
+      color: white;
+      outline: none;
+      transition: .3s;
+    }
+
+    textarea {
+      height: 180px;
+      resize: vertical;
+    }
+
+    input:focus, textarea:focus {
+      background: rgba(255,255,255,0.2);
+      box-shadow: 0 0 0 2px #6aa7ff;
+    }
+
+    .btn-main {
+      background: linear-gradient(135deg,#3a8bff,#6aa7ff);
+      padding: 12px 25px;
+      border-radius: 50px;
+      border: none;
+      font-weight: 700;
+      cursor: pointer;
+      color: #fff;
+      box-shadow: 0 6px 20px rgba(90,150,255,0.4);
+      transition: .25s;
+    }
+
+    .btn-main:hover {
+      transform: translateY(-3px);
+      opacity: .9;
+    }
+
+    .template-card {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 15px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+    }
+  </style>
+</head>
+
+<body>
+
+  <%- include('partials/navbar') %>
+
+  <div class="container">
+
+    <!-- ساخت تمپلیت -->
+    <div class="glass-box">
+      <div class="title">ایجاد تمپلیت جدید</div>
+
+      <form action="/template/create" method="POST">
+
+        <label>عنوان تمپلیت</label>
+        <input type="text" name="title" required>
+
+        <label>نام شرکت</label>
+        <input type="text" name="companyName" required>
+
+        <label>متن تمپلیت</label>
+        <textarea name="content" required placeholder="مثال:
+[نام مشتری] عزیز
+تبریک عرض میکنم شما برنده [مبلغ] شدید
+از طرف شرکت [نام شرکت]"></textarea>
+
+        <button class="btn-main">ثبت تمپلیت</button>
+      </form>
+    </div>
+
+    <!-- لیست -->
+    <div class="glass-box">
+      <div class="title" style="font-size:24px;">لیست تمپلیت‌ها</div>
+
+      <% templates.forEach(t => { %>
+        <div class="template-card">
+          <b><%= t.title %></b>
+          <p style="opacity:.7;"><%= t.companyName %></p>
+          <pre style="white-space:pre-wrap;opacity:.8;"><%= t.content %></pre>
+
+          <form method="POST" action="/template/delete/<%= t.id %>">
+            <button class="btn-main" style="background:#ff5f5f;margin-top:10px;">حذف</button>
+          </form>
+        </div>
+      <% }) %>
+
+    </div>
+
+  </div>
+
+</body>
+</html>

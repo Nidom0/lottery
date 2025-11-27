@@ -1,0 +1,40 @@
+/* =======================
+   CORE / BASE STYLES
+   ======================= */
+
+:root {
+    --primary: #1e73be;
+    --primary-light: #3a8dd5;
+    --secondary: #f59c1a;
+    --success: #28a745;
+    --danger: #dc3545;
+    --dark: #1e1e1e;
+    --light: #f0f4f8;
+    --radius: 14px;
+    --shadow: 0 6px 25px rgba(0,0,0,0.08);
+    --font: "Vazir", sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font);
+    background: var(--light);
+    color: #333;
+    direction: rtl;
+    min-height: 100vh;
+    padding-top: 80px;
+}
+
+/* Scrollbar زیبا */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-thumb {
+    background: #c8d4e0;
+    border-radius: 50px;
+}

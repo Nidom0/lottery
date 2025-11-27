@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>سرای طلای ایرانیان</title>
+
+  <!-- Vazir font + bootstrap icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Vazir:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <style>
+    *{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:"Vazir",sans-serif;
+  background:#f0f4f8; /* خاکستری روشن */
+  color:#333;
+  line-height:1.7;
+}
+
+/* ---------- header (glass) ---------- */
+.main-header {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:10px 20px;
+  height:64px;
+  background: rgba(240,244,248,0.6); /* خاکستری شفاف */
+  backdrop-filter: blur(6px);
+  border-bottom:1px solid rgba(200,210,220,0.8);
+}
+
+.main-left { display:flex; align-items:center; gap:14px; }
+
+/* calculator icon replaces hamburger */
+.calc-icon {
+  width:44px;
+  height:44px;
+  border-radius:10px;
+  background: linear-gradient(135deg,#1e73be,#3a8dd5); /* آبی gradient */
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  font-size:20px;
+  cursor:pointer;
+  box-shadow:0 6px 18px rgba(0,0,0,.12);
+}
+
+.header-logo { height:38px; }
+
+.nav-menu {
+  display:flex;
+  gap:22px;
+  align-items:center;
+}
+.nav-menu a {
+  text-decoration:none;
+  color:#1e3b5a; /* آبی تیره */
+  font-size:15px;
+  position:relative;
+  padding:6px 8px;
+}
+.nav-menu a:hover { color:#3a8dd5; } /* آبی روشن hover */
+
+.menu-small {
+  width:36px;
+  height:36px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:8px;
+  cursor:pointer;
+  background:transparent;
+  color:#1e3b5a;
+}
+
+.login-small {
+  background:#1e73be; /* آبی */
+  color:#fff;
+  padding:8px 14px;
+  border-radius:8px;
+  text-decoration:none;
+  font-weight:600;
+}
+
+/* dropdowns */
+.dropdown { position:relative; }
+.dropdown-items {
+  display:none;
+  position:absolute;
+  top:38px;
+  right:0;
+  background:#f0f4f8; /* خاکستری روشن */
+  min-width:180px;
+  border-radius:10px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.12);
+  z-index:1200;
+  overflow:hidden;
+}
+.dropdown-items a {
+  display:block;
+  padding:10px 14px;
+  color:#1e3b5a;
+  text-decoration:none;
+  font-size:14px;
+}
+.dropdown-items a:hover { background:#d0d9e6; color:#000; }
+
+/* sidebar */
+#sidebar{
+  position:fixed;
+  right:-320px;
+  top:0;
+  width:320px;
+  height:100%;
+  background:#e1e8f0; /* خاکستری روشن */
+  padding:22px;
+  box-shadow:-10px 0 30px rgba(0,0,0,0.12);
+  transition: right .32s cubic-bezier(.2,.9,.2,1);
+  z-index:2000;
+  border-left:1px solid rgba(200,210,220,0.9);
+  overflow:auto;
+}
+#sidebar.open { right:0; }
+.sidebar-header { display:flex; align-items:center; justify-content:space-between; }
+#closeSidebar{ cursor:pointer; font-size:20px; }
+.sidebar-logo{ height:36px; }
+
+.sidebar-menu{ list-style:none; padding:0; margin-top:24px; }
+.sidebar-menu li{ margin:14px 0; }
+.sidebar-menu a{ color:#1e3b5a; text-decoration:none; display:block; padding:8px 6px; border-radius:6px; }
+.sidebar-sub{ padding-right:10px; font-size:14px; color:#666; margin-top:8px; display:none; }
+.sidebar-menu a:hover{ background:#d0d9e6; }
+
+/* overlay */
+#overlay { position:fixed; inset:0; background:rgba(0,0,0,0.45); display:none; z-index:1800; }
+
+/* ---------- loan popup (center modal) ---------- */
+#loanModal {
+  position:fixed;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%) scale(.8);
+  width:92%;
+  max-width:520px;
+  background: rgba(225,232,240,0.65);
+  backdrop-filter: blur(10px);
+  border-radius:16px;
+  padding:20px;
+  box-shadow:0 20px 60px rgba(0,0,0,.25);
+  
+  opacity:0;
+  display:none;              /* modal hidden */
+  pointer-events:none;       /* not clickable */
+  transition: all .28s cubic-bezier(.2,.9,.2,1);
+  z-index:3000;
+}
+
+#loanModal.open {
+  display:block;
+  opacity:1;
+  pointer-events:auto;       /* clickable only when open */
+  transform:translate(-50%,-50%) scale(1);
+}
+
+
+#loanModal h3{ margin:0 0 12px; text-align:center; color:#1e3b5a; }
+.field{ margin-bottom:12px; }
+.field label{ display:block; font-weight:600; margin-bottom:6px; color:#1e3b5a; }
+.field input, .field select {
+  width:100%;
+  padding:10px 12px;
+  border-radius:8px;
+  border:1px solid #c8d2dc;
+  font-size:15px;
+  background:#fff;
+}
+.btn { width:100%; padding:12px; border-radius:10px; border:none; background:linear-gradient(90deg,#1e73be,#3a8dd5); color:#fff; font-weight:700; cursor:pointer; margin-top:8px; }
+.close-btn { text-align:center; margin-top:10px; color:#666; cursor:pointer; }
+.result { text-align:center; margin-top:10px; font-weight:700; color:#1e3b5a; }
+
+/* ---------- page hero + retained content ---------- */
+header {
+  text-align:center;
+  padding:80px 20px 50px;
+  background: linear-gradient(to bottom,#e1e8f0,#d0d9e6); /* خاکستری/آبی gradient */
+}
+header h1 { margin:0 0 12px; font-size:40px; color:#1e73be; font-weight:700; }
+header p { font-size:18px; color:#1e3b5a; margin-bottom:30px; }
+.btn-login { background:#1e73be;color:white;padding:14px 38px;border-radius:50px;font-weight:600;font-size:1.1rem;text-decoration:none;display:inline-block;box-shadow:0 6px 20px rgba(30,115,190,0.4); transition:all .3s; }
+.btn-login:hover { background:#3a8dd5; transform:translateY(-4px); box-shadow:0 10px 25px rgba(58,141,213,0.5); }
+
+.section { padding:80px 20px; text-align:center; }
+.section h2 { margin-bottom:55px; font-size:30px; color:#1e3b5a; position:relative; }
+.section h2::after { content:''; width:90px; height:4px; background:#1e73be; display:block; margin:18px auto 0; border-radius:2px; }
+
+.section-icon { font-size:3.8rem; color:#1e73be; background:white; width:100px; height:100px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 30px; box-shadow:0 8px 30px rgba(0,0,0,0.12); transition:transform .3s; }
+.section-icon:hover { transform:scale(1.1) rotate(8deg); }
+
+.cards { display:flex; flex-wrap:wrap; justify-content:center; gap:30px; max-width:1250px; margin:0 auto; }
+.card { background:#fff; border-radius:16px; padding:30px 24px; width:260px; box-shadow:0 6px 25px rgba(0,0,0,0.09); transition:all .4s; }
+.card:hover { transform:translateY(-12px); box-shadow:0 18px 45px rgba(0,0,0,0.15); }
+.card h3 { margin:0 0 14px 0; font-size:19px; color:#1e73be; }
+.card p { font-size:15px; color:#555; margin:0; }
+
+.licenses { position:fixed; bottom:18px; left:18px; z-index:1000; display:flex; gap:10px; flex-direction:column; }
+.licenses img { width:48px; height:48px; border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,0.2); transition:transform .3s; }
+.licenses img:hover { transform:scale(1.15); }
+
+footer { background:linear-gradient(90deg,#1e73be,#3a8dd5); color:#fff; text-align:center; padding:50px 20px; margin-top:80px; }
+footer p { margin:10px 0; font-size:15px; }
+
+@media(max-width:900px){
+  .nav-menu { display:none; }
+}
+@media(max-width:520px){
+  .main-header { padding:8px 12px; height:56px; }
+  .calc-icon{ width:40px;height:40px; }
+}
+
+  </style>
+</head>
+<body>
+
+  <!-- MAIN HEADER -->
+  <div class="main-header" id="mainHeader">
+    <div class="main-left">
+      <!-- calculator icon (replaces hamburger) -->
+      <div class="calc-icon" id="openLoanBtn" title="باز کردن ماشین حساب وام">
+        <i class="bi bi-calculator" style="font-size:18px;"></i>
+      </div>
+
+      <!-- logo -->
+      <img src="public/image/logo.png" alt="logo" class="header-logo">
+    </div>
+
+    <!-- center nav -->
+    <nav class="nav-menu">
+      <a href="/">صفحه اصلی</a>
+
+      <!-- فهرست وام (بدون محاسبه وام داخلش) -->
+      <div class="dropdown">
+        <a id="loanDrop">فهرست وام ▾</a>
+        <div class="dropdown-items" id="loanItems">
+          <a href="/loans/housing">وام خرید مسکن</a>
+          <a href="/loans/gold">وام خرید طلا</a>
+          <a href="/loans/car">وام خرید خودرو</a>
+        </div>
+      </div>
+
+      <!-- قرعه‌کشی با زیرمنو -->
+      <div class="dropdown">
+        <a id="lotteryDrop">قرعه‌کشی ▾</a>
+        <div class="dropdown-items" id="lotteryItems">
+          <a href="/lottery/winners">برندگان قرعه‌کشی</a>
+          <a href="/lottery/about">درباره قرعه‌کشی</a>
+        </div>
+      </div>
+
+      <a href="/contact">ارتباط با ما</a>
+    </nav>
+
+    <!-- right area: menu button (opens slide-in sidebar) + login -->
+    <div style="display:flex;gap:10px;align-items:center">
+      <div class="menu-small" id="openSidebarBtn" title="منوی بیشتر">
+        <i class="bi bi-list" style="font-size:19px;"></i>
+      </div>
+      <a href="/customer/login" class="login-small">ورود</a>
+    </div>
+  </div>
+
+  <!-- SIDEBAR (slide-in) -->
+  <div id="sidebar">
+    <div class="sidebar-header">
+      <img src="public/image/logo.png" class="sidebar-logo" alt="logo">
+      <span id="closeSidebar">✕</span>
+    </div>
+
+    <ul class="sidebar-menu">
+      <li><a href="/">صفحه اصلی</a></li>
+
+      <li><a href="/loans">فهرست وام</a></li>
+      <div class="sidebar-sub" id="sbLoanSub">
+        <a href="/loans/housing">وام خرید مسکن</a><br>
+        <a href="/loans/gold">وام خرید طلا</a><br>
+        <a href="/loans/car">وام خرید خودرو</a>
+      </div>
+
+      <li><a href="/lottery">قرعه‌کشی</a></li>
+      <div class="sidebar-sub" id="sbLotterySub">
+        <a href="/lottery/winners">برندگان</a><br>
+        <a href="/lottery/about">درباره</a>
+      </div>
+
+      
+
+      <li><a href="/contact">ارتباط با ما</a></li>
+    </ul>
+  </div>
+
+  <!-- overlay -->
+  <div id="overlay"></div>
+
+  <!-- ---------- LOAN POPUP (center modal) ---------- -->
+  <div id="loanModal" aria-hidden="true">
+    <h3>محاسبه وام</h3>
+
+    <div class="field">
+      <label>مبلغ وام (تومان)</label>
+      <input id="loanAmount" inputmode="numeric" placeholder="مثال: 111,222,333">
+    </div>
+
+    <div class="field">
+      <label>درصد سود سالانه (%)</label>
+      <input id="loanInterest" type="number" placeholder="مثال: 18">
+    </div>
+
+   <div class="field">
+  <label>تعداد اقساط (ماه)</label>
+  <select id="loanMonths">
+    <option value="12">۱۲ ماه</option>
+    <option value="24">۲۴ ماه</option>
+    <option value="36">۳۶ ماه</option>
+    <option value="48">۴۸ ماه</option>
+    <option value="60">۶۰ ماه</option>
+    <option value="72">۷۲ ماه</option>
+    <option value="84">۸۴ ماه</option>
+    <option value="96">۹۶ ماه</option>
+    <option value="108">۱۰۸ ماه</option>
+    <option value="120">۱۲۰ ماه</option>
+  </select>
+</div>
+
+    <button class="btn" id="calcLoanBtn">محاسبه وام</button>
+
+    <div class="result" id="loanResult"></div>
+
+    <div id="closeLoanBtn" 
+     style="
+       position:absolute;
+       top:12px;
+       left:12px;
+       font-size:22px;
+       font-weight:bold;
+       cursor:pointer;
+       color:#333;">
+  ×
+</div>
+
+  </div>
+
+  <!-- ---------- HERO + rest of original page (kept intact) ---------- -->
+  <header>
+    <h1>سرای طلای ایرانیان</h1>
+    <p>سیستم جامع مدیریت قراردادها، وام‌ها و قرعه‌کشی‌ها</p>
+    <a href="/customer/login" class="btn-login">ورود به حساب مشترکین</a>
+  </header>
+
+  <!-- ویژگی‌های سیستم -->
+  <section class="section">
+    <div class="section-icon"><i class="bi bi-graph-up-arrow"></i></div>
+    <h2>ویژگی‌های سیستم</h2>
+    <div class="cards">
+      <div class="card"><h3>گزارش گیری</h3><p>مشاهده و مدیریت گزارش‌ها و عملکرد سیستم</p></div>
+      <div class="card"><h3>پشتیبانی مشتری</h3><p>مدیریت ارتباط با مشتریان و پاسخگویی سریع</p></div>
+      <div class="card"><h3>امنیت بالا</h3><p>محافظت کامل از اطلاعات و دسترسی‌ها</p></div>
+      <div class="card"><h3>مدیریت قراردادها</h3><p>کنترل و ثبت قراردادها و جزئیات آن‌ها</p></div>
+    </div>
+  </section>
+
+  <!-- امکانات مدیران -->
+  <section class="section bg-light">
+    <div class="section-icon"><i class="bi bi-person-gear"></i></div>
+    <h2>امکانات مدیران</h2>
+    <div class="cards">
+      <div class="card"><h3>ایجاد کاربر جدید</h3><p>مدیران می‌توانند کاربران جدید بسازند</p></div>
+      <div class="card"><h3>مدیریت مشتریان</h3><p>ویرایش و مشاهده اطلاعات مشتریان</p></div>
+      <div class="card"><h3>ایجاد قرعه‌کشی</h3><p>ساخت لینک اختصاصی برای هر مشتری</p></div>
+    </div>
+  </section>
+
+  <!-- امکانات مشتریان -->
+  <section class="section">
+    <div class="section-icon"><i class="bi bi-people"></i></div>
+    <h2>امکانات مشتریان</h2>
+    <div class="cards">
+      <div class="card"><h3>ثبت درخواست وام</h3><p>ثبت و مشاهده درخواست‌های وام</p></div>
+      <div class="card"><h3>دریافت اطلاعیه‌ها</h3><p>دریافت پیام‌ها و اعلان‌ها</p></div>
+      <div class="card"><h3>شرکت در قرعه‌کشی</h3><p>امکان مشاهده وضعیت قرعه‌کشی‌ها</p></div>
+    </div>
+  </section>
+
+  <!-- ۴ مجوز کوچیک پایین سمت چپ -->
+  <div class="licenses">
+    <img src="public/image/SarayeTala.svg" alt="سرای طلا">
+    <img src="public/image/Enemad.png" alt="اینماد">
+    <img src="public/image/LOGG.png" alt="لوگو">
+    <img src="public/image/Lumi.png" alt="لومی">
+  </div>
+
+  <footer>
+    <p>تماس با ما: 021-91004056</p>
+    <p>ایمیل: support@SarayeTalaMehrGostaranIranian.ir</p>
+    <p class="mt-3">© ۱۴۰۴ - سرای طلای ایرانیان - تمامی حقوق محفوظ است</p>
+  </footer>
+
+  <!-- ---------- SCRIPTS ---------- -->
+  <script>
+
+// ---------- sidebar ----------
+const openSidebarBtn = document.getElementById('openSidebarBtn');
+const sidebar = document.getElementById('sidebar');
+const closeSidebarBtn = document.getElementById('closeSidebar');
+const overlay = document.getElementById('overlay');
+
+openSidebarBtn.addEventListener('click', () => {
+  sidebar.classList.add('open');
+  overlay.style.display = 'block';
+});
+
+closeSidebarBtn.addEventListener('click', () => {
+  sidebar.classList.remove('open');
+  overlay.style.display = 'none';
+});
+
+overlay.addEventListener('click', () => {
+  sidebar.classList.remove('open');
+  loanModalClose();
+  overlay.style.display = 'none';
+});
+
+// ---------- dropdown menus ----------
+const loanDrop = document.getElementById('loanDrop');
+const loanItems = document.getElementById('loanItems');
+const lotteryDrop = document.getElementById('lotteryDrop');
+const lotteryItems = document.getElementById('lotteryItems');
+
+loanDrop.addEventListener('click', (e) => {
+  e.stopPropagation();
+  loanItems.style.display = loanItems.style.display === 'block' ? 'none' : 'block';
+  lotteryItems.style.display = 'none';
+});
+
+lotteryDrop.addEventListener('click', (e) => {
+  e.stopPropagation();
+  lotteryItems.style.display = lotteryItems.style.display === 'block' ? 'none' : 'block';
+  loanItems.style.display = 'none';
+});
+
+document.addEventListener('click', () => {
+  loanItems.style.display = 'none';
+  lotteryItems.style.display = 'none';
+});
+
+// ---------- sidebar submenus ----------
+const sbLoanSub = document.getElementById('sbLoanSub');
+const sbLotterySub = document.getElementById('sbLotterySub');
+
+document.querySelectorAll('.sidebar-menu a').forEach(a => {
+  a.addEventListener('click', (e) => {
+    if (a.getAttribute('href') === '/loans') {
+      e.preventDefault();
+      sbLoanSub.style.display = sbLoanSub.style.display === 'block' ? 'none' : 'block';
+    }
+    if (a.getAttribute('href') === '/lottery') {
+      e.preventDefault();
+      sbLotterySub.style.display = sbLotterySub.style.display === 'block' ? 'none' : 'block';
+    }
+  });
+});
+
+// ---------- Loan Modal ----------
+const loanModal = document.getElementById('loanModal');
+const openLoanBtn = document.getElementById('openLoanBtn');
+const closeLoanBtn = document.getElementById('closeLoanBtn');
+
+function loanModalOpen() {
+  loanModal.classList.add("open");
+  overlay.style.display = "block";
+}
+
+function loanModalClose() {
+  loanModal.classList.remove("open");
+  overlay.style.display = "none";
+}
+
+
+openLoanBtn.addEventListener('click', loanModalOpen);
+closeLoanBtn.addEventListener('click', loanModalClose);
+
+// ---------- loan calculator ----------
+const loanAmount = document.getElementById('loanAmount');
+const loanInterest = document.getElementById('loanInterest');
+const loanMonths = document.getElementById('loanMonths');
+const calcLoanBtn = document.getElementById('calcLoanBtn');
+const loanResult = document.getElementById('loanResult');
+
+function formatThousandsEN(value) {
+  const onlyNums = String(value).replace(/[^0-9]/g, '');
+  if (onlyNums === '') return '';
+  return onlyNums.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+loanAmount.addEventListener('input', (e) => {
+  e.target.value = formatThousandsEN(e.target.value);
+});
+
+calcLoanBtn.addEventListener('click', () => {
+  const principal = Number(loanAmount.value.replace(/,/g, ''));
+  const interest = Number(loanInterest.value);
+  const months = Number(loanMonths.value);
+
+  if (!principal || !interest || !months) {
+    loanResult.innerText = 'لطفا تمام فیلدها را به درستی وارد کنید';
+    return;
+  }
+
+  const totalInterest = principal * (interest / 100);
+  const totalPay = principal + totalInterest;
+  const monthly = Math.round(totalPay / months);
+
+  loanResult.innerHTML = `
+    مبلغ هر قسط: ${monthly.toLocaleString('en-US')} تومان<br>
+    مجموع پرداخت: ${totalPay.toLocaleString('en-US')} تومان
+  `;
+});
+
+// ---------- ESC close ----------
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    sidebar.classList.remove('open');
+    loanModalClose();
+    overlay.style.display = 'none';
+  }
+});
+
+</script>
+
+</body>
+</html>

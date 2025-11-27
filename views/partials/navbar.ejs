@@ -1,0 +1,181 @@
+<!-- views/partials/navbar.ejs -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<style>
+  .nav-wrap {
+    position: fixed;
+    top: 0;
+    inset-inline: 0;
+    height: 78px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 25px;
+    background: rgba(15,17,34,0.55);
+    backdrop-filter: blur(18px);
+    box-shadow: 0 8px 22px rgba(0,0,0,0.38);
+    z-index: 2000;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .nav-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .nav-left img {
+    width: 48px;
+    border-radius: 12px;
+  }
+
+  .nav-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #d4e4ff;
+  }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+
+  .icon-btn {
+    width: 42px;
+    height: 42px;
+    background: rgba(255,255,255,0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: .3s;
+    color: #bcd0ff;
+  }
+
+  .icon-btn:hover {
+    background: rgba(255,255,255,0.12);
+    color: #4fa3ff;
+  }
+
+  .sidebar {
+    position: fixed;
+    right: -330px;
+    top: 0;
+    width: 330px;
+    height: 100vh;
+    background: rgba(15,17,34,0.78);
+    backdrop-filter: blur(20px);
+    transition: .4s ease;
+    padding-top: 110px;
+    z-index: 3000;
+    box-shadow: -14px 0 28px rgba(0,0,0,0.45);
+    border-left: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .sidebar.open { right: 0; }
+
+  .side-menu { padding: 0 25px; }
+  .side-menu a {
+    display: block;
+    padding: 14px;
+    margin-bottom: 12px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.05);
+    color: #cdd9ff;
+    text-decoration: none;
+    transition: .25s;
+    font-size: 15px;
+  }
+
+  .side-menu a:hover {
+    background: rgba(79,163,255,0.35);
+    color: white;
+  }
+
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    opacity: 0;
+    visibility: hidden;
+    transition: .35s;
+    z-index: 2500;
+  }
+
+  .overlay.show {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .side-licenses {
+    position: absolute;
+    bottom: 25px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+  }
+
+  .side-licenses img {
+    width: 58px;
+    height: 58px;
+    border-radius: 16px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.45);
+  }
+</style>
+
+<div class="nav-wrap">
+
+  <div class="nav-left">
+    <div id="hamburgerBtn" class="icon-btn"><i class="bi bi-list"></i></div>
+    <img src="/public/image/LOGG.png">
+    <span class="nav-title">سرای طلای ایرانیان</span>
+  </div>
+
+  <div class="nav-right">
+    <div class="icon-btn"><i class="bi bi-bell"></i></div>
+    <div class="icon-btn"><i class="bi bi-person-circle"></i></div>
+  </div>
+
+</div>
+
+<div id="sidebar" class="sidebar">
+
+  <div class="side-menu">
+    <a href="/dashboard/lottery"><i class="bi bi-speedometer2"></i> داشبورد</a>
+    <a href="/dashboard/lottery/create-winner"><i class="bi bi-plus-circle"></i> ایجاد برنده</a>
+    <a href="/dashboard/lottery/template"><i class="bi bi-palette"></i> ساخت تمپلیت</a>
+    <a href="/dashboard/loan"><i class="bi bi-cash-coin"></i> داشبورد وام</a>
+    <hr style="border-color: rgba(255,255,255,0.1)">
+    <a href="/admin/logout" style="color:#ff6b6b;"><i class="bi bi-box-arrow-right"></i> خروج</a>
+  </div>
+
+  <div class="side-licenses">
+    <img src="/public/image/SarayeTala.svg">
+    <img src="/public/image/Enemad.png">
+    <img src="/public/image/LOGG.png">
+    <img src="/public/image/Lumi.png">
+  </div>
+
+</div>
+
+<div id="overlay" class="overlay"></div>
+
+<script>
+  const sidebar = document.getElementById("sidebar");
+  const overlay = document.getElementById("overlay");
+  const burger = document.getElementById("hamburgerBtn");
+
+  burger.onclick = () => {
+    sidebar.classList.add("open");
+    overlay.classList.add("show");
+  };
+
+  overlay.onclick = () => {
+    sidebar.classList.remove("open");
+    overlay.classList.remove("show");
+  };
+</script>

@@ -1,0 +1,172 @@
+/* =======================
+   UI COMPONENTS
+   ======================= */
+
+/* HEADER ثابت */
+.main-header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 70px;
+    z-index: 1000;
+    background: rgba(255,255,255,0.65);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid #e4e4e4;
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 22px;
+}
+
+/* دکمه همبرگری */
+.hamburger {
+    width: 45px;
+    height: 45px;
+    border-radius: 12px;
+    background: rgba(30,115,190,0.15);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    padding: 10px;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.hamburger span {
+    width: 100%;
+    height: 4px;
+    background: var(--primary);
+    border-radius: 4px;
+    transition: .3s;
+}
+
+.hamburger.active span:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
+}
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+.hamburger.active span:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
+}
+
+/* SIDEBAR */
+.sidebar {
+    position: fixed;
+    top: 0;
+    right: -350px;
+    width: 350px;
+    height: 100vh;
+    background: #15233c;
+    color: white;
+    padding-top: 80px;
+    box-shadow: -12px 0 30px rgba(0,0,0,0.4);
+    transition: 0.45s cubic-bezier(0.68,-0.55,0.265,1.55);
+    z-index: 1002;
+}
+
+.sidebar.open {
+    right: 0;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar a {
+    display: block;
+    padding: 18px 32px;
+    color: #bcccdd;
+    transition: .3s;
+    border-right: 4px solid transparent;
+}
+
+.sidebar a:hover,
+.sidebar a.active {
+    padding-right: 40px;
+    color: #00d4ff;
+    background: rgba(255,255,255,0.1);
+    border-right-color: #00d4ff;
+}
+
+/* OVERLAY */
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    backdrop-filter: blur(4px);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: .35s;
+}
+.overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* CARDS */
+.card {
+    background: #fff;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 25px;
+    margin-bottom: 25px;
+    transition: .25s;
+}
+.card:hover {
+    transform: translateY(-4px);
+}
+
+/* TABLE */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+th {
+    background: var(--primary);
+    color: white;
+    padding: 14px;
+}
+td {
+    padding: 14px;
+    border-bottom: 1px solid #ddd;
+}
+tr:hover {
+    background: #eef2f7;
+}
+
+/* BUTTONS */
+.btn {
+    padding: 12px 26px;
+    border-radius: 50px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    transition: .3s;
+}
+.btn:hover {
+    background: var(--primary-light);
+    transform: translateY(-2px);
+}
+
+.btn-danger {
+    background: var(--danger);
+}
+.btn-success {
+    background: var(--success);
+}
+
+/* SEARCH BOX */
+.search-box {
+    padding: 12px 18px;
+    border-radius: 50px;
+    border: 2px solid var(--primary);
+    width: 300px;
+}
+

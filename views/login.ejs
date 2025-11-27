@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>ورود به پنل مدیریتی</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Vazir:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg,#edf2ff,#f8fbff);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Vazir;
+  }
+
+  .login-card {
+    background: #fff;
+    width: 440px;
+    padding: 40px;
+    border-radius: 18px;
+    box-shadow: 0 10px 28px rgba(0,0,0,0.15);
+    text-align: center;
+  }
+
+  .logo {
+    width: 90px;
+    margin-bottom: 20px;
+    border-radius: 14px;
+  }
+
+  h2 {
+    margin-bottom: 25px;
+    font-weight: 700;
+    color: #1e3b8b;
+  }
+
+  input {
+    width: 100%;
+    padding: 12px;
+    margin-top: 14px;
+    border-radius: 14px;
+    background: #f5f7ff;
+    border: 1px solid #dce3ff;
+    font-size: 14px;
+    outline: none;
+  }
+
+  input:focus {
+    border-color: #6a90ff;
+  }
+
+  .btn-login {
+    margin-top: 25px;
+    background: linear-gradient(135deg,#3a88ff,#6aa7ff);
+    padding: 12px;
+    border-radius: 50px;
+    color: #fff;
+    width: 100%;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 6px 20px rgba(90,150,255,0.4);
+  }
+
+  .error {
+    background: #ffeded;
+    padding: 12px;
+    border-radius: 12px;
+    color: #d02929;
+    margin-top: 15px;
+  }
+
+  .panel-select {
+    margin-top: 22px;
+    font-size: 14px;
+    color: #555;
+    text-align: right;
+    font-weight: 600;
+  }
+
+  .radio-box {
+    margin-top: 8px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .radio-option {
+    padding: 10px 15px;
+    border-radius: 12px;
+    background: #f1f4ff;
+    border: 1px solid #ccd6ff;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    justify-content: center;
+    cursor: pointer;
+    transition: .25s;
+  }
+
+  .radio-option:hover {
+    background: #e3eaff;
+  }
+
+  input[type=radio] { display:none; }
+
+  input[type=radio]:checked + label {
+    background: linear-gradient(135deg,#3a88ff,#6aa7ff);
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 5px 15px rgba(90,150,255,0.4);
+  }
+
+</style>
+
+</head>
+
+<body>
+
+<div class="login-card">
+  <img src="/public/image/LOGG.png" class="logo">
+
+  <h2>ورود مدیران</h2>
+
+  <form action="/admin/login" method="POST">
+
+    <input type="text" name="username" placeholder="نام کاربری" required>
+    <input type="password" name="password" placeholder="رمز عبور" required>
+
+    <div class="panel-select">ورود به کدام پنل؟</div>
+
+    <div class="radio-box">
+      <input type="radio" id="lottery" name="panel" value="lottery" checked>
+      <label for="lottery" class="radio-option">پنل قرعه‌کشی</label>
+
+      <input type="radio" id="loan" name="panel" value="loan">
+      <label for="loan" class="radio-option">پنل وام</label>
+    </div>
+
+    <button class="btn-login">ورود</button>
+
+    <% if (error) { %>
+      <div class="error"><%= error %></div>
+    <% } %>
+
+  </form>
+</div>
+
+</body>
+</html>
