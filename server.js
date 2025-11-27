@@ -56,7 +56,11 @@ app.use((req, res, next) => {
 //   DEFAULT PAGE
 // ===========================
 app.get("/", (req, res) => {
-  return res.redirect("/");
+  if (req.session && req.session.isAuthenticated) {
+    return res.redirect("/dashboard/lottery");
+  }
+
+  return res.redirect("/admin/login");
 });
 
 // ===========================
