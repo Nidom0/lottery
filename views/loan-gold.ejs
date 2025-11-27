@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>وام خرید طلا - سرای طلای ایرانیان</title>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { margin:0; font-family: Vazirmatn, sans-serif; background: linear-gradient(135deg,#0d0f1b,#101524,#0f172e); color: #fff; }
+    .wrapper { max-width: 1100px; margin: 0 auto; padding: 40px 18px 80px; }
+    .hero { display:flex; align-items:center; justify-content:space-between; gap:16px; background: rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); border-radius:18px; padding:18px; margin-bottom:18px; }
+    .hero img { height:64px; }
+    h1 { margin: 0; color: #7ec7ff; }
+    p { line-height: 1.8; opacity: .9; }
+    .stepper { display:flex; gap:10px; margin-bottom:16px; flex-wrap:wrap; }
+    .step { padding:10px 14px; border-radius:12px; background: rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); }
+    .step.active { background: linear-gradient(135deg,#3a8bff,#6aa7ff); color:#0b1022; }
+    .card { background: rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:16px; padding:18px; margin-top:14px; }
+    label { display:block; margin-top:8px; margin-bottom:4px; }
+    input, textarea, select { width:100%; padding:12px; border-radius:12px; border:1px solid rgba(255,255,255,0.16); background: rgba(255,255,255,0.05); color:#fff; }
+    textarea { min-height: 180px; white-space: pre-wrap; }
+    .actions { display:flex; gap:10px; margin-top:12px; }
+    button { padding:12px 18px; border:none; border-radius:12px; cursor:pointer; font-weight:700; }
+    .next { background: linear-gradient(135deg,#3a8bff,#6aa7ff); color:#0c1225; }
+    .back { background: rgba(255,255,255,0.08); color:#fff; }
+    .hidden { display:none; }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="hero">
+      <div>
+        <h1>درخواست وام طلا</h1>
+        <p>فرآیند سه مرحله‌ای: ثبت اطلاعات، بارگذاری مدارک و امضای قرارداد</p>
+      </div>
+      <div style="display:flex; gap:10px; align-items:center;">
+        <img src="/public/image/Lum.png" alt="lum">
+        <img src="/public/image/imam.png" alt="imam">
+      </div>
+    </div>
+
+    <div class="stepper">
+      <div class="step active" id="s1">مرحله ۱: اطلاعات</div>
+      <div class="step" id="s2">مرحله ۲: بارگذاری مدارک</div>
+      <div class="step" id="s3">مرحله ۳: پیش‌نمایش قرارداد</div>
+    </div>
+
+    <div class="card" id="step1">
+      <label>نام و نام خانوادگی</label>
+      <input id="cName" placeholder="مثلاً شمیم ایرانیان">
+
+      <label>شماره ملی</label>
+      <input id="cNationalId" placeholder="مثلاً 0079417061" inputmode="numeric">
+
+      <label>شماره تماس</label>
+      <input id="cPhone" placeholder="0912..." inputmode="numeric">
+
+      <label>مبلغ وام (تومان)</label>
+      <input id="cAmount" placeholder="مثلاً 400000000" inputmode="numeric">
+
+      <label>بانک و شماره حساب مقصد</label>
+      <input id="cBank" placeholder="مثلاً بلو بانک - 603799...">
+
+      <div class="actions">
+        <button class="next" onclick="goStep(2)">مرحله بعد</button>
+      </div>
+    </div>
+
+    <div class="card hidden" id="step2">
+      <p>تصویر کارت ملی خود را بارگذاری کنید. فقط فایل تصویری مجاز است.</p>
+      <input type="file" id="docUpload" accept="image/*">
+      <div id="docName" style="margin-top:8px; opacity:.8;"></div>
+      <div class="actions">
+        <button class="back" onclick="goStep(1)">بازگشت</button>
+        <button class="next" onclick="goStep(3)">مرحله بعد</button>
+      </div>
+    </div>
+
+    <div class="card hidden" id="step3">
+      <h3 style="margin-top:0; color:#9ed5ff;">متن قرارداد</h3>
+      <textarea id="contractText" readonly></textarea>
+      <div class="actions">
+        <button class="back" onclick="goStep(2)">بازگشت</button>
+        <button class="next" onclick="alert('اطلاعات شما ثبت شد (نمونه نمایشی).')">تایید و امضا</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const steps = [document.getElementById('step1'), document.getElementById('step2'), document.getElementById('step3')];
+    const badges = [document.getElementById('s1'), document.getElementById('s2'), document.getElementById('s3')];
+
+    function goStep(n){
+      steps.forEach((el,idx)=>{ el.classList.toggle('hidden', idx !== n-1); });
+      badges.forEach((el,idx)=>{ el.classList.toggle('active', idx === n-1); });
+      if(n===3){
+        fillContract();
+      }
+    }
+
+    function fillContract(){
+      const name = document.getElementById('cName').value || 'نام مشتری';
+      const phone = document.getElementById('cPhone').value || 'شماره تماس';
+      const national = document.getElementById('cNationalId').value || 'کد ملی';
+      const amount = document.getElementById('cAmount').value || '400,000,000';
+      const bank = document.getElementById('cBank').value || 'بلو بانک';
+
+      const text = `قرارداد رسمی خرید طلا و اعطای وام
+مؤسسه سرای طلای ایرانیان
+ماده ۱ – موضوع قرارداد
+این قرارداد فی‌مابین: موسسه سرای طلای ایرانیان (به شماره ثبت ۶۴۲۳۴۲ و شناسه ملی ۱۴۰۱۳۹۹۰۵۸۸) که (از این پس در این قرارداد «طرف اول» یا «موسسه» نامیده می‌شود) و آقای/خانم ${name} دارای شماره ملی ${national} و شماره تماس ${phone} (که از این پس «طرف دوم» یا «مشتری» نامیده می‌شود)، منعقد و امضا می‌گردد.
+
+ماده ۲ – مبلغ و شرایط وام
+۱. مبلغ وام از چهارصد میلیون (۴۰۰,۰۰۰,۰۰۰) تومان تا سقف ده میلیارد (۱۰,۰۰۰,۰۰۰,۰۰۰) تومان تعیین می‌گردد. مبلغ درخواستی: ${amount} تومان.
+۲. نرخ سود سالانه این وام سه درصد (۳٪) می‌باشد.
+۳. بازپرداخت وام به‌صورت اقساطی در دوره‌های ۱۲، ۱۸، ۲۴، ۳۶ یا ۶۰ ماهه و بر اساس توافق طرفین انجام خواهد شد.
+
+ماده ۳ – نحوه پرداخت
+۱. مبلغ وام توسط طرف اول به حساب بانکی اعلامی از سوی طرف دوم (${bank}) واریز می‌گردد.
+۲. بانک یادشده صرفاً به عنوان بستر انتقال وجه عمل نموده و هیچ‌گونه مسئولیتی در قبال مفاد و اجرای این قرارداد ندارد.
+۳. طرف اصلی قرارداد موسسه سرای طلای ایرانیان است و کلیه امور پرداخت و تسویه از طریق حساب رسمی حقوقی موسسه انجام خواهد شد.
+۴. مدت بازپرداخت اقساط بر اساس توان مالی مشتری، یکی از گزینه‌های ۱۲، ۱۸، ۲۴، ۳۶ یا ٤٨ ماهه خواهد بود.
+
+ماده ۴ – ضمانت بازپرداخت
+۱. طلاهای خریداری‌شده از طرف دوم، نزد طرف اول به عنوان وثیقه و تضمین بازپرداخت وام نگهداری می‌شود.
+۲. در صورت عدم پرداخت اقساط در موعد مقرر، طرف اول مجاز است نسبت به فروش یا تملک طلا به میزان بدهی باقیمانده اقدام نماید.
+۳. مدارک و ضمانت‌های لازم به شرح جدول اصلی شرکت تعیین می‌گردد.
+
+تبصره – جریمه تأخیر در پرداخت اقساط:
+۱. در صورت تأخیر در پرداخت اقساط به مدت دو ماه متوالی یا متناوب، مشتری موظف است مبلغی معادل دو قسط کامل را به عنوان جریمه تأخیر پرداخت نماید.
+۲. چنانچه تأخیر در پرداخت اقساط از سه ماه تجاوز نماید، شرکت مجاز است از طریق بانک مرکزی جمهوری اسلامی ایران نسبت به مسدودسازی حساب‌های بانکی مشتری تا زمان تسویه کامل بدهی اقدام نماید.
+۳. اجرای این بند مانع از اعمال سایر حقوق قانونی موسسه از جمله تملک وثیقه موضوع ماده (۴) نخواهد بود.
+
+ماده ۵ – ثبت در سامانه بانک مرکزی
+با امضای این قرارداد، طرف دوم تأیید می‌نماید که اطلاعات این قرارداد در سامانه بانک مرکزی جمهوری اسلامی ایران ثبت می‌گردد و کلیه شرایط مربوطه را با آگاهی کامل پذیرفته است. متقاضی موظف است ده درصد مبلغ وام را پیش از اعطای وام در حساب خود سپرده‌گذاری نماید.
+
+ماده ۶ – فسخ قرارداد
+در صورت تخلف هر یک از طرفین از مفاد این قرارداد، طرف مقابل حق فسخ آن را دارد. در صورت فسخ، ضمانت‌های موضوع ماده (۴) قابل اعمال خواهد بود.
+
+ماده ۷ – حل و فصل اختلافات
+در صورت بروز هرگونه اختلاف ناشی از اجرای این قرارداد، طرفین توافق می‌نمایند ابتدا از طریق مذاکره و داوری موضوع را حل‌وفصل نمایند. در صورت عدم توافق، موضوع از طریق مراجع قضایی صالح در جمهوری اسلامی ایران پیگیری خواهد شد.
+
+ماده ۸ – اعتبار حقوقی و استناد قانونی
+این قرارداد دارای اعتبار رسمی بوده و تمامی مفاد آن برای طرفین لازم‌الاجراست. این سند نزد مراجع قضایی و ثبتی کشور قابل استناد است. طرف دوم با امضاء ذیل این سند، تأیید می‌نماید که کلیه مفاد قرارداد را مطالعه و با آگاهی کامل پذیرفته است.
+
+ماده ۹ – کارمزد ترخیص طلا
+هزینه ترخیص طلا معادل مبلغ یک میلیون و پانصد هزار (۱,۵۰۰,۰۰۰) تومان بوده که از مبلغ وام کسر و پیش از واریز وجه به حساب متقاضی لحاظ می‌گردد.
+
+ماده ۱۰ – عودت وجه و حقوق مشتری
+۱. در صورت انصراف طرف دوم از دریافت وام، یا عدم نهایی شدن فرآیند اعطای وام به هر دلیل، شرکت موظف است تمامی مبالغ پرداختی یا سپرده‌گذاری‌شده از سوی مشتری را به‌صورت کامل و بدون هیچ‌گونه کسری یا کارمزد به وی عودت دهد.
+۲. هیچ مبلغی از سپرده یا وجوه مشتری به‌عنوان خسارت، جریمه یا کارمزد کسر نخواهد شد مگر با رضایت کتبی طرف دوم.
+۳. در صورت استنکاف یا تأخیر شرکت در بازپرداخت، مشتری حق دارد از طریق مراجع قانونی و قضایی صالح نسبت به مطالبه وجه اقدام نماید.
+۴. مفاد این ماده جزء لاینفک قرارداد محسوب شده و در هر حال برای شرکت لازم‌الاجرا است.`;
+
+      document.getElementById('contractText').value = text
+        .replace(/\$\{name\}/g, name)
+        .replace(/\$\{phone\}/g, phone)
+        .replace(/\$\{national\}/g, national)
+        .replace(/\$\{amount\}/g, amount)
+        .replace(/\$\{bank\}/g, bank);
+    }
+
+    document.getElementById('docUpload').addEventListener('change', (e)=>{
+      const file = e.target.files[0];
+      if(!file) { document.getElementById('docName').innerText = ''; return; }
+      if(!file.type.startsWith('image/')){ alert('فقط تصویر مجاز است.'); e.target.value=''; return; }
+      document.getElementById('docName').innerText = `فایل انتخاب شده: ${file.name}`;
+    });
+  </script>
+</body>
+</html>

@@ -94,6 +94,7 @@
     <div>
       <h2><%= customer.fullName %></h2>
       <p style="opacity:.7">موبایل: <%= customer.phone %></p>
+      <p style="opacity:.7">تاریخ اعلام: <%= customer.winDate || '—' %></p>
       <p style="opacity:.7">کد ثبت‌نام: <%= customer.registrationCode || '—' %> (<%= customer.registrationUsed ? 'استفاده شده' : 'آماده' %>)</p>
 
       <a href="/winner/<%= customer.linkId %>" class="btn-main">
@@ -114,6 +115,19 @@
         <img src="/public/image/default-user.png">
       <% } %>
     </div>
+
+  </div>
+
+  <div class="glass docs-box">
+
+    <h3>اطلاعات بانکی و هویتی</h3>
+    <ul>
+      <li>شماره کارت: <%= customer.cardNumber || '—' %></li>
+      <li>شماره شبا: <%= customer.shaba || '—' %></li>
+      <li>کد ملی: <%= customer.nationalId || '—' %></li>
+      <li>تاریخ تولد: <%= customer.birthDate || '—' %></li>
+      <li>توضیحات: <%= customer.description || '—' %></li>
+    </ul>
 
   </div>
 

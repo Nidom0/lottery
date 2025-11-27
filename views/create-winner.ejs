@@ -148,6 +148,9 @@
       <label>مبلغ یا نوع جایزه</label>
       <input type="text" name="prize" required>
 
+      <label>تاریخ اعلام برنده</label>
+      <input type="date" name="winDate" id="winDateInput">
+
       <label>انتخاب تمپلیت</label>
       <select name="templateId" required>
         <option value="">انتخاب کنید…</option>
@@ -177,6 +180,19 @@
   </div>
 
 </div>
+
+<script>
+  (function() {
+    const input = document.getElementById('winDateInput');
+    if (input && !input.value) {
+      const today = new Date();
+      const yyyy = today.getFullYear();
+      const mm = String(today.getMonth() + 1).padStart(2, '0');
+      const dd = String(today.getDate()).padStart(2, '0');
+      input.value = `${yyyy}-${mm}-${dd}`;
+    }
+  })();
+</script>
 
 </body>
 </html>

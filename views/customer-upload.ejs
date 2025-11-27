@@ -53,6 +53,10 @@
       box-shadow: 0 8px 22px rgba(80,150,255,0.35);
     }
 
+    .grid-two { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+    .avatar-preview { width: 160px; height: 160px; border-radius: 14px; overflow: hidden; background: rgba(255,255,255,0.08); display:flex; align-items:center; justify-content:center; margin-bottom: 12px; }
+    .avatar-preview img { width: 100%; height: 100%; object-fit: cover; }
+
     .docs-list { list-style: none; padding: 0; }
     .docs-list li { padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.08); }
 
@@ -85,8 +89,40 @@
         <label>توضیحات یا آدرس</label>
         <textarea name="description" placeholder="توضیحات خود را وارد کنید"><%= customer.description || '' %></textarea>
 
-        <label>مدارک (حداکثر ۵ فایل)</label>
-        <input type="file" name="documents" multiple>
+        <div class="grid-two">
+          <div>
+            <label>شماره کارت</label>
+            <input type="text" name="cardNumber" value="<%= customer.cardNumber || '' %>" placeholder="مثلاً 603799..." pattern="[0-9]*">
+          </div>
+          <div>
+            <label>شماره شبا</label>
+            <input type="text" name="shaba" value="<%= customer.shaba || '' %>" placeholder="IR520..." pattern="[0-9]*">
+          </div>
+        </div>
+
+        <div class="grid-two">
+          <div>
+            <label>کد ملی</label>
+            <input type="text" name="nationalId" value="<%= customer.nationalId || '' %>" pattern="[0-9]*">
+          </div>
+          <div>
+            <label>تاریخ تولد</label>
+            <input type="date" name="birthDate" value="<%= customer.birthDate || '' %>">
+          </div>
+        </div>
+
+        <label>تصویر کارت ملی (فقط فایل تصویری)</label>
+        <div class="avatar-preview">
+          <% if (customer.avatar) { %>
+            <img src="<%= customer.avatar %>" alt="کارت ملی">
+          <% } else { %>
+            <span style="opacity:.6;">هنوز آپلود نشده</span>
+          <% } %>
+        </div>
+        <input type="file" name="avatar" accept="image/*">
+
+        <label>مدارک (حداکثر ۵ فایل تصویری)</label>
+        <input type="file" name="documents" multiple accept="image/*">
 
         <button type="submit">ارسال اطلاعات</button>
       </form>

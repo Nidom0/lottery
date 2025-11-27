@@ -493,7 +493,9 @@ function loanModalClose() {
 }
 
 
-openLoanBtn.addEventListener('click', loanModalOpen);
+openLoanBtn.addEventListener('click', () => {
+  window.location.href = '/loans/gold';
+});
 closeLoanBtn.addEventListener('click', loanModalClose);
 
 // ---------- loan calculator ----------
