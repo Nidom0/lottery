@@ -1,0 +1,89 @@
+<%- include('partials/navbar') %>
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>کدهای ثبت‌نام مشتریان</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Vazir:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  body {
+    margin: 0;
+    background: linear-gradient(135deg,#0d0f1b,#101326,#141a33,#0d1125);
+    font-family: Vazir;
+    color: white;
+  }
+  .container { max-width: 1200px; margin: 120px auto; padding: 24px; }
+  .glass {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 18px;
+    padding: 24px;
+    box-shadow: 0 12px 28px rgba(0,0,0,0.45);
+    margin-bottom: 20px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgba(255,255,255,0.07);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  th, td { padding: 14px; text-align: center; }
+  th { background: rgba(0,0,0,0.35); }
+  tr:nth-child(even) { background: rgba(255,255,255,0.05); }
+  .btn-main {
+    background: linear-gradient(135deg,#3a8bff,#6aa7ff);
+    padding: 10px 16px;
+    border-radius: 50px;
+    color: #0c1228;
+    text-decoration: none;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+  }
+  .code-box { direction:ltr; background:rgba(0,0,0,0.4); padding:8px 10px; border-radius:10px; }
+  .note { color:#7ec7ff; margin-bottom:12px; }
+</style>
+</head>
+<body>
+  <div class="container">
+    <div class="glass">
+      <h2 style="margin-top:0; color:#7ec7ff;">کدهای ثبت‌نام</h2>
+      <p class="note">برای هر برنده یک کد بسازید و در اختیارشان بگذارید تا بتوانند ثبت‌نام و آپلود مدارک را انجام دهند.</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>نام</th>
+            <th>شماره تماس</th>
+            <th>کد ثبت‌نام</th>
+            <th>تولید/تغییر کد</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% winners.forEach(w => { %>
+            <tr>
+              <td><%= w.fullName %></td>
+              <td><%= w.phone %></td>
+              <td>
+                <% if (w.registrationCode) { %>
+                  <span class="code-box"><%= w.registrationCode %></span>
+                <% } else { %>
+                  <span style="opacity:.6;">کدی ساخته نشده</span>
+                <% } %>
+              </td>
+              <td>
+                <form method="POST" action="/dashboard/lottery/registration-codes/<%= w.id %>">
+                  <button class="btn-main" type="submit">تولید کد</button>
+                </form>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

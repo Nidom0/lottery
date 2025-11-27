@@ -16,6 +16,10 @@ router.get("/:linkId", async (req, res) => {
     const template = await Template.findByPk(customer.templateId);
     if (!template) return res.send("TEMPLATE NOT FOUND");
 
+    if (!customer.viewed) {
+      await customer.update({ viewed: true });
+    }
+
     // تاریخ امروز
     const today = new Date().toLocaleDateString("fa-IR");
 

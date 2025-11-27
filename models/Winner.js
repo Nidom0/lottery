@@ -12,7 +12,9 @@ const Winner = sequelize.define("Winner", {
   description: DataTypes.TEXT,
   avatar: DataTypes.STRING,
   qrcode: DataTypes.STRING,
-  documents: DataTypes.TEXT
+  documents: DataTypes.TEXT,
+  registrationCode: DataTypes.STRING,
+  password: DataTypes.STRING
 });
 
 module.exports = Winner;

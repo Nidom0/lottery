@@ -64,6 +64,8 @@ router.post("/lottery/create-winner", requireAuth, async (req, res) => {
     const { fullName, phone, prize, templateId } = req.body;
 
     const randomLink = Math.floor(10000000 + Math.random() * 90000000).toString();
+    const registrationCode = Math.floor(100000 + Math.random() * 900000)
+      .toString();
 
     await Winner.create({
       fullName,
@@ -71,6 +73,7 @@ router.post("/lottery/create-winner", requireAuth, async (req, res) => {
       prize,
       templateId,
       linkId: randomLink,
+      registrationCode,
       infoComplete: false,
       viewed: false,
     });
@@ -98,6 +101,26 @@ router.get("/lottery/profile/:id", requireAuth, async (req, res) => {
   }
 
   res.render("winner-profile", { customer, docs });
+});
+
+// -------------------------------------------------------
+// REGISTRATION CODES PAGE
+// -------------------------------------------------------
+router.get("/lottery/registration-codes", requireAuth, async (_req, res) => {
+  const winners = await Winner.findAll({ order: [["id", "DESC"]] });
+  res.render("registration-codes", { winners });
+});
+
+router.post("/lottery/registration-codes/:id", requireAuth, async (req, res) => {
+  const winner = await Winner.findByPk(req.params.id);
+  if (!winner) return res.redirect("/dashboard/lottery/registration-codes");
+
+  const registrationCode = Math.floor(100000 + Math.random() * 900000)
+    .toString();
+
+  await winner.update({ registrationCode });
+
+  res.redirect("/dashboard/lottery/registration-codes");
 });
 
 // -------------------------------------------------------
