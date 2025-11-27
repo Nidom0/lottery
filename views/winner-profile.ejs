@@ -94,6 +94,7 @@
     <div>
       <h2><%= customer.fullName %></h2>
       <p style="opacity:.7">موبایل: <%= customer.phone %></p>
+      <p style="opacity:.7">کد ثبت‌نام: <%= customer.registrationCode || '—' %> (<%= customer.registrationUsed ? 'استفاده شده' : 'آماده' %>)</p>
 
       <a href="/winner/<%= customer.linkId %>" class="btn-main">
         ورود مشتری

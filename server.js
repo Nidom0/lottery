@@ -17,6 +17,7 @@ const adminRoutes = require("./routes/admin");
 const dashboardRoutes = require("./routes/dashboard");
 const winnerRoutes = require("./routes/winner");
 const templateRoutes = require("./routes/template");   // ✔ اضافه شد
+const customerRoutes = require("./routes/customer");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -56,11 +57,7 @@ app.use((req, res, next) => {
 //   DEFAULT PAGE
 // ===========================
 app.get("/", (req, res) => {
-  if (req.session && req.session.isAuthenticated) {
-    return res.redirect("/dashboard/lottery");
-  }
-
-  return res.redirect("/admin/login");
+  return res.render("index");
 });
 
 // ===========================
@@ -70,6 +67,7 @@ app.use("/admin", adminRoutes);
 app.use("/dashboard", dashboardRoutes);
 app.use("/winner", winnerRoutes);
 app.use("/template", templateRoutes);       // ✔ روت تمپلیت فعال شد
+app.use("/customer", customerRoutes);
 
 // ===========================
 //   404 PAGE
@@ -84,7 +82,7 @@ app.use((req, res) => {
 (async () => {
   try {
     await sequelize.authenticate();
-    await sequelize.sync();
+    await sequelize.sync({ alter: true });
 
     // ایجاد ادمین پیش‌فرض اگر وجود نداشت
     const defaultUser = process.env.ADMIN_USER || "admin";

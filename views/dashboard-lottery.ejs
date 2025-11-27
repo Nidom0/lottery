@@ -170,6 +170,7 @@
   <div class="btns">
     <a href="/dashboard/lottery/create-winner" class="btn-main">ایجاد برنده</a>
     <a href="/template" class="btn-main" style="background:#7ef3ff;">ساخت تمپلیت</a>
+    <a href="/dashboard/lottery/registration-codes" class="btn-main" style="background:#8affc1;">کدهای ثبت‌نام</a>
 
   </div>
 
@@ -181,6 +182,7 @@
         <th>نام</th>
         <th>موبایل</th>
         <th>لینک</th>
+        <th>کد ثبت‌نام</th>
         <th>مشاهده</th>
         <th>اطلاعات</th>
         <th>برنده</th>
@@ -195,6 +197,7 @@
           <td><%= w.fullName %></td>
           <td><%= w.phone %></td>
           <td><div style="direction:ltr"><%= w.linkId %></div></td>
+          <td><%= w.registrationCode || '—' %></td>
 
           <td>
             <% if(w.viewed) { %>
