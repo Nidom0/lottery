@@ -1,0 +1,159 @@
+<div class="main-header" id="mainHeader">
+  <div class="main-left">
+    <div class="calc-icon" id="openLoanBtn" title="محاسبه سریع">
+      <i class="bi bi-calculator" style="font-size:18px;"></i>
+    </div>
+    <a href="/">
+      <img src="/public/image/logo.png" alt="logo" class="header-logo">
+    </a>
+  </div>
+
+  <nav class="nav-menu">
+    <a href="/">صفحه اصلی</a>
+
+    <div class="dropdown">
+      <a id="loanDrop">فهرست وام ▾</a>
+      <div class="dropdown-items" id="loanItems">
+        <a href="/loans/housing">وام خرید مسکن</a>
+        <a href="/loans/gold">وام خرید طلا</a>
+        <a href="/loans/car">وام خرید خودرو</a>
+      </div>
+    </div>
+
+    <div class="dropdown">
+      <a id="lotteryDrop">قرعه‌کشی ▾</a>
+      <div class="dropdown-items" id="lotteryItems">
+        <a href="/lottery/winners">برندگان قرعه‌کشی</a>
+        <a href="/lottery/about">درباره قرعه‌کشی</a>
+      </div>
+    </div>
+
+    <a href="/contact">ارتباط با ما</a>
+  </nav>
+
+  <div style="display:flex;gap:10px;align-items:center">
+    <div class="menu-small" id="openSidebarBtn" title="منوی بیشتر">
+      <i class="bi bi-list" style="font-size:19px;"></i>
+    </div>
+    <a href="/customer/login" class="login-small">ورود</a>
+  </div>
+</div>
+
+<div id="sidebar">
+  <div class="sidebar-header">
+    <img src="/public/image/logo.png" class="sidebar-logo" alt="logo">
+    <span id="closeSidebar">✕</span>
+  </div>
+
+  <ul class="sidebar-menu">
+    <li><a href="/">صفحه اصلی</a></li>
+
+    <li><a href="/loans">فهرست وام</a></li>
+    <div class="sidebar-sub" id="sbLoanSub">
+      <a href="/loans/housing">وام خرید مسکن</a><br>
+      <a href="/loans/gold">وام خرید طلا</a><br>
+      <a href="/loans/car">وام خرید خودرو</a>
+    </div>
+
+    <li><a href="/lottery">قرعه‌کشی</a></li>
+    <div class="sidebar-sub" id="sbLotterySub">
+      <a href="/lottery/winners">برندگان</a><br>
+      <a href="/lottery/about">درباره</a>
+    </div>
+
+    <li><a href="/contact">ارتباط با ما</a></li>
+  </ul>
+</div>
+
+<div id="overlay"></div>
+
+<% if (typeof showLicenses === 'undefined' || showLicenses) { %>
+  <div class="licenses">
+    <img src="/public/image/SarayeTala.svg" alt="سرای طلا">
+    <img src="/public/image/Enemad.png" alt="اینماد">
+    <img src="/public/image/LOGG.png" alt="لوگو">
+    <img src="/public/image/Lumi.png" alt="لومی">
+  </div>
+<% } %>
+
+<script>
+  (() => {
+    const openSidebarBtn = document.getElementById('openSidebarBtn');
+    const sidebar = document.getElementById('sidebar');
+    const closeSidebarBtn = document.getElementById('closeSidebar');
+    const overlay = document.getElementById('overlay');
+    const loanDrop = document.getElementById('loanDrop');
+    const loanItems = document.getElementById('loanItems');
+    const lotteryDrop = document.getElementById('lotteryDrop');
+    const lotteryItems = document.getElementById('lotteryItems');
+    const sbLoanSub = document.getElementById('sbLoanSub');
+    const sbLotterySub = document.getElementById('sbLotterySub');
+    const openLoanBtn = document.getElementById('openLoanBtn');
+
+    if (!openSidebarBtn || !sidebar || !overlay) return;
+
+    openSidebarBtn.addEventListener('click', () => {
+      sidebar.classList.add('open');
+      overlay.style.display = 'block';
+    });
+
+    closeSidebarBtn.addEventListener('click', () => {
+      sidebar.classList.remove('open');
+      overlay.style.display = 'none';
+    });
+
+    overlay.addEventListener('click', () => {
+      sidebar.classList.remove('open');
+      overlay.style.display = 'none';
+      document.dispatchEvent(new CustomEvent('overlay:closed'));
+    });
+
+    if (openLoanBtn) {
+      openLoanBtn.addEventListener('click', () => {
+        window.location.href = '/loans/gold';
+      });
+    }
+
+    if (loanDrop && loanItems) {
+      loanDrop.addEventListener('click', (e) => {
+        e.stopPropagation();
+        loanItems.style.display = loanItems.style.display === 'block' ? 'none' : 'block';
+        if (lotteryItems) lotteryItems.style.display = 'none';
+      });
+    }
+
+    if (lotteryDrop && lotteryItems) {
+      lotteryDrop.addEventListener('click', (e) => {
+        e.stopPropagation();
+        lotteryItems.style.display = lotteryItems.style.display === 'block' ? 'none' : 'block';
+        if (loanItems) loanItems.style.display = 'none';
+      });
+    }
+
+    document.addEventListener('click', () => {
+      if (loanItems) loanItems.style.display = 'none';
+      if (lotteryItems) lotteryItems.style.display = 'none';
+    });
+
+    document.querySelectorAll('.sidebar-menu a').forEach(a => {
+      a.addEventListener('click', (e) => {
+        if (a.getAttribute('href') === '/loans') {
+          e.preventDefault();
+          sbLoanSub.style.display = sbLoanSub.style.display === 'block' ? 'none' : 'block';
+        }
+        if (a.getAttribute('href') === '/lottery') {
+          e.preventDefault();
+          sbLotterySub.style.display = sbLotterySub.style.display === 'block' ? 'none' : 'block';
+        }
+      });
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        sidebar.classList.remove('open');
+        overlay.style.display = 'none';
+        document.dispatchEvent(new CustomEvent('overlay:closed'));
+      }
+    });
+  })();
+</script>
