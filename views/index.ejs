@@ -85,6 +85,72 @@ footer p { margin:10px 0; font-size:15px; }
 </head>
 <body class="public-body">
 
+    <!-- center nav -->
+    <nav class="nav-menu">
+      <a href="/">صفحه اصلی</a>
+
+      <!-- فهرست وام (بدون محاسبه وام داخلش) -->
+      <div class="dropdown">
+        <a id="loanDrop">فهرست وام ▾</a>
+        <div class="dropdown-items" id="loanItems">
+          <a href="/loans/gold">وام خرید طلا</a>
+          <a href="/loans/housing">وام خرید مسکن</a>
+          <a href="/loans/car">وام خرید خودرو</a>
+        </div>
+      </div>
+
+      <!-- قرعه‌کشی با زیرمنو -->
+      <div class="dropdown">
+        <a id="lotteryDrop">قرعه‌کشی ▾</a>
+        <div class="dropdown-items" id="lotteryItems">
+          <a href="/lottery/winners">برندگان قرعه‌کشی</a>
+          <a href="/lottery/about">درباره قرعه‌کشی</a>
+        </div>
+      </div>
+
+      <a href="/contact">ارتباط با ما</a>
+    </nav>
+
+    <!-- right area: menu button (opens slide-in sidebar) + login -->
+    <div style="display:flex;gap:10px;align-items:center">
+      <div class="menu-small" id="openSidebarBtn" title="منوی بیشتر">
+        <i class="bi bi-list" style="font-size:19px;"></i>
+      </div>
+      <a href="/customer/login" class="login-small">ورود</a>
+    </div>
+  </div>
+
+  <!-- SIDEBAR (slide-in) -->
+  <div id="sidebar">
+    <div class="sidebar-header">
+      <img src="public/image/logo.png" class="sidebar-logo" alt="logo">
+      <span id="closeSidebar">✕</span>
+    </div>
+
+    <ul class="sidebar-menu">
+      <li><a href="/">صفحه اصلی</a></li>
+
+      <li><a href="/loans">فهرست وام</a></li>
+      <div class="sidebar-sub" id="sbLoanSub">
+        <a href="/loans/gold">وام خرید طلا</a><br>
+        <a href="/loans/housing">وام خرید مسکن</a><br>
+        <a href="/loans/car">وام خرید خودرو</a>
+      </div>
+
+      <li><a href="/lottery">قرعه‌کشی</a></li>
+      <div class="sidebar-sub" id="sbLotterySub">
+        <a href="/lottery/winners">برندگان</a><br>
+        <a href="/lottery/about">درباره</a>
+      </div>
+
+      
+
+      <li><a href="/contact">ارتباط با ما</a></li>
+    </ul>
+  </div>
+
+  <!-- overlay -->
+  <div id="overlay"></div>
   <%- include('partials/public-chrome') %>
 
   <!-- ---------- LOAN POPUP (center modal) ---------- -->

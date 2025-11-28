@@ -2,6 +2,42 @@
 <html lang="fa" dir="rtl">
 <head>
   <meta charset="UTF-8">
+  <title>درخواست وام خرید طلا</title>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    :root {
+      color-scheme: dark;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Vazirmatn', sans-serif;
+      background: radial-gradient(circle at 20% 20%, rgba(58,139,255,0.18), transparent 35%),
+                  radial-gradient(circle at 80% 0%, rgba(255,255,255,0.05), transparent 32%),
+                  linear-gradient(135deg,#0c1020,#0f1328,#0b1222);
+      color: #f6f8ff;
+    }
+    .wrapper { max-width: 1200px; margin: 0 auto; padding: 40px 18px 90px; }
+    .hero { display:flex; align-items:center; justify-content:space-between; gap:16px; background: rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); border-radius:20px; padding:22px; margin-bottom:22px; box-shadow:0 16px 40px rgba(0,0,0,0.35); }
+    .hero h1 { margin:0 0 8px; color:#7ec7ff; font-size:28px; }
+    .hero p { margin:0; opacity:0.85; line-height:1.8; }
+    .badges { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+    .badge { display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:12px; background:rgba(255,255,255,0.08); font-size:13px; }
+    .stepper { display:flex; gap:10px; margin-bottom:16px; flex-wrap:wrap; }
+    .step { padding:10px 14px; border-radius:12px; background: rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); font-weight:600; display:flex; align-items:center; gap:8px; }
+    .step.active { background: linear-gradient(135deg,#3a8bff,#6aa7ff); color:#0b1022; box-shadow:0 10px 24px rgba(90,150,255,0.35); }
+    .cards-grid { display:grid; grid-template-columns: 2fr 1fr; gap:18px; }
+    .card { background: rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); border-radius:16px; padding:20px; box-shadow:0 12px 30px rgba(0,0,0,0.32); }
+    .card h2 { margin-top:0; color:#a7d7ff; font-size:20px; }
+    label { display:block; margin-top:8px; margin-bottom:4px; font-weight:600; }
+    input, textarea, select { width:100%; padding:12px; border-radius:12px; border:1px solid rgba(255,255,255,0.16); background: rgba(255,255,255,0.05); color:#fff; font-size:15px; }
+    input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.65); }
+    textarea { min-height: 240px; white-space: pre-wrap; }
+    .actions { display:flex; gap:10px; margin-top:12px; flex-wrap:wrap; }
+    button { padding:12px 18px; border:none; border-radius:12px; cursor:pointer; font-weight:700; }
+    .next { background: linear-gradient(135deg,#3a8bff,#6aa7ff); color:#0c1225; box-shadow:0 10px 28px rgba(90,150,255,0.4); }
+    .back { background: rgba(255,255,255,0.08); color:#fff; border:1px solid rgba(255,255,255,0.15); }
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>وام خرید طلا - سرای طلای ایرانیان</title>
   <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -26,6 +62,22 @@
     .next { background: linear-gradient(135deg,#3a8bff,#6aa7ff); color:#0c1225; box-shadow:0 8px 22px rgba(58,141,213,0.35); }
     .back { background: #e5edf5; color:#1e3b5a; }
     .hidden { display:none; }
+    .pill { display:inline-block; background:rgba(255,255,255,0.1); padding:6px 10px; border-radius:10px; margin-left:6px; font-size:12px; }
+    .upload-box { border:1px dashed rgba(255,255,255,0.35); padding:18px; border-radius:14px; text-align:center; background:rgba(255,255,255,0.03); }
+    .upload-box input { margin-top:12px; }
+    .doc-preview { margin-top:10px; opacity:.8; }
+    .sign-board { border:1px solid rgba(255,255,255,0.2); border-radius:14px; background:rgba(0,0,0,0.25); padding:12px; margin-top:12px; }
+    canvas { width:100%; height:220px; background:#0f1426; border-radius:10px; }
+    .toast { background:#2f3d63; color:#fff; padding:10px 14px; border-radius:10px; display:none; margin-top:10px; }
+    .toast.show { display:block; }
+    .contract-box { background:rgba(0,0,0,0.25); border:1px solid rgba(255,255,255,0.15); border-radius:14px; padding:14px; max-height:320px; overflow-y:auto; line-height:1.9; }
+    .checkbox-row { display:flex; align-items:center; gap:8px; margin-top:14px; }
+    .checkbox-row input { width:auto; }
+    .confirmation { text-align:center; padding:25px 10px; }
+    .confirmation i { font-size:48px; color:#7ec7ff; }
+    .info-grid { display:grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap:12px; margin-top:10px; }
+    .info-item { background:rgba(255,255,255,0.07); padding:12px; border-radius:12px; border:1px solid rgba(255,255,255,0.12); }
+    @media (max-width: 960px) { .cards-grid { grid-template-columns: 1fr; } .hero { flex-direction:column; align-items:flex-start; } }
   </style>
 </head>
 <body class="public-body">
@@ -34,141 +86,255 @@
     <div class="hero">
       <div>
         <h1>درخواست وام طلا</h1>
-        <p>فرآیند سه مرحله‌ای: ثبت اطلاعات، بارگذاری مدارک و امضای قرارداد</p>
+        <p>فرآیند سه‌مرحله‌ای: ثبت اطلاعات، بارگذاری مدارک و امضای قرارداد در بستر شفاف و امن.</p>
+        <div class="badges">
+          <span class="badge"><i class="bi bi-shield-check"></i> ضمانت بر پایه طلا</span>
+          <span class="badge"><i class="bi bi-calendar4-week"></i> تاریخ امروز: <span id="todayDate"></span></span>
+        </div>
       </div>
-      <div style="display:flex; gap:10px; align-items:center;">
-        <img src="/public/image/Lum.png" alt="lum">
-        <img src="/public/image/imam.png" alt="imam">
+      <div style="display:flex; gap:12px; align-items:center;">
+        <img src="/public/image/Lum.png" alt="lum" style="height:64px;">
+        <img src="/public/image/imam.png" alt="imam" style="height:64px;">
       </div>
     </div>
 
     <div class="stepper">
-      <div class="step active" id="s1">مرحله ۱: اطلاعات</div>
-      <div class="step" id="s2">مرحله ۲: بارگذاری مدارک</div>
-      <div class="step" id="s3">مرحله ۳: پیش‌نمایش قرارداد</div>
+      <div class="step active" id="s1"><i class="bi bi-1-circle"></i> مرحله ۱: اطلاعات</div>
+      <div class="step" id="s2"><i class="bi bi-2-circle"></i> مرحله ۲: بارگذاری مدارک</div>
+      <div class="step" id="s3"><i class="bi bi-3-circle"></i> مرحله ۳: قرارداد</div>
+      <div class="step" id="s4"><i class="bi bi-emoji-smile"></i> ثبت نهایی</div>
     </div>
 
-    <div class="card" id="step1">
-      <label>نام و نام خانوادگی</label>
-      <input id="cName" placeholder="مثلاً شمیم ایرانیان">
-
-      <label>شماره ملی</label>
-      <input id="cNationalId" placeholder="مثلاً 0079417061" inputmode="numeric">
-
-      <label>شماره تماس</label>
-      <input id="cPhone" placeholder="0912..." inputmode="numeric">
-
-      <label>مبلغ وام (تومان)</label>
-      <input id="cAmount" placeholder="مثلاً 400000000" inputmode="numeric">
-
-      <label>بانک و شماره حساب مقصد</label>
-      <input id="cBank" placeholder="مثلاً بلو بانک - 603799...">
-
-      <div class="actions">
-        <button class="next" onclick="goStep(2)">مرحله بعد</button>
+    <div class="cards-grid">
+      <div class="card" id="step1">
+        <h2>اطلاعات متقاضی</h2>
+        <div class="info-grid">
+          <div>
+            <label>نام و نام خانوادگی</label>
+            <input id="cName" placeholder="مثلاً شمیم ایرانیان">
+          </div>
+          <div>
+            <label>شماره ملی</label>
+            <input id="cNationalId" placeholder="مثلاً 0079417061" inputmode="numeric">
+          </div>
+          <div>
+            <label>شماره تماس</label>
+            <input id="cPhone" placeholder="0912..." inputmode="numeric">
+          </div>
+          <div>
+            <label>مبلغ وام (تومان) <span class="pill">سه رقم سه رقم جدا می‌شود</span></label>
+            <input id="cAmount" placeholder="مثلاً 400,000,000" inputmode="numeric">
+          </div>
+          <div>
+            <label>بانک مقصد</label>
+            <input id="cBank" placeholder="مثلاً بلو بانک">
+          </div>
+          <div>
+            <label>شماره کارت مقصد <span class="pill">۰۰۰۰-۰۰۰۰-۰۰۰۰-۰۰۰۰</span></label>
+            <input id="cCard" placeholder="6037-99.." inputmode="numeric">
+          </div>
+        </div>
+        <div class="actions">
+          <button class="next" onclick="goStep(2)">مرحله بعد</button>
+        </div>
+        <div id="toast1" class="toast"></div>
       </div>
-    </div>
 
-    <div class="card hidden" id="step2">
-      <p>تصویر کارت ملی خود را بارگذاری کنید. فقط فایل تصویری مجاز است.</p>
-      <input type="file" id="docUpload" accept="image/*">
-      <div id="docName" style="margin-top:8px; opacity:.8;"></div>
-      <div class="actions">
-        <button class="back" onclick="goStep(1)">بازگشت</button>
-        <button class="next" onclick="goStep(3)">مرحله بعد</button>
+      <div class="card hidden" id="step2">
+        <h2>بارگذاری مدارک</h2>
+        <div class="upload-box">
+          <img src="/public/image/upload.jpg" alt="راهنمای بارگذاری" style="width:100%; border-radius:12px; margin-bottom:12px;">
+          <p>تصویر کارت ملی یا پاسپورت خود را بارگذاری کنید. فقط فایل تصویری مجاز است.</p>
+          <input type="file" id="docUpload" accept="image/*">
+          <div id="docName" class="doc-preview"></div>
+        </div>
+        <div class="sign-board">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <strong>امضای دیجیتال</strong>
+            <div style="display:flex; gap:8px;">
+              <button class="back" style="padding:8px 10px;" onclick="clearSign()" type="button">پاک کردن</button>
+            </div>
+          </div>
+          <small style="opacity:.7; display:block; margin:6px 0 10px;">با انگشت یا ماوس امضا کنید؛ امضای شما همراه مدارک ارسال می‌شود.</small>
+          <canvas id="signPad"></canvas>
+        </div>
+        <div class="actions">
+          <button class="back" onclick="goStep(1)">بازگشت</button>
+          <button class="next" onclick="goStep(3)">مرحله بعد</button>
+        </div>
+        <div id="toast2" class="toast"></div>
       </div>
-    </div>
 
-    <div class="card hidden" id="step3">
-      <h3 style="margin-top:0; color:#9ed5ff;">متن قرارداد</h3>
-      <textarea id="contractText" readonly></textarea>
-      <div class="actions">
-        <button class="back" onclick="goStep(2)">بازگشت</button>
-        <button class="next" onclick="alert('اطلاعات شما ثبت شد (نمونه نمایشی).')">تایید و امضا</button>
+      <div class="card hidden" id="step3">
+        <h2>پیش‌نمایش قرارداد</h2>
+        <div class="contract-box" id="contractText"></div>
+        <div class="checkbox-row">
+          <input type="checkbox" id="acceptTerms">
+          <label for="acceptTerms">متن قرارداد بالا را خواندم و پذیرفتم</label>
+        </div>
+        <div class="actions">
+          <button class="back" onclick="goStep(2)">بازگشت</button>
+          <button class="next" id="submitBtn" onclick="submitContract()" disabled>ثبت و ارسال</button>
+        </div>
+      </div>
+
+      <div class="card hidden" id="step4">
+        <div class="confirmation">
+          <i class="bi bi-patch-check"></i>
+          <h2>مدارک شما ثبت شد</h2>
+          <p style="opacity:.82; line-height:1.8;">درخواست شما دریافت گردید. منتظر تماس اپراتور جهت تکمیل فرایند باشید.</p>
+        </div>
       </div>
     </div>
   </div>
 
   <script>
-    const steps = [document.getElementById('step1'), document.getElementById('step2'), document.getElementById('step3')];
-    const badges = [document.getElementById('s1'), document.getElementById('s2'), document.getElementById('s3')];
+    const steps = [document.getElementById('step1'), document.getElementById('step2'), document.getElementById('step3'), document.getElementById('step4')];
+    const badges = [document.getElementById('s1'), document.getElementById('s2'), document.getElementById('s3'), document.getElementById('s4')];
 
-    function goStep(n){
-      steps.forEach((el,idx)=>{ el.classList.toggle('hidden', idx !== n-1); });
-      badges.forEach((el,idx)=>{ el.classList.toggle('active', idx === n-1); });
-      if(n===3){
-        fillContract();
-      }
-    }
+    const persianDigits = '۰۱۲۳۴۵۶۷۸۹';
+    const toEnglishDigits = (val = '') => val.replace(/[۰-۹]/g, d => {
+      const idx = persianDigits.indexOf(d);
+      return idx > -1 ? String(idx) : d;
+    });
+    const showToast = (id, msg) => { const el = document.getElementById(id); el.textContent = msg; el.classList.add('show'); setTimeout(()=>el.classList.remove('show'), 4000); };
 
-    function fillContract(){
-      const name = document.getElementById('cName').value || 'نام مشتری';
-      const phone = document.getElementById('cPhone').value || 'شماره تماس';
-      const national = document.getElementById('cNationalId').value || 'کد ملی';
-      const amount = document.getElementById('cAmount').value || '400,000,000';
-      const bank = document.getElementById('cBank').value || 'بلو بانک';
+    const formatAmountInput = (el) => {
+      const clean = toEnglishDigits(el.value).replace(/[^0-9]/g, '');
+      if (!clean) { el.value = ''; return; }
+      el.value = clean.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    };
 
-      const text = `قرارداد رسمی خرید طلا و اعطای وام
-مؤسسه سرای طلای ایرانیان
-ماده ۱ – موضوع قرارداد
-این قرارداد فی‌مابین: موسسه سرای طلای ایرانیان (به شماره ثبت ۶۴۲۳۴۲ و شناسه ملی ۱۴۰۱۳۹۹۰۵۸۸) که (از این پس در این قرارداد «طرف اول» یا «موسسه» نامیده می‌شود) و آقای/خانم ${name} دارای شماره ملی ${national} و شماره تماس ${phone} (که از این پس «طرف دوم» یا «مشتری» نامیده می‌شود)، منعقد و امضا می‌گردد.
+    const formatCardInput = (el) => {
+      const clean = toEnglishDigits(el.value).replace(/[^0-9]/g, '').slice(0, 16);
+      const groups = clean.match(/.{1,4}/g) || [];
+      el.value = groups.join('-');
+    };
 
-ماده ۲ – مبلغ و شرایط وام
-۱. مبلغ وام از چهارصد میلیون (۴۰۰,۰۰۰,۰۰۰) تومان تا سقف ده میلیارد (۱۰,۰۰۰,۰۰۰,۰۰۰) تومان تعیین می‌گردد. مبلغ درخواستی: ${amount} تومان.
-۲. نرخ سود سالانه این وام سه درصد (۳٪) می‌باشد.
-۳. بازپرداخت وام به‌صورت اقساطی در دوره‌های ۱۲، ۱۸، ۲۴، ۳۶ یا ۶۰ ماهه و بر اساس توافق طرفین انجام خواهد شد.
+    const todayDate = new Date().toLocaleDateString('fa-IR-u-ca-persian');
+    document.getElementById('todayDate').textContent = todayDate;
 
-ماده ۳ – نحوه پرداخت
-۱. مبلغ وام توسط طرف اول به حساب بانکی اعلامی از سوی طرف دوم (${bank}) واریز می‌گردد.
-۲. بانک یادشده صرفاً به عنوان بستر انتقال وجه عمل نموده و هیچ‌گونه مسئولیتی در قبال مفاد و اجرای این قرارداد ندارد.
-۳. طرف اصلی قرارداد موسسه سرای طلای ایرانیان است و کلیه امور پرداخت و تسویه از طریق حساب رسمی حقوقی موسسه انجام خواهد شد.
-۴. مدت بازپرداخت اقساط بر اساس توان مالی مشتری، یکی از گزینه‌های ۱۲، ۱۸، ۲۴، ۳۶ یا ٤٨ ماهه خواهد بود.
+    const signPad = document.getElementById('signPad');
+    const ctx = signPad.getContext('2d');
+    let drawing = false;
+    let hasSignature = false;
+    let signatureData = '';
 
-ماده ۴ – ضمانت بازپرداخت
-۱. طلاهای خریداری‌شده از طرف دوم، نزد طرف اول به عنوان وثیقه و تضمین بازپرداخت وام نگهداری می‌شود.
-۲. در صورت عدم پرداخت اقساط در موعد مقرر، طرف اول مجاز است نسبت به فروش یا تملک طلا به میزان بدهی باقیمانده اقدام نماید.
-۳. مدارک و ضمانت‌های لازم به شرح جدول اصلی شرکت تعیین می‌گردد.
+    const resizeCanvas = () => {
+      const { width } = signPad.getBoundingClientRect();
+      const ratio = window.devicePixelRatio || 1;
+      signPad.width = width * ratio;
+      signPad.height = 220 * ratio;
+      signPad.style.width = width + 'px';
+      signPad.style.height = '220px';
+      ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+      ctx.lineWidth = 3;
+      ctx.lineCap = 'round';
+      ctx.strokeStyle = '#7ec7ff';
+    };
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
 
-تبصره – جریمه تأخیر در پرداخت اقساط:
-۱. در صورت تأخیر در پرداخت اقساط به مدت دو ماه متوالی یا متناوب، مشتری موظف است مبلغی معادل دو قسط کامل را به عنوان جریمه تأخیر پرداخت نماید.
-۲. چنانچه تأخیر در پرداخت اقساط از سه ماه تجاوز نماید، شرکت مجاز است از طریق بانک مرکزی جمهوری اسلامی ایران نسبت به مسدودسازی حساب‌های بانکی مشتری تا زمان تسویه کامل بدهی اقدام نماید.
-۳. اجرای این بند مانع از اعمال سایر حقوق قانونی موسسه از جمله تملک وثیقه موضوع ماده (۴) نخواهد بود.
+    const startDraw = (x, y) => { drawing = true; ctx.beginPath(); ctx.moveTo(x, y); };
+    const draw = (x, y) => { if (!drawing) return; hasSignature = true; ctx.lineTo(x, y); ctx.stroke(); };
+    const stopDraw = () => { drawing = false; if (hasSignature) signatureData = signPad.toDataURL('image/png'); };
 
-ماده ۵ – ثبت در سامانه بانک مرکزی
-با امضای این قرارداد، طرف دوم تأیید می‌نماید که اطلاعات این قرارداد در سامانه بانک مرکزی جمهوری اسلامی ایران ثبت می‌گردد و کلیه شرایط مربوطه را با آگاهی کامل پذیرفته است. متقاضی موظف است ده درصد مبلغ وام را پیش از اعطای وام در حساب خود سپرده‌گذاری نماید.
+    signPad.addEventListener('mousedown', e => startDraw(e.offsetX, e.offsetY));
+    signPad.addEventListener('mousemove', e => draw(e.offsetX, e.offsetY));
+    signPad.addEventListener('mouseup', stopDraw);
+    signPad.addEventListener('mouseleave', stopDraw);
 
-ماده ۶ – فسخ قرارداد
-در صورت تخلف هر یک از طرفین از مفاد این قرارداد، طرف مقابل حق فسخ آن را دارد. در صورت فسخ، ضمانت‌های موضوع ماده (۴) قابل اعمال خواهد بود.
+    signPad.addEventListener('touchstart', e => { e.preventDefault(); const rect = signPad.getBoundingClientRect(); const t = e.touches[0]; startDraw(t.clientX - rect.left, t.clientY - rect.top); });
+    signPad.addEventListener('touchmove', e => { e.preventDefault(); const rect = signPad.getBoundingClientRect(); const t = e.touches[0]; draw(t.clientX - rect.left, t.clientY - rect.top); });
+    signPad.addEventListener('touchend', stopDraw);
 
-ماده ۷ – حل و فصل اختلافات
-در صورت بروز هرگونه اختلاف ناشی از اجرای این قرارداد، طرفین توافق می‌نمایند ابتدا از طریق مذاکره و داوری موضوع را حل‌وفصل نمایند. در صورت عدم توافق، موضوع از طریق مراجع قضایی صالح در جمهوری اسلامی ایران پیگیری خواهد شد.
+    const clearSign = () => {
+      ctx.clearRect(0,0,signPad.width,signPad.height);
+      hasSignature = false;
+      signatureData = '';
+    };
 
-ماده ۸ – اعتبار حقوقی و استناد قانونی
-این قرارداد دارای اعتبار رسمی بوده و تمامی مفاد آن برای طرفین لازم‌الاجراست. این سند نزد مراجع قضایی و ثبتی کشور قابل استناد است. طرف دوم با امضاء ذیل این سند، تأیید می‌نماید که کلیه مفاد قرارداد را مطالعه و با آگاهی کامل پذیرفته است.
+    document.getElementById('cAmount').addEventListener('input', (e)=> formatAmountInput(e.target));
+    document.getElementById('cCard').addEventListener('input', (e)=> formatCardInput(e.target));
 
-ماده ۹ – کارمزد ترخیص طلا
-هزینه ترخیص طلا معادل مبلغ یک میلیون و پانصد هزار (۱,۵۰۰,۰۰۰) تومان بوده که از مبلغ وام کسر و پیش از واریز وجه به حساب متقاضی لحاظ می‌گردد.
-
-ماده ۱۰ – عودت وجه و حقوق مشتری
-۱. در صورت انصراف طرف دوم از دریافت وام، یا عدم نهایی شدن فرآیند اعطای وام به هر دلیل، شرکت موظف است تمامی مبالغ پرداختی یا سپرده‌گذاری‌شده از سوی مشتری را به‌صورت کامل و بدون هیچ‌گونه کسری یا کارمزد به وی عودت دهد.
-۲. هیچ مبلغی از سپرده یا وجوه مشتری به‌عنوان خسارت، جریمه یا کارمزد کسر نخواهد شد مگر با رضایت کتبی طرف دوم.
-۳. در صورت استنکاف یا تأخیر شرکت در بازپرداخت، مشتری حق دارد از طریق مراجع قانونی و قضایی صالح نسبت به مطالبه وجه اقدام نماید.
-۴. مفاد این ماده جزء لاینفک قرارداد محسوب شده و در هر حال برای شرکت لازم‌الاجرا است.`;
-
-      document.getElementById('contractText').value = text
-        .replace(/\$\{name\}/g, name)
-        .replace(/\$\{phone\}/g, phone)
-        .replace(/\$\{national\}/g, national)
-        .replace(/\$\{amount\}/g, amount)
-        .replace(/\$\{bank\}/g, bank);
-    }
+    document.getElementById('acceptTerms').addEventListener('change', (e)=> {
+      document.getElementById('submitBtn').disabled = !e.target.checked;
+    });
 
     document.getElementById('docUpload').addEventListener('change', (e)=>{
       const file = e.target.files[0];
       if(!file) { document.getElementById('docName').innerText = ''; return; }
-      if(!file.type.startsWith('image/')){ alert('فقط تصویر مجاز است.'); e.target.value=''; return; }
+      if(!file.type.startsWith('image/')){ showToast('toast2','فقط فایل تصویری مجاز است.'); e.target.value=''; return; }
       document.getElementById('docName').innerText = `فایل انتخاب شده: ${file.name}`;
     });
+
+    function validateStep1(){
+      const name = document.getElementById('cName').value.trim();
+      const national = toEnglishDigits(document.getElementById('cNationalId').value.trim());
+      const phone = toEnglishDigits(document.getElementById('cPhone').value.trim());
+      const amount = document.getElementById('cAmount').value.trim();
+      const bank = document.getElementById('cBank').value.trim();
+      const card = document.getElementById('cCard').value.trim();
+
+      if(!name || !national || !phone || !amount || !bank || !card){
+        showToast('toast1','تمام فیلدها را پر کنید.');
+        return false;
+      }
+      if(card.replace(/-/g,'').length !== 16){
+        showToast('toast1','شماره کارت باید ۱۶ رقم باشد.');
+        return false;
+      }
+      return true;
+    }
+
+    function validateStep2(){
+      const file = document.getElementById('docUpload').files[0];
+      if(!file){ showToast('toast2','لطفاً تصویر مدرک را بارگذاری کنید.'); return false; }
+      if(!hasSignature){ showToast('toast2','امضای دیجیتال لازم است.'); return false; }
+      return true;
+    }
+
+    function goStep(n){
+      if(n===2 && !validateStep1()) return;
+      if(n===3 && !validateStep2()) return;
+      if(n===3) fillContract();
+      steps.forEach((el,idx)=>{ el.classList.toggle('hidden', idx !== n-1); });
+      badges.forEach((el,idx)=>{ el.classList.toggle('active', idx === n-1); });
+    }
+
+    function fillContract(){
+      const name = document.getElementById('cName').value || 'نام مشتری';
+      const phone = toEnglishDigits(document.getElementById('cPhone').value || 'شماره تماس');
+      const national = toEnglishDigits(document.getElementById('cNationalId').value || 'کد ملی');
+      const amount = document.getElementById('cAmount').value || '400,000,000';
+      const bank = document.getElementById('cBank').value || 'بلو بانک';
+      const card = document.getElementById('cCard').value || '6037-****-****-****';
+
+      const contract = `
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+          <div>
+            <div style="opacity:.7;">تاریخ قرارداد (تقویم شمسی)</div>
+            <strong>${todayDate}</strong>
+          </div>
+          <div style="text-align:left; opacity:.8;">کد رهگیری: ${Math.floor(100000 + Math.random()*900000)}</div>
+        </div>
+        <hr style="border-color:rgba(255,255,255,0.1);">
+        <p>این قرارداد بین موسسه سرای طلای ایرانیان و آقای/خانم <strong>${name}</strong> با شماره ملی <strong>${national}</strong> و شماره تماس <strong>${phone}</strong> منعقد می‌شود. مبلغ درخواستی <strong>${amount}</strong> تومان است و وجه به کارت <strong>${card}</strong> در بانک <strong>${bank}</strong> واریز خواهد شد.</p>
+        <p>۱) مدت بازپرداخت بر اساس توافق و توان مالی متقاضی تعیین می‌شود و تسویه در اقساط ماهانه انجام می‌گیرد.</p>
+        <p>۲) طلا یا سپرده معرفی‌شده به عنوان وثیقه تا پایان بازپرداخت اقساط نزد موسسه محفوظ می‌ماند.</p>
+        <p>۳) نرخ سود سالانه سه درصد است و هرگونه تأخیر بیش از دو قسط متوالی شامل جریمه مطابق مقررات داخلی خواهد بود.</p>
+        <p>۴) اطلاعات قرارداد در سامانه بانک مرکزی جمهوری اسلامی ایران با تقویم شمسی ثبت می‌شود و متقاضی به صحت اطلاعات اذعان دارد.</p>
+        <p>۵) در صورت انصراف، تمامی وجوه پرداخت‌شده بدون کسری به متقاضی عودت داده خواهد شد.</p>
+      `;
+      document.getElementById('contractText').innerHTML = contract;
+    }
+
+    function submitContract(){
+      if(document.getElementById('submitBtn').disabled) return;
+      badges.forEach((el,idx)=>{ el.classList.toggle('active', idx === 3); });
+      steps.forEach((el,idx)=>{ el.classList.toggle('hidden', idx !== 3); });
+      alert('مدارک شما ثبت شد. منتظر تماس اپراتور باشید.');
+    }
   </script>
 </body>
 </html>
