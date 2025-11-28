@@ -8,139 +8,9 @@
   <!-- Vazir font + bootstrap icons -->
   <link href="https://fonts.googleapis.com/css2?family=Vazir:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/public/css/public-chrome.css">
 
   <style>
-    *{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:"Vazir",sans-serif;
-  background:#f0f4f8; /* خاکستری روشن */
-  color:#333;
-  line-height:1.7;
-}
-
-/* ---------- header (glass) ---------- */
-.main-header {
-  position: sticky;
-  top: 0;
-  z-index: 999;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:10px 20px;
-  height:64px;
-  background: rgba(240,244,248,0.6); /* خاکستری شفاف */
-  backdrop-filter: blur(6px);
-  border-bottom:1px solid rgba(200,210,220,0.8);
-}
-
-.main-left { display:flex; align-items:center; gap:14px; }
-
-/* calculator icon replaces hamburger */
-.calc-icon {
-  width:44px;
-  height:44px;
-  border-radius:10px;
-  background: linear-gradient(135deg,#1e73be,#3a8dd5); /* آبی gradient */
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:#fff;
-  font-size:20px;
-  cursor:pointer;
-  box-shadow:0 6px 18px rgba(0,0,0,.12);
-}
-
-.header-logo { height:38px; }
-
-.nav-menu {
-  display:flex;
-  gap:22px;
-  align-items:center;
-}
-.nav-menu a {
-  text-decoration:none;
-  color:#1e3b5a; /* آبی تیره */
-  font-size:15px;
-  position:relative;
-  padding:6px 8px;
-}
-.nav-menu a:hover { color:#3a8dd5; } /* آبی روشن hover */
-
-.menu-small {
-  width:36px;
-  height:36px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border-radius:8px;
-  cursor:pointer;
-  background:transparent;
-  color:#1e3b5a;
-}
-
-.login-small {
-  background:#1e73be; /* آبی */
-  color:#fff;
-  padding:8px 14px;
-  border-radius:8px;
-  text-decoration:none;
-  font-weight:600;
-}
-
-/* dropdowns */
-.dropdown { position:relative; }
-.dropdown-items {
-  display:none;
-  position:absolute;
-  top:38px;
-  right:0;
-  background:#f0f4f8; /* خاکستری روشن */
-  min-width:180px;
-  border-radius:10px;
-  box-shadow:0 10px 30px rgba(0,0,0,0.12);
-  z-index:1200;
-  overflow:hidden;
-}
-.dropdown-items a {
-  display:block;
-  padding:10px 14px;
-  color:#1e3b5a;
-  text-decoration:none;
-  font-size:14px;
-}
-.dropdown-items a:hover { background:#d0d9e6; color:#000; }
-
-/* sidebar */
-#sidebar{
-  position:fixed;
-  right:-320px;
-  top:0;
-  width:320px;
-  height:100%;
-  background:#e1e8f0; /* خاکستری روشن */
-  padding:22px;
-  box-shadow:-10px 0 30px rgba(0,0,0,0.12);
-  transition: right .32s cubic-bezier(.2,.9,.2,1);
-  z-index:2000;
-  border-left:1px solid rgba(200,210,220,0.9);
-  overflow:auto;
-}
-#sidebar.open { right:0; }
-.sidebar-header { display:flex; align-items:center; justify-content:space-between; }
-#closeSidebar{ cursor:pointer; font-size:20px; }
-.sidebar-logo{ height:36px; }
-
-.sidebar-menu{ list-style:none; padding:0; margin-top:24px; }
-.sidebar-menu li{ margin:14px 0; }
-.sidebar-menu a{ color:#1e3b5a; text-decoration:none; display:block; padding:8px 6px; border-radius:6px; }
-.sidebar-sub{ padding-right:10px; font-size:14px; color:#666; margin-top:8px; display:none; }
-.sidebar-menu a:hover{ background:#d0d9e6; }
-
-/* overlay */
-#overlay { position:fixed; inset:0; background:rgba(0,0,0,0.45); display:none; z-index:1800; }
-
-/* ---------- loan popup (center modal) ---------- */
 #loanModal {
   position:fixed;
   left:50%;
@@ -208,36 +78,12 @@ header p { font-size:18px; color:#1e3b5a; margin-bottom:30px; }
 .card h3 { margin:0 0 14px 0; font-size:19px; color:#1e73be; }
 .card p { font-size:15px; color:#555; margin:0; }
 
-.licenses { position:fixed; bottom:18px; left:18px; z-index:1000; display:flex; gap:10px; flex-direction:column; }
-.licenses img { width:48px; height:48px; border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,0.2); transition:transform .3s; }
-.licenses img:hover { transform:scale(1.15); }
-
 footer { background:linear-gradient(90deg,#1e73be,#3a8dd5); color:#fff; text-align:center; padding:50px 20px; margin-top:80px; }
 footer p { margin:10px 0; font-size:15px; }
 
-@media(max-width:900px){
-  .nav-menu { display:none; }
-}
-@media(max-width:520px){
-  .main-header { padding:8px 12px; height:56px; }
-  .calc-icon{ width:40px;height:40px; }
-}
-
   </style>
 </head>
-<body>
-
-  <!-- MAIN HEADER -->
-  <div class="main-header" id="mainHeader">
-    <div class="main-left">
-      <!-- calculator icon (replaces hamburger) -->
-      <div class="calc-icon" id="openLoanBtn" title="باز کردن ماشین حساب وام">
-        <i class="bi bi-calculator" style="font-size:18px;"></i>
-      </div>
-
-      <!-- logo -->
-      <img src="public/image/logo.png" alt="logo" class="header-logo">
-    </div>
+<body class="public-body">
 
     <!-- center nav -->
     <nav class="nav-menu">
@@ -305,6 +151,7 @@ footer p { margin:10px 0; font-size:15px; }
 
   <!-- overlay -->
   <div id="overlay"></div>
+  <%- include('partials/public-chrome') %>
 
   <!-- ---------- LOAN POPUP (center modal) ---------- -->
   <div id="loanModal" aria-hidden="true">
@@ -398,14 +245,6 @@ footer p { margin:10px 0; font-size:15px; }
     </div>
   </section>
 
-  <!-- ۴ مجوز کوچیک پایین سمت چپ -->
-  <div class="licenses">
-    <img src="public/image/SarayeTala.svg" alt="سرای طلا">
-    <img src="public/image/Enemad.png" alt="اینماد">
-    <img src="public/image/LOGG.png" alt="لوگو">
-    <img src="public/image/Lumi.png" alt="لومی">
-  </div>
-
   <footer>
     <p>تماس با ما: 021-91004056</p>
     <p>ایمیل: support@SarayeTalaMehrGostaranIranian.ir</p>
@@ -415,67 +254,8 @@ footer p { margin:10px 0; font-size:15px; }
   <!-- ---------- SCRIPTS ---------- -->
   <script>
 
-// ---------- sidebar ----------
-const openSidebarBtn = document.getElementById('openSidebarBtn');
-const sidebar = document.getElementById('sidebar');
-const closeSidebarBtn = document.getElementById('closeSidebar');
+// ---------- overlay reference ----------
 const overlay = document.getElementById('overlay');
-
-openSidebarBtn.addEventListener('click', () => {
-  sidebar.classList.add('open');
-  overlay.style.display = 'block';
-});
-
-closeSidebarBtn.addEventListener('click', () => {
-  sidebar.classList.remove('open');
-  overlay.style.display = 'none';
-});
-
-overlay.addEventListener('click', () => {
-  sidebar.classList.remove('open');
-  loanModalClose();
-  overlay.style.display = 'none';
-});
-
-// ---------- dropdown menus ----------
-const loanDrop = document.getElementById('loanDrop');
-const loanItems = document.getElementById('loanItems');
-const lotteryDrop = document.getElementById('lotteryDrop');
-const lotteryItems = document.getElementById('lotteryItems');
-
-loanDrop.addEventListener('click', (e) => {
-  e.stopPropagation();
-  loanItems.style.display = loanItems.style.display === 'block' ? 'none' : 'block';
-  lotteryItems.style.display = 'none';
-});
-
-lotteryDrop.addEventListener('click', (e) => {
-  e.stopPropagation();
-  lotteryItems.style.display = lotteryItems.style.display === 'block' ? 'none' : 'block';
-  loanItems.style.display = 'none';
-});
-
-document.addEventListener('click', () => {
-  loanItems.style.display = 'none';
-  lotteryItems.style.display = 'none';
-});
-
-// ---------- sidebar submenus ----------
-const sbLoanSub = document.getElementById('sbLoanSub');
-const sbLotterySub = document.getElementById('sbLotterySub');
-
-document.querySelectorAll('.sidebar-menu a').forEach(a => {
-  a.addEventListener('click', (e) => {
-    if (a.getAttribute('href') === '/loans') {
-      e.preventDefault();
-      sbLoanSub.style.display = sbLoanSub.style.display === 'block' ? 'none' : 'block';
-    }
-    if (a.getAttribute('href') === '/lottery') {
-      e.preventDefault();
-      sbLotterySub.style.display = sbLotterySub.style.display === 'block' ? 'none' : 'block';
-    }
-  });
-});
 
 // ---------- Loan Modal ----------
 const loanModal = document.getElementById('loanModal');
@@ -493,10 +273,9 @@ function loanModalClose() {
 }
 
 
-openLoanBtn.addEventListener('click', () => {
-  window.location.href = '/loans/gold';
-});
 closeLoanBtn.addEventListener('click', loanModalClose);
+overlay.addEventListener('click', loanModalClose);
+document.addEventListener('overlay:closed', loanModalClose);
 
 // ---------- loan calculator ----------
 const loanAmount = document.getElementById('loanAmount');
@@ -538,9 +317,7 @@ calcLoanBtn.addEventListener('click', () => {
 // ---------- ESC close ----------
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
-    sidebar.classList.remove('open');
     loanModalClose();
-    overlay.style.display = 'none';
   }
 });
 

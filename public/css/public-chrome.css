@@ -1,0 +1,170 @@
+:root {
+  --bg: #f0f4f8;
+  --primary: #1e73be;
+  --primary-2: #3a8dd5;
+  --text-main: #1e3b5a;
+  --card: #ffffff;
+  --soft-border: #c8d2dc;
+}
+
+* { box-sizing: border-box; }
+
+body.public-body {
+  margin: 0;
+  font-family: "Vazir", "Vazirmatn", sans-serif;
+  background: var(--bg);
+  color: #333;
+  line-height: 1.7;
+}
+
+.main-header {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  height: 64px;
+  background: rgba(240, 244, 248, 0.82);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid rgba(200, 210, 220, 0.8);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.main-left { display: flex; align-items: center; gap: 14px; }
+
+.calc-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-2));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.calc-icon:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(0,0,0,0.18); }
+
+.header-logo { height: 40px; }
+
+.nav-menu {
+  display: flex;
+  gap: 22px;
+  align-items: center;
+}
+
+.nav-menu a {
+  text-decoration: none;
+  color: var(--text-main);
+  font-size: 15px;
+  position: relative;
+  padding: 6px 8px;
+  font-weight: 600;
+}
+
+.nav-menu a:hover { color: var(--primary-2); }
+
+.menu-small {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  cursor: pointer;
+  background: #fff;
+  color: var(--text-main);
+  border: 1px solid rgba(30, 59, 90, 0.1);
+}
+
+.login-small {
+  background: var(--primary);
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 700;
+  box-shadow: 0 8px 22px rgba(30, 115, 190, 0.3);
+}
+
+.dropdown { position: relative; }
+.dropdown-items {
+  display: none;
+  position: absolute;
+  top: 38px;
+  right: 0;
+  background: var(--bg);
+  min-width: 180px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  z-index: 1200;
+  overflow: hidden;
+}
+.dropdown-items a {
+  display: block;
+  padding: 10px 14px;
+  color: var(--text-main);
+  text-decoration: none;
+  font-size: 14px;
+}
+.dropdown-items a:hover { background: #d0d9e6; color: #000; }
+
+#sidebar {
+  position: fixed;
+  right: -320px;
+  top: 0;
+  width: 320px;
+  height: 100%;
+  background: #e1e8f0;
+  padding: 22px;
+  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.12);
+  transition: right 0.32s cubic-bezier(.2,.9,.2,1);
+  z-index: 2000;
+  border-left: 1px solid rgba(200, 210, 220, 0.9);
+  overflow: auto;
+}
+#sidebar.open { right: 0; }
+.sidebar-header { display: flex; align-items: center; justify-content: space-between; }
+#closeSidebar { cursor: pointer; font-size: 20px; }
+.sidebar-logo { height: 36px; }
+.sidebar-menu { list-style: none; padding: 0; margin-top: 24px; }
+.sidebar-menu li { margin: 14px 0; }
+.sidebar-menu a { color: var(--text-main); text-decoration: none; display: block; padding: 8px 6px; border-radius: 6px; }
+.sidebar-sub { padding-right: 10px; font-size: 14px; color: #555; margin-top: 8px; display: none; }
+.sidebar-menu a:hover { background: #d0d9e6; }
+
+#overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); display: none; z-index: 1800; }
+
+.licenses { position: fixed; bottom: 18px; left: 18px; z-index: 1000; display: flex; gap: 10px; flex-direction: column; }
+.licenses img { width: 48px; height: 48px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); transition: transform 0.3s; }
+.licenses img:hover { transform: scale(1.12); }
+
+.page-shell {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 90px 18px 80px;
+}
+
+.glass-card {
+  background: #fff;
+  border-radius: 18px;
+  border: 1px solid rgba(30, 59, 90, 0.06);
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.08);
+  padding: 20px;
+}
+
+.section-title { margin: 0 0 12px; color: var(--primary); }
+
+@media (max-width: 900px) {
+  .nav-menu { display: none; }
+}
+
+@media (max-width: 520px) {
+  .main-header { padding: 8px 12px; height: 56px; }
+  .calc-icon { width: 40px; height: 40px; }
+}
