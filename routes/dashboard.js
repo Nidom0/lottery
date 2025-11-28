@@ -134,6 +134,45 @@ router.get("/lottery/profile/:id", requireAuth, async (req, res) => {
 });
 
 // -------------------------------------------------------
+// DASHBOARD LOAN PAGE
+// -------------------------------------------------------
+router.get("/loan", requireAuth, (_req, res) => {
+  const persianDate = new Date().toLocaleDateString("fa-IR-u-ca-persian");
+
+  const pipeline = [
+    { label: "پرونده جدید", count: 3 },
+    { label: "در حال بررسی", count: 5 },
+    { label: "تایید شده", count: 2 },
+    { label: "در انتظار پرداخت", count: 1 },
+  ];
+
+  const sampleApplicants = [
+    {
+      name: "شمیم ایرانیان",
+      nationalId: "0079417061",
+      phone: "09120000000",
+      bank: "بلو بانک",
+      card: "6037-9900-1122-3344",
+      amount: "400,000,000",
+      status: "در حال بررسی",
+      created: persianDate,
+    },
+    {
+      name: "زهرا محمدی",
+      nationalId: "1284578965",
+      phone: "09351231234",
+      bank: "ملت",
+      card: "6104-3377-5522-1100",
+      amount: "750,000,000",
+      status: "پرونده جدید",
+      created: persianDate,
+    },
+  ];
+
+  res.render("dashboard-loan", { persianDate, pipeline, sampleApplicants });
+});
+
+// -------------------------------------------------------
 // DELETE WINNER
 // -------------------------------------------------------
 router.post("/lottery/delete/:id", requireAuth, async (req, res) => {
