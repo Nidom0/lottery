@@ -2,30 +2,34 @@
 <html lang="fa" dir="rtl">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>وام خرید طلا - سرای طلای ایرانیان</title>
   <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/public/css/public-chrome.css">
   <style>
-    body { margin:0; font-family: Vazirmatn, sans-serif; background: linear-gradient(135deg,#0d0f1b,#101524,#0f172e); color: #fff; }
-    .wrapper { max-width: 1100px; margin: 0 auto; padding: 40px 18px 80px; }
-    .hero { display:flex; align-items:center; justify-content:space-between; gap:16px; background: rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); border-radius:18px; padding:18px; margin-bottom:18px; }
-    .hero img { height:64px; }
-    h1 { margin: 0; color: #7ec7ff; }
-    p { line-height: 1.8; opacity: .9; }
+    body { background: var(--bg); }
+    .wrapper { max-width: 1100px; margin: 0 auto; padding: 90px 18px 80px; }
+    .hero { display:flex; align-items:center; justify-content:space-between; gap:16px; background: linear-gradient(120deg, rgba(30,115,190,0.08), rgba(58,141,213,0.14)); border:1px solid rgba(30,59,90,0.12); border-radius:18px; padding:18px; margin-bottom:18px; box-shadow:0 14px 34px rgba(0,0,0,0.08); }
+    .hero img { height:64px; background:#fff; border-radius:14px; padding:8px; box-shadow:0 6px 20px rgba(0,0,0,0.08); }
+    h1 { margin: 0; color: var(--primary); }
+    p { line-height: 1.8; color:#37465a; }
     .stepper { display:flex; gap:10px; margin-bottom:16px; flex-wrap:wrap; }
-    .step { padding:10px 14px; border-radius:12px; background: rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); }
+    .step { padding:10px 14px; border-radius:12px; background: #fff; border:1px solid rgba(30,59,90,0.1); color:#1e3b5a; box-shadow:0 8px 22px rgba(0,0,0,0.04); }
     .step.active { background: linear-gradient(135deg,#3a8bff,#6aa7ff); color:#0b1022; }
-    .card { background: rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:16px; padding:18px; margin-top:14px; }
-    label { display:block; margin-top:8px; margin-bottom:4px; }
-    input, textarea, select { width:100%; padding:12px; border-radius:12px; border:1px solid rgba(255,255,255,0.16); background: rgba(255,255,255,0.05); color:#fff; }
+    .card { background: #fff; border:1px solid rgba(30,59,90,0.1); border-radius:16px; padding:18px; margin-top:14px; box-shadow:0 10px 30px rgba(0,0,0,0.08); }
+    label { display:block; margin-top:8px; margin-bottom:4px; color:#1e3b5a; font-weight:600; }
+    input, textarea, select { width:100%; padding:12px; border-radius:12px; border:1px solid rgba(30,59,90,0.12); background: #f8fbff; color:#1e3b5a; }
     textarea { min-height: 180px; white-space: pre-wrap; }
-    .actions { display:flex; gap:10px; margin-top:12px; }
+    .actions { display:flex; gap:10px; margin-top:12px; flex-wrap:wrap; }
     button { padding:12px 18px; border:none; border-radius:12px; cursor:pointer; font-weight:700; }
-    .next { background: linear-gradient(135deg,#3a8bff,#6aa7ff); color:#0c1225; }
-    .back { background: rgba(255,255,255,0.08); color:#fff; }
+    .next { background: linear-gradient(135deg,#3a8bff,#6aa7ff); color:#0c1225; box-shadow:0 8px 22px rgba(58,141,213,0.35); }
+    .back { background: #e5edf5; color:#1e3b5a; }
     .hidden { display:none; }
   </style>
 </head>
-<body>
+<body class="public-body">
+  <%- include('partials/public-chrome') %>
   <div class="wrapper">
     <div class="hero">
       <div>
