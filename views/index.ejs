@@ -3,259 +3,1806 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>سرای طلای ایرانیان</title>
+  <title>سرای طلای ایرانیان — وام طلا، مسکن و خودرو</title>
 
-  <!-- Vazir font + bootstrap icons -->
-  <link href="https://fonts.googleapis.com/css2?family=Vazir:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <link rel="stylesheet" href="/public/css/public-chrome.css">
 
   <style>
-#loanModal {
-  position:fixed;
-  left:50%;
-  top:50%;
-  transform:translate(-50%,-50%) scale(.8);
-  width:92%;
-  max-width:520px;
-  background: rgba(225,232,240,0.65);
-  backdrop-filter: blur(10px);
-  border-radius:16px;
-  padding:20px;
-  box-shadow:0 20px 60px rgba(0,0,0,.25);
-  
-  opacity:0;
-  display:none;              /* modal hidden */
-  pointer-events:none;       /* not clickable */
-  transition: all .28s cubic-bezier(.2,.9,.2,1);
-  z-index:3000;
-}
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-#loanModal.open {
-  display:block;
-  opacity:1;
-  pointer-events:auto;       /* clickable only when open */
-  transform:translate(-50%,-50%) scale(1);
-}
+    :root {
+      --gold: #F5A623;
+      --gold-light: #FFD700;
+      --gold-pale: rgba(245,166,35,0.12);
+      --navy: #0A1628;
+      --navy-mid: #0D1F3C;
+      --navy-light: #122444;
+      --white: #ffffff;
+      --gray-50: #F8FAFC;
+      --gray-100: #F1F5F9;
+      --gray-200: #E2E8F0;
+      --gray-600: #475569;
+      --gray-800: #1E293B;
+      --navbar-h: 72px;
+      --radius: 16px;
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+      --shadow-md: 0 8px 30px rgba(0,0,0,0.10);
+      --shadow-lg: 0 20px 60px rgba(0,0,0,0.15);
+      --transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+    }
 
+    html { scroll-behavior: smooth; }
 
-#loanModal h3{ margin:0 0 12px; text-align:center; color:#1e3b5a; }
-.field{ margin-bottom:12px; }
-.field label{ display:block; font-weight:600; margin-bottom:6px; color:#1e3b5a; }
-.field input, .field select {
-  width:100%;
-  padding:10px 12px;
-  border-radius:8px;
-  border:1px solid #c8d2dc;
-  font-size:15px;
-  background:#fff;
-}
-.btn { width:100%; padding:12px; border-radius:10px; border:none; background:linear-gradient(90deg,#1e73be,#3a8dd5); color:#fff; font-weight:700; cursor:pointer; margin-top:8px; }
-.close-btn { text-align:center; margin-top:10px; color:#666; cursor:pointer; }
-.result { text-align:center; margin-top:10px; font-weight:700; color:#1e3b5a; }
+    body {
+      font-family: 'Vazirmatn', sans-serif;
+      background: #fff;
+      color: var(--gray-800);
+      overflow-x: hidden;
+      direction: rtl;
+    }
 
-/* ---------- page hero + retained content ---------- */
-header {
-  text-align:center;
-  padding:80px 20px 50px;
-  background: linear-gradient(to bottom,#e1e8f0,#d0d9e6); /* خاکستری/آبی gradient */
-}
-header h1 { margin:0 0 12px; font-size:40px; color:#1e73be; font-weight:700; }
-header p { font-size:18px; color:#1e3b5a; margin-bottom:30px; }
-.btn-login { background:#1e73be;color:white;padding:14px 38px;border-radius:50px;font-weight:600;font-size:1.1rem;text-decoration:none;display:inline-block;box-shadow:0 6px 20px rgba(30,115,190,0.4); transition:all .3s; }
-.btn-login:hover { background:#3a8dd5; transform:translateY(-4px); box-shadow:0 10px 25px rgba(58,141,213,0.5); }
+    /* ══════════════════════════════════════
+       NAVBAR
+    ══════════════════════════════════════ */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--navbar-h);
+      z-index: 1000;
+      transition: var(--transition);
+    }
 
-.section { padding:80px 20px; text-align:center; }
-.section h2 { margin-bottom:55px; font-size:30px; color:#1e3b5a; position:relative; }
-.section h2::after { content:''; width:90px; height:4px; background:#1e73be; display:block; margin:18px auto 0; border-radius:2px; }
+    .navbar-inner {
+      height: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
 
-.section-icon { font-size:3.8rem; color:#1e73be; background:white; width:100px; height:100px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 30px; box-shadow:0 8px 30px rgba(0,0,0,0.12); transition:transform .3s; }
-.section-icon:hover { transform:scale(1.1) rotate(8deg); }
+    .navbar-glass {
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(0,0,0,0.07);
+      box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+    }
 
-.cards { display:flex; flex-wrap:wrap; justify-content:center; gap:30px; max-width:1250px; margin:0 auto; }
-.card { background:#fff; border-radius:16px; padding:30px 24px; width:260px; box-shadow:0 6px 25px rgba(0,0,0,0.09); transition:all .4s; }
-.card:hover { transform:translateY(-12px); box-shadow:0 18px 45px rgba(0,0,0,0.15); }
-.card h3 { margin:0 0 14px 0; font-size:19px; color:#1e73be; }
-.card p { font-size:15px; color:#555; margin:0; }
+    .navbar-scrolled {
+      background: rgba(255,255,255,0.97) !important;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.12) !important;
+    }
 
-footer { background:linear-gradient(90deg,#1e73be,#3a8dd5); color:#fff; text-align:center; padding:50px 20px; margin-top:80px; }
-footer p { margin:10px 0; font-size:15px; }
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
 
+    .nav-brand-logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      object-fit: contain;
+    }
+
+    .nav-brand-name {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--navy);
+      white-space: nowrap;
+    }
+
+    .nav-brand-name span {
+      color: var(--gold);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--gray-600);
+      font-size: 14.5px;
+      font-weight: 500;
+      padding: 8px 14px;
+      border-radius: 10px;
+      transition: var(--transition);
+    }
+
+    .nav-links a:hover {
+      background: var(--gold-pale);
+      color: var(--gold);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .btn-nav-login {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg, var(--navy), var(--navy-mid));
+      color: #fff;
+      text-decoration: none;
+      padding: 9px 20px;
+      border-radius: 50px;
+      font-size: 14px;
+      font-weight: 600;
+      transition: var(--transition);
+      border: none;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .btn-nav-login:hover {
+      background: linear-gradient(135deg, var(--navy-mid), var(--navy-light));
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(10,22,40,0.35);
+      color: #fff;
+    }
+
+    .nav-mobile-btn {
+      display: none;
+      background: none;
+      border: 1px solid var(--gray-200);
+      border-radius: 10px;
+      width: 40px;
+      height: 40px;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 20px;
+      color: var(--gray-600);
+    }
+
+    /* ══════════════════════════════════════
+       HERO
+    ══════════════════════════════════════ */
+    .hero {
+      min-height: 100vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: var(--navy);
+      padding-top: var(--navbar-h);
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(245,166,35,0.18) 0%, transparent 65%),
+        radial-gradient(ellipse 60% 80% at 100% 50%, rgba(13,31,60,0.9) 0%, transparent 80%),
+        linear-gradient(160deg, #060E1F 0%, #0A1628 40%, #0D1F3C 70%, #122444 100%);
+    }
+
+    /* Gold particle dots */
+    .hero-particles {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .hero-particles::before, .hero-particles::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      animation: float 8s ease-in-out infinite;
+    }
+
+    .hero-particles::before {
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(245,166,35,0.12) 0%, transparent 70%);
+      top: -100px;
+      right: -100px;
+    }
+
+    .hero-particles::after {
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(255,215,0,0.08) 0%, transparent 70%);
+      bottom: -50px;
+      left: 10%;
+      animation-delay: -3s;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0,0) scale(1); }
+      33% { transform: translate(20px,-30px) scale(1.05); }
+      66% { transform: translate(-15px,20px) scale(0.95); }
+    }
+
+    /* Gold mesh grid overlay */
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(245,166,35,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(245,166,35,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 40px 24px;
+      max-width: 900px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(245,166,35,0.15);
+      border: 1px solid rgba(245,166,35,0.35);
+      color: var(--gold-light);
+      padding: 6px 18px;
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 28px;
+      letter-spacing: 0.03em;
+    }
+
+    .hero-badge i {
+      font-size: 14px;
+    }
+
+    .hero-title {
+      font-size: clamp(36px, 6vw, 72px);
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.15;
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+    }
+
+    .hero-title .gold-text {
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: clamp(15px, 2vw, 19px);
+      color: rgba(255,255,255,0.65);
+      margin-bottom: 42px;
+      line-height: 1.8;
+      font-weight: 400;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-hero-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: var(--navy);
+      text-decoration: none;
+      padding: 14px 32px;
+      border-radius: 50px;
+      font-size: 16px;
+      font-weight: 700;
+      transition: var(--transition);
+      box-shadow: 0 8px 32px rgba(245,166,35,0.45);
+    }
+
+    .btn-hero-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 14px 42px rgba(245,166,35,0.55);
+      color: var(--navy);
+    }
+
+    .btn-hero-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.08);
+      color: #fff;
+      text-decoration: none;
+      padding: 14px 32px;
+      border-radius: 50px;
+      font-size: 16px;
+      font-weight: 600;
+      transition: var(--transition);
+      border: 1px solid rgba(255,255,255,0.2);
+      backdrop-filter: blur(10px);
+    }
+
+    .btn-hero-secondary:hover {
+      background: rgba(255,255,255,0.14);
+      transform: translateY(-3px);
+      color: #fff;
+      border-color: rgba(255,255,255,0.35);
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,0.4);
+      font-size: 12px;
+      animation: bounce 2s infinite;
+      cursor: pointer;
+      z-index: 2;
+      text-decoration: none;
+    }
+
+    .hero-scroll i { font-size: 20px; }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(8px); }
+    }
+
+    /* ══════════════════════════════════════
+       STATS SECTION
+    ══════════════════════════════════════ */
+    .stats-section {
+      background: var(--white);
+      padding: 0;
+      position: relative;
+    }
+
+    .stats-wrapper {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+      transform: translateY(-50px);
+    }
+
+    .stats-card {
+      background: var(--white);
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+      padding: 40px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      border: 1px solid var(--gray-100);
+      overflow: hidden;
+    }
+
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+      position: relative;
+    }
+
+    .stat-item:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 20%;
+      height: 60%;
+      width: 1px;
+      background: var(--gray-100);
+    }
+
+    .stat-icon-wrap {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 14px;
+      font-size: 24px;
+    }
+
+    .stat-icon-wrap.gold { background: rgba(245,166,35,0.12); color: var(--gold); }
+    .stat-icon-wrap.navy { background: rgba(10,22,40,0.08); color: var(--navy); }
+    .stat-icon-wrap.green { background: rgba(34,197,94,0.10); color: #16a34a; }
+    .stat-icon-wrap.blue { background: rgba(59,130,246,0.10); color: #2563eb; }
+
+    .stat-number {
+      font-size: 36px;
+      font-weight: 800;
+      color: var(--navy);
+      line-height: 1;
+      margin-bottom: 6px;
+      font-feature-settings: "tnum";
+    }
+
+    .stat-number .unit {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--gold);
+      margin-right: 3px;
+    }
+
+    .stat-label {
+      font-size: 14px;
+      color: var(--gray-600);
+      font-weight: 500;
+    }
+
+    /* ══════════════════════════════════════
+       SECTION COMMON
+    ══════════════════════════════════════ */
+    .section {
+      padding: 80px 24px;
+    }
+
+    .section-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    .section-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--gold-pale);
+      color: var(--gold);
+      padding: 5px 16px;
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-size: clamp(24px, 4vw, 38px);
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 14px;
+      line-height: 1.3;
+    }
+
+    .section-subtitle {
+      font-size: 16px;
+      color: var(--gray-600);
+      max-width: 520px;
+      margin: 0 auto;
+      line-height: 1.8;
+    }
+
+    /* ══════════════════════════════════════
+       SERVICES
+    ══════════════════════════════════════ */
+    .services-section {
+      background: var(--gray-50);
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+
+    .service-card {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 36px 28px;
+      border: 1px solid var(--gray-100);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-light));
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.3s ease;
+    }
+
+    .service-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 24px 64px rgba(10,22,40,0.12);
+      border-color: transparent;
+    }
+
+    .service-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .service-icon {
+      width: 68px;
+      height: 68px;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+      margin-bottom: 22px;
+      transition: var(--transition);
+    }
+
+    .service-card:hover .service-icon {
+      transform: scale(1.1) rotate(5deg);
+    }
+
+    .service-icon.gold-icon { background: rgba(245,166,35,0.12); color: var(--gold); }
+    .service-icon.navy-icon { background: rgba(10,22,40,0.08); color: var(--navy); }
+    .service-icon.green-icon { background: rgba(34,197,94,0.10); color: #16a34a; }
+
+    .service-card h3 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+
+    .service-card p {
+      font-size: 14.5px;
+      color: var(--gray-600);
+      line-height: 1.8;
+      margin-bottom: 22px;
+    }
+
+    .service-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--gold);
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .service-link:hover { gap: 10px; }
+
+    .service-amount {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--gold-pale);
+      color: var(--gold);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+    }
+
+    /* ══════════════════════════════════════
+       WHY US
+    ══════════════════════════════════════ */
+    .why-section {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 50%, #0F2849 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .why-section::before {
+      content: '';
+      position: absolute;
+      top: -200px;
+      left: -200px;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(245,166,35,0.10) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .why-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .why-text .section-eyebrow {
+      background: rgba(245,166,35,0.15);
+      border: 1px solid rgba(245,166,35,0.3);
+    }
+
+    .why-text .section-title { color: #fff; }
+    .why-text .section-subtitle { color: rgba(255,255,255,0.6); text-align: right; margin: 0 0 32px; }
+
+    .features-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 16px 18px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 14px;
+      transition: var(--transition);
+    }
+
+    .feature-item:hover {
+      background: rgba(245,166,35,0.08);
+      border-color: rgba(245,166,35,0.2);
+    }
+
+    .feature-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--navy);
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .feature-text h4 {
+      font-size: 15px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    .feature-text p {
+      font-size: 13px;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.6;
+    }
+
+    .why-visual {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .metric-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 18px;
+      padding: 24px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      backdrop-filter: blur(10px);
+      transition: var(--transition);
+    }
+
+    .metric-card:hover {
+      background: rgba(245,166,35,0.08);
+      border-color: rgba(245,166,35,0.25);
+    }
+
+    .metric-label {
+      font-size: 14px;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 6px;
+    }
+
+    .metric-value {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--gold-light);
+    }
+
+    .metric-icon {
+      font-size: 36px;
+      color: rgba(255,255,255,0.15);
+    }
+
+    /* ══════════════════════════════════════
+       LOAN CALCULATOR MODAL
+    ══════════════════════════════════════ */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(6,14,31,0.7);
+      backdrop-filter: blur(8px);
+      z-index: 3000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.28s ease;
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    #loanModal {
+      background: #fff;
+      border-radius: 20px;
+      padding: 36px;
+      width: 92%;
+      max-width: 500px;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.3);
+      transform: scale(0.92) translateY(20px);
+      transition: all 0.28s cubic-bezier(0.2,0.9,0.2,1);
+      position: relative;
+    }
+
+    .modal-overlay.open #loanModal {
+      transform: scale(1) translateY(0);
+    }
+
+    #loanModal h3 {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 24px;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    #loanModal h3 i {
+      color: var(--gold);
+      font-size: 22px;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--gray-100);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      color: var(--gray-600);
+      transition: var(--transition);
+    }
+
+    .modal-close:hover { background: #fde8e8; color: #e53e3e; }
+
+    .field {
+      margin-bottom: 16px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .field input, .field select {
+      width: 100%;
+      padding: 11px 14px;
+      border-radius: 12px;
+      border: 1.5px solid var(--gray-200);
+      font-family: 'Vazirmatn', sans-serif;
+      font-size: 14px;
+      color: var(--gray-800);
+      background: var(--gray-50);
+      transition: var(--transition);
+      outline: none;
+      direction: rtl;
+    }
+
+    .field input:focus, .field select:focus {
+      border-color: var(--gold);
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(245,166,35,0.12);
+    }
+
+    .btn-calc {
+      width: 100%;
+      padding: 13px;
+      border-radius: 12px;
+      border: none;
+      background: linear-gradient(135deg, var(--navy), var(--navy-mid));
+      color: #fff;
+      font-family: 'Vazirmatn', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 4px;
+      transition: var(--transition);
+    }
+
+    .btn-calc:hover {
+      background: linear-gradient(135deg, var(--navy-mid), var(--navy-light));
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(10,22,40,0.3);
+    }
+
+    .calc-result {
+      margin-top: 16px;
+      padding: 16px;
+      background: linear-gradient(135deg, rgba(245,166,35,0.08), rgba(255,215,0,0.06));
+      border: 1px solid rgba(245,166,35,0.2);
+      border-radius: 12px;
+      text-align: center;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--navy);
+      display: none;
+    }
+
+    .calc-result.show { display: block; }
+
+    /* ══════════════════════════════════════
+       TESTIMONIAL / TRUST
+    ══════════════════════════════════════ */
+    .trust-section {
+      background: var(--gray-50);
+    }
+
+    .trust-logos {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin-top: 40px;
+    }
+
+    .trust-logo-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      opacity: 0.6;
+      transition: var(--transition);
+      filter: grayscale(40%);
+    }
+
+    .trust-logo-item:hover {
+      opacity: 1;
+      filter: grayscale(0);
+    }
+
+    .trust-logo-item img {
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
+      border-radius: 14px;
+    }
+
+    .trust-logo-item span {
+      font-size: 12px;
+      color: var(--gray-600);
+      font-weight: 500;
+    }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 48px;
+    }
+
+    .testimonial-card {
+      background: var(--white);
+      border-radius: 18px;
+      padding: 28px;
+      border: 1px solid var(--gray-100);
+      transition: var(--transition);
+    }
+
+    .testimonial-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-4px);
+    }
+
+    .testimonial-stars {
+      display: flex;
+      gap: 3px;
+      margin-bottom: 16px;
+    }
+
+    .testimonial-stars i {
+      color: var(--gold);
+      font-size: 15px;
+    }
+
+    .testimonial-text {
+      font-size: 14px;
+      color: var(--gray-600);
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .author-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--navy);
+      font-weight: 800;
+      font-size: 17px;
+    }
+
+    .author-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .author-city {
+      font-size: 12px;
+      color: var(--gray-600);
+    }
+
+    /* ══════════════════════════════════════
+       FOOTER
+    ══════════════════════════════════════ */
+    .footer {
+      background: var(--navy);
+      color: rgba(255,255,255,0.75);
+      padding: 64px 24px 32px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), transparent);
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 48px;
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+      text-decoration: none;
+    }
+
+    .footer-brand img {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      object-fit: contain;
+    }
+
+    .footer-brand-name {
+      font-size: 16px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .footer-brand-name span { color: var(--gold); }
+
+    .footer-desc {
+      font-size: 13.5px;
+      line-height: 1.9;
+      margin-bottom: 24px;
+    }
+
+    .footer-socials {
+      display: flex;
+      gap: 10px;
+    }
+
+    .social-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255,255,255,0.6);
+      font-size: 16px;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .social-btn:hover {
+      background: rgba(245,166,35,0.15);
+      border-color: rgba(245,166,35,0.3);
+      color: var(--gold);
+    }
+
+    .footer-col h4 {
+      font-size: 15px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 18px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-links a {
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      font-size: 13.5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: var(--transition);
+    }
+
+    .footer-links a:hover {
+      color: var(--gold);
+      padding-right: 4px;
+    }
+
+    .footer-contact-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      font-size: 13px;
+    }
+
+    .footer-contact-item i {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: rgba(245,166,35,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold);
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.07);
+      padding-top: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .footer-copyright {
+      font-size: 13px;
+    }
+
+    .footer-badges {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .footer-badges img {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      object-fit: contain;
+      background: rgba(255,255,255,0.06);
+      padding: 4px;
+      border: 1px solid rgba(255,255,255,0.08);
+      transition: var(--transition);
+    }
+
+    .footer-badges img:hover {
+      border-color: rgba(245,166,35,0.3);
+    }
+
+    /* ══════════════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════════════ */
+    @media (max-width: 1024px) {
+      .services-grid { grid-template-columns: 1fr 1fr; }
+      .why-inner { grid-template-columns: 1fr; gap: 48px; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+      .testimonials-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-mobile-btn { display: flex; }
+      .stats-card { grid-template-columns: 1fr 1fr; }
+      .stat-item:nth-child(2)::after { display: none; }
+      .services-grid { grid-template-columns: 1fr; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+      .why-inner { padding: 0; }
+      .stats-wrapper { transform: translateY(-24px); }
+    }
+
+    @media (max-width: 480px) {
+      .stats-card { grid-template-columns: 1fr 1fr; padding: 20px; }
+      .hero-ctas { flex-direction: column; align-items: center; }
+      .btn-hero-primary, .btn-hero-secondary { width: 100%; max-width: 300px; justify-content: center; }
+    }
+
+    /* Scroll animations */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
   </style>
 </head>
-<body class="public-body">
 
-  <%- include('partials/public-chrome') %>
+<body>
 
-  <!-- ---------- LOAN POPUP (center modal) ---------- -->
-  <div id="loanModal" aria-hidden="true">
-    <h3>محاسبه وام</h3>
+  <!-- ═══════════════════════════════════
+       NAVBAR
+  ═══════════════════════════════════ -->
+  <nav class="navbar navbar-glass" id="mainNav">
+    <div class="navbar-inner">
+      <a href="/" class="nav-brand">
+        <img src="/public/image/LOGG.png" alt="لوگو سرای طلا" class="nav-brand-logo">
+        <span class="nav-brand-name">سرای <span>طلای</span> ایرانیان</span>
+      </a>
 
-    <div class="field">
-      <label>مبلغ وام (تومان)</label>
-      <input id="loanAmount" inputmode="numeric" placeholder="مثال: 111,222,333">
+      <ul class="nav-links">
+        <li><a href="/loans/gold">وام طلا</a></li>
+        <li><a href="/loans/housing">وام مسکن</a></li>
+        <li><a href="/loans/car">وام خودرو</a></li>
+        <li><a href="/lottery/winners">برندگان</a></li>
+        <li><a href="/lottery/about">درباره ما</a></li>
+        <li><a href="/contact">تماس</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <button class="nav-mobile-btn" id="navMobileBtn" aria-label="منو">
+          <i class="bi bi-list"></i>
+        </button>
+        <a href="/admin/login" class="btn-nav-login">
+          <i class="bi bi-person-lock"></i>
+          ورود مدیران
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════════
+       HERO
+  ═══════════════════════════════════ -->
+  <section class="hero" id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-particles"></div>
+    <div class="hero-grid"></div>
+
+    <div class="hero-content">
+      <div class="hero-badge">
+        <i class="bi bi-award-fill"></i>
+        ارائه‌دهنده خدمات مالی معتبر ایران
+      </div>
+
+      <h1 class="hero-title">
+        <span class="gold-text">سرای طلای</span><br>ایرانیان
+      </h1>
+
+      <p class="hero-sub">
+        سیستم جامع مدیریت قراردادها، وام‌های طلا، مسکن و خودرو<br>با بیش از یک دهه تجربه در ارائه خدمات مالی
+      </p>
+
+      <div class="hero-ctas">
+        <a href="/customer/create-account" class="btn-hero-primary">
+          <i class="bi bi-person-plus-fill"></i>
+          ثبت‌نام برندگان
+        </a>
+        <a href="/admin/login" class="btn-hero-secondary">
+          <i class="bi bi-shield-lock"></i>
+          ورود مدیران
+        </a>
+      </div>
     </div>
 
-    <div class="field">
-      <label>درصد سود سالانه (%)</label>
-      <input id="loanInterest" type="number" placeholder="مثال: 18">
-    </div>
+    <a href="#stats" class="hero-scroll" aria-label="اسکرول">
+      <i class="bi bi-chevron-down"></i>
+    </a>
+  </section>
 
-   <div class="field">
-  <label>تعداد اقساط (ماه)</label>
-  <select id="loanMonths">
-    <option value="12">۱۲ ماه</option>
-    <option value="24">۲۴ ماه</option>
-    <option value="36">۳۶ ماه</option>
-    <option value="48">۴۸ ماه</option>
-    <option value="60">۶۰ ماه</option>
-    <option value="72">۷۲ ماه</option>
-    <option value="84">۸۴ ماه</option>
-    <option value="96">۹۶ ماه</option>
-    <option value="108">۱۰۸ ماه</option>
-    <option value="120">۱۲۰ ماه</option>
-  </select>
-</div>
+  <!-- ═══════════════════════════════════
+       STATS
+  ═══════════════════════════════════ -->
+  <section class="stats-section" id="stats">
+    <div class="stats-wrapper">
+      <div class="stats-card fade-in">
 
-    <button class="btn" id="calcLoanBtn">محاسبه وام</button>
+        <div class="stat-item">
+          <div class="stat-icon-wrap gold">
+            <i class="bi bi-people-fill"></i>
+          </div>
+          <div class="stat-number" data-target="12500">۰</div>
+          <div class="stat-label">مشتریان فعال</div>
+        </div>
 
-    <div class="result" id="loanResult"></div>
+        <div class="stat-item">
+          <div class="stat-icon-wrap navy">
+            <i class="bi bi-calendar-check-fill"></i>
+          </div>
+          <div class="stat-number" data-target="12">۰<span class="unit">+</span></div>
+          <div class="stat-label">سال‌های فعالیت</div>
+        </div>
 
-    <div id="closeLoanBtn" 
-     style="
-       position:absolute;
-       top:12px;
-       left:12px;
-       font-size:22px;
-       font-weight:bold;
-       cursor:pointer;
-       color:#333;">
-  ×
-</div>
+        <div class="stat-item">
+          <div class="stat-icon-wrap green">
+            <i class="bi bi-file-earmark-text-fill"></i>
+          </div>
+          <div class="stat-number" data-target="48000">۰</div>
+          <div class="stat-label">قرارداد منعقدشده</div>
+        </div>
 
-  </div>
+        <div class="stat-item">
+          <div class="stat-icon-wrap blue">
+            <i class="bi bi-star-fill"></i>
+          </div>
+          <div class="stat-number" data-target="98">۰<span class="unit">٪</span></div>
+          <div class="stat-label">رضایت مشتریان</div>
+        </div>
 
-  <!-- ---------- HERO + rest of original page (kept intact) ---------- -->
-  <header>
-    <h1>سرای طلای ایرانیان</h1>
-    <p>سیستم جامع مدیریت قراردادها، وام‌ها و قرعه‌کشی‌ها</p>
-    <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
-      <a href="/customer/create-account" class="btn-login">ثبت‌نام برندگان</a>
-      <a href="/customer/upload-info" class="btn-login" style="background:#4caf50;">بارگذاری اطلاعات</a>
-    </div>
-  </header>
-
-  <!-- ویژگی‌های سیستم -->
-  <section class="section">
-    <div class="section-icon"><i class="bi bi-graph-up-arrow"></i></div>
-    <h2>ویژگی‌های سیستم</h2>
-    <div class="cards">
-      <div class="card"><h3>گزارش گیری</h3><p>مشاهده و مدیریت گزارش‌ها و عملکرد سیستم</p></div>
-      <div class="card"><h3>پشتیبانی مشتری</h3><p>مدیریت ارتباط با مشتریان و پاسخگویی سریع</p></div>
-      <div class="card"><h3>امنیت بالا</h3><p>محافظت کامل از اطلاعات و دسترسی‌ها</p></div>
-      <div class="card"><h3>مدیریت قراردادها</h3><p>کنترل و ثبت قراردادها و جزئیات آن‌ها</p></div>
+      </div>
     </div>
   </section>
 
-  <!-- امکانات مدیران -->
-  <section class="section bg-light">
-    <div class="section-icon"><i class="bi bi-person-gear"></i></div>
-    <h2>امکانات مدیران</h2>
-    <div class="cards">
-      <div class="card"><h3>ایجاد کاربر جدید</h3><p>مدیران می‌توانند کاربران جدید بسازند</p></div>
-      <div class="card"><h3>مدیریت مشتریان</h3><p>ویرایش و مشاهده اطلاعات مشتریان</p></div>
-      <div class="card"><h3>ایجاد قرعه‌کشی</h3><p>ساخت لینک اختصاصی برای هر مشتری</p></div>
+  <!-- ═══════════════════════════════════
+       SERVICES
+  ═══════════════════════════════════ -->
+  <section class="section services-section" id="services">
+    <div class="section-inner">
+      <div class="section-header fade-in">
+        <div class="section-eyebrow">
+          <i class="bi bi-grid-3x3-gap-fill"></i>
+          خدمات ما
+        </div>
+        <h2 class="section-title">وام‌های تخصصی با بهترین شرایط</h2>
+        <p class="section-subtitle">از وام طلا تا مسکن و خودرو — با سریع‌ترین فرایند تأیید و کمترین مدارک</p>
+      </div>
+
+      <div class="services-grid">
+
+        <div class="service-card fade-in">
+          <div class="service-icon gold-icon">
+            <i class="bi bi-gem"></i>
+          </div>
+          <div class="service-amount">
+            <i class="bi bi-currency-dollar"></i>
+            تا ۵۰۰ میلیون تومان
+          </div>
+          <h3>وام خرید طلا</h3>
+          <p>خرید طلا و جواهر با وام آسان، بدون ضامن و با اقساط بلندمدت. بهترین نرخ سود در بازار مالی ایران.</p>
+          <a href="/loans/gold" class="service-link">
+            اطلاعات بیشتر
+            <i class="bi bi-arrow-left"></i>
+          </a>
+        </div>
+
+        <div class="service-card fade-in" style="transition-delay: 0.1s">
+          <div class="service-icon navy-icon">
+            <i class="bi bi-house-fill"></i>
+          </div>
+          <div class="service-amount">
+            <i class="bi bi-currency-dollar"></i>
+            تا ۱.۵ میلیارد تومان
+          </div>
+          <h3>وام خرید مسکن</h3>
+          <p>تأمین مالی خرید، ساخت یا بازسازی ملک مسکونی با شرایط ویژه و نرخ سود رقابتی برای زوج‌های جوان.</p>
+          <a href="/loans/housing" class="service-link">
+            اطلاعات بیشتر
+            <i class="bi bi-arrow-left"></i>
+          </a>
+        </div>
+
+        <div class="service-card fade-in" style="transition-delay: 0.2s">
+          <div class="service-icon green-icon">
+            <i class="bi bi-car-front-fill"></i>
+          </div>
+          <div class="service-amount">
+            <i class="bi bi-currency-dollar"></i>
+            تا ۸۰۰ میلیون تومان
+          </div>
+          <h3>وام خرید خودرو</h3>
+          <p>تهیه خودرو داخلی و خارجی با وام سریع‌الانتقال، بدون نیاز به حساب بلندمدت و با تأیید ۴۸ ساعته.</p>
+          <a href="/loans/car" class="service-link">
+            اطلاعات بیشتر
+            <i class="bi bi-arrow-left"></i>
+          </a>
+        </div>
+
+      </div>
     </div>
   </section>
 
-  <!-- امکانات مشتریان -->
-  <section class="section">
-    <div class="section-icon"><i class="bi bi-people"></i></div>
-    <h2>امکانات مشتریان</h2>
-    <div class="cards">
-      <div class="card"><h3>ثبت درخواست وام</h3><p>ثبت و مشاهده درخواست‌های وام</p></div>
-      <div class="card"><h3>دریافت اطلاعیه‌ها</h3><p>دریافت پیام‌ها و اعلان‌ها</p></div>
-      <div class="card"><h3>شرکت در قرعه‌کشی</h3><p>امکان مشاهده وضعیت قرعه‌کشی‌ها</p></div>
+  <!-- ═══════════════════════════════════
+       WHY US
+  ═══════════════════════════════════ -->
+  <section class="section why-section" id="why">
+    <div class="why-inner">
+      <div class="why-text">
+        <div class="section-header" style="text-align:right; margin-bottom:32px;">
+          <div class="section-eyebrow">
+            <i class="bi bi-shield-check"></i>
+            چرا سرای طلا؟
+          </div>
+          <h2 class="section-title fade-in">تفاوت ما با<br>رقبا چیست؟</h2>
+          <p class="section-subtitle fade-in">ما با ترکیب تجربه، فناوری و صداقت، بهترین تجربه مالی را برای شما می‌سازیم</p>
+        </div>
+
+        <div class="features-list">
+          <div class="feature-item fade-in">
+            <div class="feature-icon"><i class="bi bi-lightning-charge-fill"></i></div>
+            <div class="feature-text">
+              <h4>تأیید سریع در ۴۸ ساعت</h4>
+              <p>بررسی مدارک و اعلام نتیجه در کمترین زمان ممکن</p>
+            </div>
+          </div>
+          <div class="feature-item fade-in" style="transition-delay:0.1s">
+            <div class="feature-icon"><i class="bi bi-shield-lock-fill"></i></div>
+            <div class="feature-text">
+              <h4>امنیت کامل اطلاعات</h4>
+              <p>رمزگذاری سطح بانکی برای حفظ امنیت داده‌های شما</p>
+            </div>
+          </div>
+          <div class="feature-item fade-in" style="transition-delay:0.2s">
+            <div class="feature-icon"><i class="bi bi-percent"></i></div>
+            <div class="feature-text">
+              <h4>کمترین نرخ سود بازار</h4>
+              <p>نرخ‌های رقابتی که با هیچ موسسه دیگری قابل مقایسه نیست</p>
+            </div>
+          </div>
+          <div class="feature-item fade-in" style="transition-delay:0.3s">
+            <div class="feature-icon"><i class="bi bi-headset"></i></div>
+            <div class="feature-text">
+              <h4>پشتیبانی ۲۴/۷</h4>
+              <p>تیم متخصص آماده پاسخگویی در تمام ساعات شبانه‌روز</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="why-visual fade-in">
+        <div class="metric-card">
+          <div>
+            <div class="metric-label">حجم وام‌های پرداخت‌شده</div>
+            <div class="metric-value">۲,۴۰۰ میلیارد</div>
+          </div>
+          <i class="bi bi-graph-up-arrow metric-icon"></i>
+        </div>
+        <div class="metric-card">
+          <div>
+            <div class="metric-label">نرخ بازپرداخت موفق</div>
+            <div class="metric-value">۹۷.۸٪</div>
+          </div>
+          <i class="bi bi-check-circle metric-icon"></i>
+        </div>
+        <div class="metric-card">
+          <div>
+            <div class="metric-label">میانگین زمان تأیید</div>
+            <div class="metric-value">۳۶ ساعت</div>
+          </div>
+          <i class="bi bi-clock metric-icon"></i>
+        </div>
+        <div class="metric-card" style="background: linear-gradient(135deg, rgba(245,166,35,0.15), rgba(255,215,0,0.08)); border-color: rgba(245,166,35,0.3);">
+          <div>
+            <div class="metric-label" style="color:rgba(255,215,0,0.8)">شعب سراسر کشور</div>
+            <div class="metric-value">+۸۵ شعبه</div>
+          </div>
+          <i class="bi bi-geo-alt metric-icon"></i>
+        </div>
+      </div>
     </div>
   </section>
 
-  <footer>
-    <p>تماس با ما: 021-91004056</p>
-    <p>ایمیل: support@SarayeTalaMehrGostaranIranian.ir</p>
-    <p class="mt-3">© ۱۴۰۴ - سرای طلای ایرانیان - تمامی حقوق محفوظ است</p>
+  <!-- ═══════════════════════════════════
+       TESTIMONIALS / TRUST
+  ═══════════════════════════════════ -->
+  <section class="section trust-section" id="trust">
+    <div class="section-inner">
+      <div class="section-header fade-in">
+        <div class="section-eyebrow">
+          <i class="bi bi-chat-quote-fill"></i>
+          نظرات مشتریان
+        </div>
+        <h2 class="section-title">مشتریان ما چه می‌گویند؟</h2>
+        <p class="section-subtitle">رضایت مشتریان، بزرگ‌ترین افتخار ماست</p>
+      </div>
+
+      <div class="testimonials-grid">
+        <div class="testimonial-card fade-in">
+          <div class="testimonial-stars">
+            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+          </div>
+          <p class="testimonial-text">«وام طلا در کمتر از ۳ روز تأیید و پرداخت شد. فرایند بسیار سریع و بدون دردسر بود. از خدمات سرای طلا کاملاً راضی هستم.»</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">م</div>
+            <div>
+              <div class="author-name">محمد رضایی</div>
+              <div class="author-city">تهران</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card fade-in" style="transition-delay:0.1s">
+          <div class="testimonial-stars">
+            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+          </div>
+          <p class="testimonial-text">«با وام مسکن سرای طلا توانستم خانه رویاییم را بخرم. نرخ سود خیلی مناسب بود و کارشناسان راهنمایی عالی داشتند.»</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">ف</div>
+            <div>
+              <div class="author-name">فاطمه احمدی</div>
+              <div class="author-city">اصفهان</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card fade-in" style="transition-delay:0.2s">
+          <div class="testimonial-stars">
+            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i>
+          </div>
+          <p class="testimonial-text">«پشتیبانی ۲۴ ساعته واقعاً کارآمد است. سؤالاتم همیشه سریع پاسخ داده می‌شود. به همه دوستانم معرفی کردم.»</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">ع</div>
+            <div>
+              <div class="author-name">علی حسینی</div>
+              <div class="author-city">شیراز</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Trust Logos -->
+      <div class="trust-logos fade-in">
+        <div class="trust-logo-item">
+          <img src="/public/image/SarayeTala.svg" alt="سرای طلا">
+          <span>سرای طلا</span>
+        </div>
+        <div class="trust-logo-item">
+          <img src="/public/image/Enemad.png" alt="اینماد">
+          <span>اینماد</span>
+        </div>
+        <div class="trust-logo-item">
+          <img src="/public/image/LOGG.png" alt="لوگو">
+          <span>گواهی‌نامه</span>
+        </div>
+        <div class="trust-logo-item">
+          <img src="/public/image/Lumi.png" alt="لومی">
+          <span>لومی</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════ -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-grid">
+
+        <div>
+          <a href="/" class="footer-brand">
+            <img src="/public/image/LOGG.png" alt="لوگو">
+            <span class="footer-brand-name">سرای <span>طلای</span> ایرانیان</span>
+          </a>
+          <p class="footer-desc">
+            ارائه‌دهنده خدمات مالی تخصصی شامل وام طلا، مسکن و خودرو با بیش از یک دهه سابقه فعالیت معتبر در ایران.
+          </p>
+          <div class="footer-socials">
+            <a href="#" class="social-btn" aria-label="اینستاگرام"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="social-btn" aria-label="تلگرام"><i class="bi bi-telegram"></i></a>
+            <a href="#" class="social-btn" aria-label="واتساپ"><i class="bi bi-whatsapp"></i></a>
+            <a href="#" class="social-btn" aria-label="لینکدین"><i class="bi bi-linkedin"></i></a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4>خدمات</h4>
+          <ul class="footer-links">
+            <li><a href="/loans/gold"><i class="bi bi-chevron-left"></i> وام طلا</a></li>
+            <li><a href="/loans/housing"><i class="bi bi-chevron-left"></i> وام مسکن</a></li>
+            <li><a href="/loans/car"><i class="bi bi-chevron-left"></i> وام خودرو</a></li>
+            <li><a href="/lottery/winners"><i class="bi bi-chevron-left"></i> برندگان قرعه‌کشی</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>لینک‌ها</h4>
+          <ul class="footer-links">
+            <li><a href="/"><i class="bi bi-chevron-left"></i> صفحه اصلی</a></li>
+            <li><a href="/lottery/about"><i class="bi bi-chevron-left"></i> درباره ما</a></li>
+            <li><a href="/contact"><i class="bi bi-chevron-left"></i> تماس با ما</a></li>
+            <li><a href="/customer/login"><i class="bi bi-chevron-left"></i> ورود مشتریان</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>تماس با ما</h4>
+          <div class="footer-contact-item">
+            <i class="bi bi-telephone-fill"></i>
+            <span>۰۲۱-۹۱۰۰۴۰۵۶</span>
+          </div>
+          <div class="footer-contact-item">
+            <i class="bi bi-envelope-fill"></i>
+            <span style="font-size:11px">support@SarayeTalaMehrGostaranIranian.ir</span>
+          </div>
+          <div class="footer-contact-item">
+            <i class="bi bi-geo-alt-fill"></i>
+            <span>تهران، ایران</span>
+          </div>
+          <div class="footer-contact-item">
+            <i class="bi bi-clock-fill"></i>
+            <span>شنبه تا پنجشنبه، ۸ صبح تا ۶ عصر</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <p class="footer-copyright">© ۱۴۰۴ — سرای طلای ایرانیان. تمامی حقوق محفوظ است.</p>
+        <div class="footer-badges">
+          <img src="/public/image/SarayeTala.svg" alt="سرای طلا" title="سرای طلا">
+          <img src="/public/image/Enemad.png" alt="اینماد" title="اینماد">
+          <img src="/public/image/LOGG.png" alt="لوگو" title="لوگو">
+          <img src="/public/image/Lumi.png" alt="لومی" title="لومی">
+        </div>
+      </div>
+    </div>
   </footer>
 
-  <!-- ---------- SCRIPTS ---------- -->
+  <!-- ═══════════════════════════════════
+       LOAN CALCULATOR MODAL
+  ═══════════════════════════════════ -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div id="loanModal">
+      <button class="modal-close" id="closeLoanBtn" aria-label="بستن">
+        <i class="bi bi-x-lg"></i>
+      </button>
+
+      <h3><i class="bi bi-calculator-fill"></i> محاسبه وام</h3>
+
+      <div class="field">
+        <label>مبلغ وام (تومان)</label>
+        <input id="loanAmount" inputmode="numeric" placeholder="مثال: ۱۱۱,۲۲۲,۳۳۳">
+      </div>
+
+      <div class="field">
+        <label>درصد سود سالانه (%)</label>
+        <input id="loanInterest" type="number" placeholder="مثال: ۱۸">
+      </div>
+
+      <div class="field">
+        <label>تعداد اقساط (ماه)</label>
+        <select id="loanMonths">
+          <option value="12">۱۲ ماه</option>
+          <option value="24">۲۴ ماه</option>
+          <option value="36">۳۶ ماه</option>
+          <option value="48">۴۸ ماه</option>
+          <option value="60">۶۰ ماه</option>
+          <option value="72">۷۲ ماه</option>
+          <option value="84">۸۴ ماه</option>
+          <option value="96">۹۶ ماه</option>
+          <option value="108">۱۰۸ ماه</option>
+          <option value="120">۱۲۰ ماه</option>
+        </select>
+      </div>
+
+      <button class="btn-calc" id="calcLoanBtn">محاسبه</button>
+
+      <div class="calc-result" id="loanResult"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════
+       SCRIPTS
+  ═══════════════════════════════════ -->
   <script>
+  // ── Navbar scroll effect ──
+  const navbar = document.getElementById('mainNav');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 60) {
+      navbar.classList.add('navbar-scrolled');
+    } else {
+      navbar.classList.remove('navbar-scrolled');
+    }
+  }, { passive: true });
 
-// ---------- overlay reference ----------
-const overlay = document.getElementById('overlay');
+  // ── Scroll animations ──
+  const fadeEls = document.querySelectorAll('.fade-in');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  fadeEls.forEach(el => observer.observe(el));
 
-// ---------- Loan Modal ----------
-const loanModal = document.getElementById('loanModal');
-const openLoanBtn = document.getElementById('openLoanBtn');
-const closeLoanBtn = document.getElementById('closeLoanBtn');
-
-function loanModalOpen() {
-  loanModal.classList.add("open");
-  overlay.style.display = "block";
-}
-
-function loanModalClose() {
-  loanModal.classList.remove("open");
-  overlay.style.display = "none";
-}
-
-
-closeLoanBtn.addEventListener('click', loanModalClose);
-overlay.addEventListener('click', loanModalClose);
-document.addEventListener('overlay:closed', loanModalClose);
-
-// ---------- loan calculator ----------
-const loanAmount = document.getElementById('loanAmount');
-const loanInterest = document.getElementById('loanInterest');
-const loanMonths = document.getElementById('loanMonths');
-const calcLoanBtn = document.getElementById('calcLoanBtn');
-const loanResult = document.getElementById('loanResult');
-
-function formatThousandsEN(value) {
-  const onlyNums = String(value).replace(/[^0-9]/g, '');
-  if (onlyNums === '') return '';
-  return onlyNums.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-}
-
-loanAmount.addEventListener('input', (e) => {
-  e.target.value = formatThousandsEN(e.target.value);
-});
-
-calcLoanBtn.addEventListener('click', () => {
-  const principal = Number(loanAmount.value.replace(/,/g, ''));
-  const interest = Number(loanInterest.value);
-  const months = Number(loanMonths.value);
-
-  if (!principal || !interest || !months) {
-    loanResult.innerText = 'لطفا تمام فیلدها را به درستی وارد کنید';
-    return;
+  // ── Animated counters ──
+  function animateCounter(el, target, suffix) {
+    const duration = 2000;
+    const step = target / (duration / 16);
+    let current = 0;
+    const unit = el.querySelector('.unit');
+    const timer = setInterval(() => {
+      current = Math.min(current + step, target);
+      const display = Math.round(current).toLocaleString('fa-IR');
+      el.childNodes[0].nodeValue = display;
+      if (unit) el.appendChild(unit);
+      if (current >= target) clearInterval(timer);
+    }, 16);
   }
 
-  const totalInterest = principal * (interest / 100);
-  const totalPay = principal + totalInterest;
-  const monthly = Math.round(totalPay / months);
+  const statObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const nums = e.target.querySelectorAll('[data-target]');
+        nums.forEach(el => {
+          const target = parseInt(el.dataset.target);
+          animateCounter(el, target);
+        });
+        statObserver.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.3 });
 
-  loanResult.innerHTML = `
-    مبلغ هر قسط: ${monthly.toLocaleString('en-US')} تومان<br>
-    مجموع پرداخت: ${totalPay.toLocaleString('en-US')} تومان
-  `;
-});
+  const statsCard = document.querySelector('.stats-card');
+  if (statsCard) statObserver.observe(statsCard);
 
-// ---------- ESC close ----------
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') {
-    loanModalClose();
+  // ── Loan Modal ──
+  const modalOverlay = document.getElementById('modalOverlay');
+  const closeLoanBtn = document.getElementById('closeLoanBtn');
+
+  function openLoanModal() {
+    modalOverlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
   }
-});
 
-</script>
+  function closeLoanModal() {
+    modalOverlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  if (closeLoanBtn) closeLoanBtn.addEventListener('click', closeLoanModal);
+  if (modalOverlay) {
+    modalOverlay.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) closeLoanModal();
+    });
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeLoanModal();
+  });
+
+  // ── Loan calculator ──
+  const loanAmount = document.getElementById('loanAmount');
+  const loanInterest = document.getElementById('loanInterest');
+  const loanMonths = document.getElementById('loanMonths');
+  const calcLoanBtn = document.getElementById('calcLoanBtn');
+  const loanResult = document.getElementById('loanResult');
+
+  function formatThousandsEN(value) {
+    const onlyNums = String(value).replace(/[^0-9]/g, '');
+    if (onlyNums === '') return '';
+    return onlyNums.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
+
+  if (loanAmount) {
+    loanAmount.addEventListener('input', (e) => {
+      e.target.value = formatThousandsEN(e.target.value);
+    });
+  }
+
+  if (calcLoanBtn) {
+    calcLoanBtn.addEventListener('click', () => {
+      const principal = Number(loanAmount.value.replace(/,/g, ''));
+      const interest = Number(loanInterest.value);
+      const months = Number(loanMonths.value);
+
+      if (!principal || !interest || !months) {
+        loanResult.innerHTML = '<i class="bi bi-exclamation-circle" style="color:#e53e3e"></i> لطفاً تمام فیلدها را وارد کنید';
+        loanResult.classList.add('show');
+        return;
+      }
+
+      const totalInterest = principal * (interest / 100);
+      const totalPay = principal + totalInterest;
+      const monthly = Math.round(totalPay / months);
+
+      loanResult.innerHTML = `
+        <div style="margin-bottom:8px"><strong>مبلغ هر قسط:</strong> ${monthly.toLocaleString('fa-IR')} تومان</div>
+        <div><strong>مجموع پرداخت:</strong> ${totalPay.toLocaleString('fa-IR')} تومان</div>
+      `;
+      loanResult.classList.add('show');
+    });
+  }
+
+  // Expose openLoanModal globally for legacy calls
+  window.loanModalOpen = openLoanModal;
+  </script>
 
 </body>
 </html>
