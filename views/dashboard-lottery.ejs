@@ -242,6 +242,13 @@ function updateClock() {
   document.getElementById("clockDate").innerText = now.toLocaleDateString("fa-IR",{weekday:"long",year:"numeric",month:"long",day:"numeric"});
 }
 setInterval(updateClock,1000); updateClock();
+
+document.getElementById("searchInput").addEventListener("input", function() {
+  const q = this.value.trim().toLowerCase();
+  document.querySelectorAll("tbody tr").forEach(row => {
+    row.style.display = row.innerText.toLowerCase().includes(q) ? "" : "none";
+  });
+});
 </script>
 
 </body>

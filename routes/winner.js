@@ -13,6 +13,11 @@ router.get("/:linkId", async (req, res) => {
 
     if (!customer) return res.send("NOT FOUND");
 
+    if (!customer.viewed) {
+      customer.viewed = true;
+      await customer.save();
+    }
+
     const template = await Template.findByPk(customer.templateId);
     if (!template) return res.send("TEMPLATE NOT FOUND");
 
