@@ -4,153 +4,828 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>پروفایل مشتری</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>پروفایل <%= customer.fullName %> | سرای طلای ایرانیان</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Vazir:wght@300;400;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
 <style>
-  body {
-    margin: 0;
-    background: linear-gradient(135deg,#0d0f1b,#13172b,#141a33);
-    font-family: Vazir;
-    color: #fff;
+  :root {
+    --gold: #F5A623;
+    --gold-light: #FFD700;
+    --gold-pale: rgba(245,166,35,0.10);
+    --gold-border: rgba(245,166,35,0.25);
+    --navy: #0A1628;
+    --navy-mid: #0D1F3C;
+    --white: #ffffff;
+    --gray-50: #F8FAFC;
+    --gray-100: #F1F5F9;
+    --gray-200: #E2E8F0;
+    --gray-400: #94A3B8;
+    --gray-500: #64748B;
+    --gray-700: #334155;
+    --green: #10B981;
+    --green-pale: rgba(16,185,129,0.10);
+    --red: #EF4444;
+    --red-pale: rgba(239,68,68,0.10);
+    --radius: 16px;
+    --shadow-sm: 0 1px 4px rgba(0,0,0,0.06);
+    --shadow-md: 0 4px 20px rgba(0,0,0,0.08);
+    --transition: all 0.25s ease;
   }
 
-  .container {
-    max-width: 1100px;
-    margin: 130px auto;
-    padding: 20px;
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  .page-wrapper {
+    min-height: 100vh;
+    background: var(--gray-50);
+    padding: 28px 32px 48px;
   }
 
-  .glass {
-    background: rgba(255,255,255,0.07);
-    backdrop-filter: blur(18px);
-    border: 1px solid rgba(255,255,255,0.14);
-    border-radius: 22px;
-    padding: 25px;
-    margin-bottom: 25px;
-    box-shadow: 0 12px 32px rgba(0,0,0,0.4);
-  }
-
-  .profile-header {
+  /* ── Breadcrumb ── */
+  .breadcrumb {
     display: flex;
-    justify-content: space-between;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--gray-500);
+    margin-bottom: 24px;
+  }
+
+  .breadcrumb a {
+    color: var(--gray-500);
+    text-decoration: none;
+    transition: var(--transition);
+  }
+
+  .breadcrumb a:hover { color: var(--gold); }
+  .breadcrumb i { font-size: 10px; color: var(--gray-400); }
+  .breadcrumb span { color: var(--navy); font-weight: 600; }
+
+  /* ── Profile Layout ── */
+  .profile-layout {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 24px;
+    align-items: flex-start;
+  }
+
+  /* ── Sidebar Card (Avatar + Info) ── */
+  .profile-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: sticky;
+    top: 28px;
+  }
+
+  .card {
+    background: var(--white);
+    border-radius: var(--radius);
+    border: 1px solid var(--gray-100);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    transition: var(--transition);
+  }
+
+  .card:hover { box-shadow: var(--shadow-md); }
+
+  .card-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--gray-100);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .card-header-title {
+    font-size: 14.5px;
+    font-weight: 700;
+    color: var(--navy);
+  }
+
+  .card-header-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+    background: var(--gold-pale);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold);
+    font-size: 15px;
+  }
+
+  .card-body { padding: 20px; }
+
+  /* Avatar Card */
+  .avatar-card { text-align: center; }
+
+  .avatar-card .card-body {
+    padding: 28px 20px 24px;
+    display: flex;
+    flex-direction: column;
     align-items: center;
   }
 
-  .avatar-box {
-    width: 140px;
-    height: 140px;
-    background: rgba(255,255,255,0.1);
-    border-radius: 16px;
-    overflow: hidden;
+  .avatar-wrap {
+    position: relative;
+    margin-bottom: 16px;
   }
 
-  .avatar-box img {
-    width: 100%;
-    height: 100%;
+  .avatar-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 24px;
     object-fit: cover;
+    border: 3px solid var(--gray-100);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.12);
   }
 
-  .btn-main {
-    padding: 10px 22px;
-    background: linear-gradient(135deg,#3a88ff,#6aa7ff);
+  .avatar-badge {
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    color: var(--navy);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
     border-radius: 50px;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    box-shadow: 0 2px 8px rgba(245,166,35,0.4);
+  }
+
+  .avatar-name {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--navy);
+    margin-top: 16px;
+    margin-bottom: 6px;
+  }
+
+  .avatar-phone {
+    font-size: 14px;
+    color: var(--gray-500);
+    direction: ltr;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 20px;
+  }
+
+  /* Status chips */
+  .status-chips {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 12px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .chip-green { background: var(--green-pale); color: #059669; }
+  .chip-red { background: var(--red-pale); color: #DC2626; }
+  .chip-gold { background: var(--gold-pale); color: #D97706; border: 1px solid var(--gold-border); }
+  .chip-gray { background: var(--gray-100); color: var(--gray-500); }
+  .chip-navy { background: rgba(10,22,40,0.08); color: var(--navy); }
+
+  /* Action buttons */
+  .action-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .btn-action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 11px 18px;
+    border-radius: 12px;
+    font-family: 'Vazirmatn', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: var(--transition);
     border: none;
+    width: 100%;
+  }
+
+  .btn-primary-action {
+    background: linear-gradient(135deg, var(--navy), var(--navy-mid));
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(10,22,40,0.2);
+  }
+
+  .btn-primary-action:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(10,22,40,0.3);
+    color: #fff;
+  }
+
+  .btn-danger-action {
+    background: var(--red-pale);
+    color: var(--red);
+    border: 1.5px solid rgba(239,68,68,0.2);
+  }
+
+  .btn-danger-action:hover {
+    background: var(--red);
+    color: #fff;
+    border-color: transparent;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(239,68,68,0.3);
+  }
+
+  /* ── Main content ── */
+  .profile-main {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  /* Info list */
+  .info-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .info-row {
+    display: flex;
+    align-items: center;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--gray-100);
+    transition: background 0.2s;
+  }
+
+  .info-row:last-child { border-bottom: none; }
+  .info-row:hover { background: var(--gray-50); }
+
+  .info-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    background: var(--gold-pale);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold);
+    font-size: 15px;
+    margin-left: 14px;
+    flex-shrink: 0;
+  }
+
+  .info-label {
+    font-size: 12.5px;
+    color: var(--gray-500);
+    font-weight: 500;
+    margin-bottom: 2px;
+    display: block;
+  }
+
+  .info-value {
+    font-size: 14.5px;
+    color: var(--navy);
+    font-weight: 600;
+  }
+
+  .info-value.empty {
+    color: var(--gray-400);
+    font-weight: 400;
+    font-style: italic;
+  }
+
+  /* SHEBA/Card number special formatting */
+  .ltr-value {
+    direction: ltr;
+    display: inline-block;
+    letter-spacing: 0.05em;
+    font-family: monospace;
+    font-size: 14px;
+  }
+
+  /* Documents list */
+  .docs-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .doc-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--gray-100);
+    transition: background 0.2s;
+    gap: 12px;
+  }
+
+  .doc-item:last-child { border-bottom: none; }
+  .doc-item:hover { background: var(--gray-50); }
+
+  .doc-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .doc-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: rgba(59,130,246,0.10);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #2563EB;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .doc-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 2px;
+  }
+
+  .doc-date {
+    font-size: 12px;
+    color: var(--gray-500);
+  }
+
+  .doc-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 7px 14px;
+    background: rgba(59,130,246,0.08);
+    color: #2563EB;
+    border-radius: 50px;
+    font-size: 12.5px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: var(--transition);
+    white-space: nowrap;
+  }
+
+  .doc-link:hover {
+    background: #2563EB;
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(37,99,235,0.3);
+  }
+
+  /* Empty docs */
+  .empty-docs {
+    padding: 40px 20px;
+    text-align: center;
+    color: var(--gray-400);
+  }
+
+  .empty-docs i {
+    font-size: 40px;
+    display: block;
+    margin-bottom: 12px;
+    color: var(--gray-200);
+  }
+
+  .empty-docs p { font-size: 14px; }
+
+  /* Delete confirm modal */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(6,14,31,0.65);
+    backdrop-filter: blur(6px);
+    z-index: 5000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.25s ease;
+  }
+
+  .modal-overlay.open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .modal-box {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 32px;
+    width: 92%;
+    max-width: 420px;
+    text-align: center;
+    transform: scale(0.9) translateY(20px);
+    transition: transform 0.28s cubic-bezier(0.2,0.9,0.2,1);
+    box-shadow: 0 24px 64px rgba(0,0,0,0.2);
+  }
+
+  .modal-overlay.open .modal-box {
+    transform: scale(1) translateY(0);
+  }
+
+  .modal-danger-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 18px;
+    background: var(--red-pale);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 28px;
+    color: var(--red);
+  }
+
+  .modal-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--navy);
+    margin-bottom: 10px;
+  }
+
+  .modal-desc {
+    font-size: 14px;
+    color: var(--gray-500);
+    line-height: 1.7;
+    margin-bottom: 24px;
+  }
+
+  .modal-actions {
+    display: flex;
+    gap: 10px;
+  }
+
+  .modal-btn {
+    flex: 1;
+    padding: 12px;
+    border-radius: 12px;
+    font-family: 'Vazirmatn', sans-serif;
+    font-size: 14px;
     font-weight: 700;
     cursor: pointer;
-    box-shadow: 0 6px 20px rgba(60,120,255,0.4);
+    border: none;
+    transition: var(--transition);
+  }
+
+  .modal-btn-cancel {
+    background: var(--gray-100);
+    color: var(--gray-700);
+  }
+
+  .modal-btn-cancel:hover { background: var(--gray-200); }
+
+  .modal-btn-danger {
+    background: var(--red);
     color: #fff;
-    text-decoration: none;
-    margin-top: 15px;
-    display: inline-block;
   }
 
-  .docs-box ul {
-    list-style: none;
-    padding: 0;
+  .modal-btn-danger:hover {
+    background: #DC2626;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(239,68,68,0.35);
   }
 
-  .docs-box li {
-    padding: 10px;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .profile-layout { grid-template-columns: 1fr; }
+    .profile-sidebar { position: static; }
   }
 
-  .danger-btn {
-    background: #ff5f5f !important;
-    box-shadow: 0 6px 20px rgba(255,50,50,0.35) !important;
+  @media (max-width: 768px) {
+    .page-wrapper { padding: 20px 16px; }
   }
 </style>
 
 </head>
-
 <body>
 
-<div class="container">
+<div class="page-wrapper">
 
-  <div class="glass profile-header">
+  <!-- Breadcrumb -->
+  <nav class="breadcrumb" aria-label="مسیر صفحه">
+    <a href="/dashboard/lottery"><i class="bi bi-house-fill"></i> داشبورد</a>
+    <i class="bi bi-chevron-left"></i>
+    <a href="/dashboard/lottery">قرعه‌کشی</a>
+    <i class="bi bi-chevron-left"></i>
+    <span><%= customer.fullName %></span>
+  </nav>
 
-    <div>
-      <h2><%= customer.fullName %></h2>
-      <p style="opacity:.7">موبایل: <%= customer.phone %></p>
-      <p style="opacity:.7">تاریخ اعلام: <%= customer.winDate || '—' %></p>
-      <p style="opacity:.7">کد ثبت‌نام: <%= customer.registrationCode || '—' %> (<%= customer.registrationUsed ? 'استفاده شده' : 'آماده' %>)</p>
+  <!-- Profile Layout -->
+  <div class="profile-layout">
 
-      <a href="/winner/<%= customer.linkId %>" class="btn-main">
-        ورود مشتری
-      </a>
+    <!-- ── Sidebar ── -->
+    <aside class="profile-sidebar">
 
-      <form action="/dashboard/lottery/delete/<%= customer.id %>" 
-            method="POST" 
-            style="margin-top:12px;">
-        <button class="btn-main danger-btn">حذف برنده</button>
+      <!-- Avatar Card -->
+      <div class="card avatar-card">
+        <div class="card-body">
+          <div class="avatar-wrap">
+            <% if(customer.avatar) { %>
+              <img src="<%= customer.avatar %>" alt="عکس پروفایل" class="avatar-img">
+            <% } else { %>
+              <img src="/public/image/default-user.png" alt="عکس پیش‌فرض" class="avatar-img">
+            <% } %>
+            <% if (customer.prize) { %>
+              <div class="avatar-badge">
+                <i class="bi bi-trophy-fill"></i>
+                برنده قرعه‌کشی
+              </div>
+            <% } %>
+          </div>
+
+          <div class="avatar-name"><%= customer.fullName %></div>
+          <div class="avatar-phone">
+            <i class="bi bi-phone" style="direction:rtl"></i>
+            <%= customer.phone %>
+          </div>
+
+          <!-- Status Chips -->
+          <div class="status-chips">
+            <% if (customer.infoComplete) { %>
+              <span class="chip chip-green"><i class="bi bi-check-circle-fill"></i> اطلاعات کامل</span>
+            <% } else { %>
+              <span class="chip chip-red"><i class="bi bi-exclamation-circle-fill"></i> اطلاعات ناقص</span>
+            <% } %>
+            <% if (customer.viewed) { %>
+              <span class="chip chip-navy"><i class="bi bi-eye-fill"></i> لینک دیده شده</span>
+            <% } else { %>
+              <span class="chip chip-gray"><i class="bi bi-eye-slash"></i> دیده نشده</span>
+            <% } %>
+          </div>
+
+          <!-- Actions -->
+          <div class="action-group">
+            <a href="/winner/<%= customer.linkId %>" class="btn-action btn-primary-action" target="_blank">
+              <i class="bi bi-box-arrow-up-left"></i>
+              ورود به صفحه مشتری
+            </a>
+            <button class="btn-action btn-danger-action" id="openDeleteModal">
+              <i class="bi bi-trash3-fill"></i>
+              حذف برنده
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Registration Info Card -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-header-icon"><i class="bi bi-key-fill"></i></div>
+          <span class="card-header-title">اطلاعات ثبت‌نام</span>
+        </div>
+        <div class="info-list">
+          <div class="info-row">
+            <div class="info-icon"><i class="bi bi-calendar3"></i></div>
+            <div>
+              <span class="info-label">تاریخ اعلام نتیجه</span>
+              <div class="info-value <%= !customer.winDate ? 'empty' : '' %>">
+                <%= customer.winDate || 'ثبت نشده' %>
+              </div>
+            </div>
+          </div>
+          <div class="info-row">
+            <div class="info-icon"><i class="bi bi-key-fill"></i></div>
+            <div>
+              <span class="info-label">کد ثبت‌نام</span>
+              <div class="info-value <%= !customer.registrationCode ? 'empty' : '' %>">
+                <%= customer.registrationCode || 'ندارد' %>
+              </div>
+            </div>
+          </div>
+          <div class="info-row">
+            <div class="info-icon"><i class="bi bi-toggle-on"></i></div>
+            <div>
+              <span class="info-label">وضعیت کد</span>
+              <div>
+                <% if (customer.registrationUsed) { %>
+                  <span class="chip chip-green" style="margin-top:4px"><i class="bi bi-check-circle-fill"></i> استفاده شده</span>
+                <% } else { %>
+                  <span class="chip chip-gray" style="margin-top:4px"><i class="bi bi-clock"></i> آماده</span>
+                <% } %>
+              </div>
+            </div>
+          </div>
+          <div class="info-row">
+            <div class="info-icon"><i class="bi bi-link-45deg"></i></div>
+            <div>
+              <span class="info-label">شناسه لینک</span>
+              <div class="info-value ltr-value" style="font-size:12px; max-width:180px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap">
+                <%= customer.linkId %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- ── Main Content ── -->
+    <div class="profile-main">
+
+      <!-- Bank & Identity Info -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-header-icon"><i class="bi bi-bank2"></i></div>
+          <span class="card-header-title">اطلاعات بانکی و هویتی</span>
+        </div>
+        <div class="info-list">
+
+          <div class="info-row">
+            <div class="info-icon"><i class="bi bi-credit-card-2-front-fill"></i></div>
+            <div>
+              <span class="info-label">شماره کارت</span>
+              <div class="info-value <%= !customer.cardNumber ? 'empty' : '' %>">
+                <% if (customer.cardNumber) { %>
+                  <span class="ltr-value"><%= customer.cardNumber %></span>
+                <% } else { %>
+                  وارد نشده
+                <% } %>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-row">
+            <div class="info-icon"><i class="bi bi-hash"></i></div>
+            <div>
+              <span class="info-label">شماره شبا (IBAN)</span>
+              <div class="info-value <%= !customer.shaba ? 'empty' : '' %>">
+                <% if (customer.shaba) { %>
+                  <span class="ltr-value"><%= customer.shaba %></span>
+                <% } else { %>
+                  وارد نشده
+                <% } %>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-row">
+            <div class="info-icon"><i class="bi bi-person-vcard-fill"></i></div>
+            <div>
+              <span class="info-label">کد ملی</span>
+              <div class="info-value <%= !customer.nationalId ? 'empty' : '' %>">
+                <% if (customer.nationalId) { %>
+                  <span class="ltr-value"><%= customer.nationalId %></span>
+                <% } else { %>
+                  وارد نشده
+                <% } %>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-row">
+            <div class="info-icon"><i class="bi bi-calendar-date-fill"></i></div>
+            <div>
+              <span class="info-label">تاریخ تولد</span>
+              <div class="info-value <%= !customer.birthDate ? 'empty' : '' %>">
+                <%= customer.birthDate || 'وارد نشده' %>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-row" style="align-items:flex-start">
+            <div class="info-icon" style="margin-top:2px"><i class="bi bi-chat-text-fill"></i></div>
+            <div style="flex:1">
+              <span class="info-label">توضیحات</span>
+              <div class="info-value <%= !customer.description ? 'empty' : '' %>" style="line-height:1.7; font-size:14px; font-weight:400; color:var(--gray-700)">
+                <%= customer.description || 'توضیحاتی ثبت نشده است.' %>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Documents -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-header-icon"><i class="bi bi-folder2-open"></i></div>
+          <span class="card-header-title">مدارک ارسال‌شده توسط مشتری</span>
+          <span style="margin-right:auto; font-size:12px; color:var(--gray-500); background:var(--gray-100); padding:3px 10px; border-radius:20px; font-weight:600">
+            <%= docs.length %> فایل
+          </span>
+        </div>
+
+        <% if (docs.length === 0) { %>
+          <div class="empty-docs">
+            <i class="bi bi-folder-x"></i>
+            <p>مدرکی توسط مشتری ارسال نشده است.</p>
+          </div>
+        <% } else { %>
+          <div class="docs-list">
+            <% docs.forEach((d, index) => { %>
+              <div class="doc-item">
+                <div class="doc-left">
+                  <div class="doc-icon">
+                    <% const ext = d.file ? d.file.split('.').pop().toLowerCase() : ''; %>
+                    <% if (['jpg','jpeg','png','webp','gif'].includes(ext)) { %>
+                      <i class="bi bi-file-earmark-image-fill"></i>
+                    <% } else if (ext === 'pdf') { %>
+                      <i class="bi bi-file-earmark-pdf-fill"></i>
+                    <% } else { %>
+                      <i class="bi bi-file-earmark-fill"></i>
+                    <% } %>
+                  </div>
+                  <div>
+                    <div class="doc-name">مدرک شماره <%= index + 1 %></div>
+                    <div class="doc-date">
+                      <i class="bi bi-clock" style="font-size:11px"></i>
+                      <%= new Date(d.date).toLocaleString("fa-IR") %>
+                    </div>
+                  </div>
+                </div>
+                <a href="<%= d.file %>" target="_blank" class="doc-link">
+                  <i class="bi bi-eye-fill"></i>
+                  مشاهده مدرک
+                </a>
+              </div>
+            <% }) %>
+          </div>
+        <% } %>
+      </div>
+
+    </div><!-- /.profile-main -->
+  </div><!-- /.profile-layout -->
+</div>
+
+<!-- ── Delete Confirm Modal ── -->
+<div class="modal-overlay" id="deleteModal">
+  <div class="modal-box">
+    <div class="modal-danger-icon">
+      <i class="bi bi-trash3-fill"></i>
+    </div>
+    <h3 class="modal-title">حذف برنده</h3>
+    <p class="modal-desc">
+      آیا مطمئن هستید که می‌خواهید <strong><%= customer.fullName %></strong> را از سیستم حذف کنید؟<br>
+      این عملیات قابل برگشت نیست.
+    </p>
+    <div class="modal-actions">
+      <button class="modal-btn modal-btn-cancel" id="cancelDelete">انصراف</button>
+      <form action="/dashboard/lottery/delete/<%= customer.id %>" method="POST" style="flex:1">
+        <button type="submit" class="modal-btn modal-btn-danger" style="width:100%">
+          <i class="bi bi-trash3-fill"></i>
+          بله، حذف شود
+        </button>
       </form>
     </div>
-
-    <div class="avatar-box">
-      <% if(customer.avatar) { %>
-        <img src="<%= customer.avatar %>">
-      <% } else { %>
-        <img src="/public/image/default-user.png">
-      <% } %>
-    </div>
-
   </div>
-
-  <div class="glass docs-box">
-
-    <h3>اطلاعات بانکی و هویتی</h3>
-    <ul>
-      <li>شماره کارت: <%= customer.cardNumber || '—' %></li>
-      <li>شماره شبا: <%= customer.shaba || '—' %></li>
-      <li>کد ملی: <%= customer.nationalId || '—' %></li>
-      <li>تاریخ تولد: <%= customer.birthDate || '—' %></li>
-      <li>توضیحات: <%= customer.description || '—' %></li>
-    </ul>
-
-  </div>
-
-  <div class="glass docs-box">
-
-    <h3>مدارک ارسال‌شده توسط مشتری</h3>
-
-    <% if (docs.length === 0) { %>
-      <p style="opacity:.6">مدرکی توسط مشتری ارسال نشده است.</p>
-    <% } %>
-
-    <ul>
-      <% docs.forEach(d => { %>
-        <li>
-          <a href="<%= d.file %>" target="_blank" style="color:#7ec7ff;">مشاهده مدرک</a>
-          — <%= new Date(d.date).toLocaleString("fa-IR") %>
-        </li>
-      <% }) %>
-    </ul>
-
-  </div>
-
 </div>
+
+<script>
+  const deleteModal = document.getElementById('deleteModal');
+  const openBtn = document.getElementById('openDeleteModal');
+  const cancelBtn = document.getElementById('cancelDelete');
+
+  if (openBtn) {
+    openBtn.addEventListener('click', () => {
+      deleteModal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+  }
+
+  function closeModal() {
+    deleteModal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  if (cancelBtn) cancelBtn.addEventListener('click', closeModal);
+
+  if (deleteModal) {
+    deleteModal.addEventListener('click', (e) => {
+      if (e.target === deleteModal) closeModal();
+    });
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeModal();
+  });
+</script>
 
 </body>
 </html>

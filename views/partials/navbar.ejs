@@ -1,182 +1,467 @@
-<!-- views/partials/navbar.ejs -->
+<!-- views/partials/navbar.ejs — Fixed Right Sidebar + Top Header -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
 <style>
-  .nav-wrap {
+  *, *::before, *::after { box-sizing: border-box; }
+
+  :root {
+    --sidebar-w: 260px;
+    --navy-900: #060E1F;
+    --navy-800: #0A1628;
+    --navy-700: #0D1F3C;
+    --navy-600: #122444;
+    --gold-primary: #F5A623;
+    --gold-light: #FFD700;
+    --gold-pale: rgba(245,166,35,0.12);
+    --gold-border: rgba(245,166,35,0.25);
+    --text-muted: rgba(255,255,255,0.45);
+    --text-dim: rgba(255,255,255,0.70);
+    --header-h: 64px;
+  }
+
+  body {
+    font-family: 'Vazirmatn', sans-serif !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    padding-right: var(--sidebar-w) !important;
+    padding-top: var(--header-h) !important;
+    background: #F0F4F8 !important;
+    color: #1a2844 !important;
+    direction: rtl !important;
+  }
+
+  /* ──────────── SIDEBAR ──────────── */
+  .admin-sidebar {
     position: fixed;
     top: 0;
-    inset-inline: 0;
-    height: 78px;
+    right: 0;
+    width: var(--sidebar-w);
+    height: 100vh;
+    background: var(--navy-800);
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+    border-left: 1px solid rgba(255,255,255,0.06);
+    overflow: hidden;
+  }
+
+  /* top gold accent line */
+  .admin-sidebar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold-primary), var(--gold-light));
+  }
+
+  /* Brand */
+  .sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 22px 20px 18px;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+
+  .sidebar-brand-logo {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    object-fit: contain;
+    background: var(--gold-pale);
+    padding: 4px;
+    border: 1px solid var(--gold-border);
+  }
+
+  .sidebar-brand-text {
+    line-height: 1.3;
+  }
+
+  .sidebar-brand-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    display: block;
+  }
+
+  .sidebar-brand-sub {
+    font-size: 11px;
+    color: var(--gold-primary);
+    font-weight: 500;
+    display: block;
+  }
+
+  /* Nav */
+  .sidebar-nav {
+    flex: 1;
+    padding: 14px 12px;
+    overflow-y: auto;
+  }
+
+  .sidebar-nav::-webkit-scrollbar { width: 4px; }
+  .sidebar-nav::-webkit-scrollbar-track { background: transparent; }
+  .sidebar-nav::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+
+  .nav-section-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 14px 10px 6px;
+    display: block;
+  }
+
+  .sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 14px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: var(--text-dim);
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    margin-bottom: 3px;
+    position: relative;
+  }
+
+  .sidebar-link i {
+    font-size: 18px;
+    width: 22px;
+    text-align: center;
+    flex-shrink: 0;
+    transition: color 0.2s;
+  }
+
+  .sidebar-link:hover {
+    background: rgba(255,255,255,0.07);
+    color: #fff;
+  }
+
+  .sidebar-link:hover i {
+    color: var(--gold-primary);
+  }
+
+  .sidebar-link.active {
+    background: linear-gradient(135deg, rgba(245,166,35,0.18), rgba(255,215,0,0.10));
+    color: var(--gold-light);
+    border: 1px solid var(--gold-border);
+  }
+
+  .sidebar-link.active i {
+    color: var(--gold-primary);
+  }
+
+  .sidebar-link.active::before {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 60%;
+    background: var(--gold-primary);
+    border-radius: 2px 0 0 2px;
+  }
+
+  .sidebar-link.logout {
+    color: #ff7070;
+    margin-top: 4px;
+  }
+
+  .sidebar-link.logout:hover {
+    background: rgba(255,80,80,0.1);
+    color: #ff9090;
+  }
+
+  .sidebar-link.logout i {
+    color: #ff7070;
+  }
+
+  /* Divider */
+  .sidebar-divider {
+    height: 1px;
+    background: rgba(255,255,255,0.07);
+    margin: 8px 10px;
+  }
+
+  /* Trust badges */
+  .sidebar-footer {
+    padding: 16px 12px;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    flex-shrink: 0;
+  }
+
+  .sidebar-trust-badges {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .sidebar-trust-badges img {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    object-fit: contain;
+    background: rgba(255,255,255,0.06);
+    padding: 4px;
+    border: 1px solid rgba(255,255,255,0.08);
+    transition: transform 0.2s;
+  }
+
+  .sidebar-trust-badges img:hover { transform: scale(1.1); }
+
+  /* ──────────── TOP HEADER ──────────── */
+  .admin-topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: var(--sidebar-w);
+    height: var(--header-h);
+    background: #fff;
+    border-bottom: 1px solid rgba(0,0,0,0.07);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 25px;
-    background: rgba(15,17,34,0.55);
-    backdrop-filter: blur(18px);
-    box-shadow: 0 8px 22px rgba(0,0,0,0.38);
-    z-index: 2000;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
+    padding: 0 28px;
+    z-index: 900;
+    box-shadow: 0 1px 8px rgba(0,0,0,0.06);
   }
 
-  .nav-left {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
-
-  .nav-left img {
-    width: 48px;
-    border-radius: 12px;
-  }
-
-  .nav-title {
-    font-size: 20px;
+  .topbar-title {
+    font-size: 17px;
     font-weight: 700;
-    color: #d4e4ff;
-  }
-
-  .nav-right {
+    color: #0A1628;
     display: flex;
     align-items: center;
-    gap: 18px;
+    gap: 8px;
   }
 
-  .icon-btn {
-    width: 42px;
-    height: 42px;
-    background: rgba(255,255,255,0.05);
+  .topbar-title::before {
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 20px;
+    background: linear-gradient(180deg, var(--gold-primary), var(--gold-light));
+    border-radius: 3px;
+  }
+
+  .topbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .topbar-icon-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: #F5F7FA;
+    border: 1px solid rgba(0,0,0,0.06);
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 14px;
     cursor: pointer;
-    transition: .3s;
-    color: #bcd0ff;
-  }
-
-  .icon-btn:hover {
-    background: rgba(255,255,255,0.12);
-    color: #4fa3ff;
-  }
-
-  .sidebar {
-    position: fixed;
-    right: -330px;
-    top: 0;
-    width: 330px;
-    height: 100vh;
-    background: rgba(15,17,34,0.78);
-    backdrop-filter: blur(20px);
-    transition: .4s ease;
-    padding-top: 110px;
-    z-index: 3000;
-    box-shadow: -14px 0 28px rgba(0,0,0,0.45);
-    border-left: 1px solid rgba(255,255,255,0.08);
-  }
-
-  .sidebar.open { right: 0; }
-
-  .side-menu { padding: 0 25px; }
-  .side-menu a {
-    display: block;
-    padding: 14px;
-    margin-bottom: 12px;
-    border-radius: 12px;
-    background: rgba(255,255,255,0.05);
-    color: #cdd9ff;
+    color: #556;
+    font-size: 17px;
+    transition: all 0.2s;
     text-decoration: none;
-    transition: .25s;
-    font-size: 15px;
   }
 
-  .side-menu a:hover {
-    background: rgba(79,163,255,0.35);
-    color: white;
+  .topbar-icon-btn:hover {
+    background: var(--gold-pale);
+    border-color: var(--gold-border);
+    color: var(--gold-primary);
   }
 
-  .overlay {
+  .topbar-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold-primary), var(--gold-light));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--navy-800);
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    border: 2px solid rgba(245,166,35,0.4);
+  }
+
+  .topbar-divider {
+    width: 1px;
+    height: 24px;
+    background: rgba(0,0,0,0.1);
+  }
+
+  /* ──────────── RESPONSIVE ──────────── */
+  @media (max-width: 768px) {
+    body {
+      padding-right: 0 !important;
+    }
+    .admin-sidebar {
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+    }
+    .admin-sidebar.mobile-open {
+      transform: translateX(0);
+    }
+    .admin-topbar {
+      right: 0;
+    }
+    .mobile-menu-btn {
+      display: flex !important;
+    }
+    .sidebar-overlay {
+      display: block;
+    }
+  }
+
+  .mobile-menu-btn {
+    display: none;
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: #F5F7FA;
+    border: 1px solid rgba(0,0,0,0.06);
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #556;
+    font-size: 20px;
+  }
+
+  .sidebar-overlay {
+    display: none;
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.45);
-    opacity: 0;
-    visibility: hidden;
-    transition: .35s;
-    z-index: 2500;
-  }
-
-  .overlay.show {
-    opacity: 1;
-    visibility: visible;
-  }
-
-  .side-licenses {
-    position: absolute;
-    bottom: 25px;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-  }
-
-  .side-licenses img {
-    width: 58px;
-    height: 58px;
-    border-radius: 16px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.45);
+    background: rgba(0,0,0,0.5);
+    z-index: 999;
+    backdrop-filter: blur(2px);
   }
 </style>
 
-<div class="nav-wrap">
+<!-- ── Sidebar ── -->
+<aside class="admin-sidebar" id="adminSidebar">
 
-  <div class="nav-left">
-    <div id="hamburgerBtn" class="icon-btn"><i class="bi bi-list"></i></div>
-    <img src="/public/image/LOGG.png">
-    <span class="nav-title">سرای طلای ایرانیان</span>
+  <a href="/dashboard/lottery" class="sidebar-brand">
+    <img src="/public/image/LOGG.png" alt="لوگو" class="sidebar-brand-logo">
+    <div class="sidebar-brand-text">
+      <span class="sidebar-brand-title">سرای طلای ایرانیان</span>
+      <span class="sidebar-brand-sub">پنل مدیریت</span>
+    </div>
+  </a>
+
+  <nav class="sidebar-nav">
+
+    <span class="nav-section-label">اصلی</span>
+    <a href="/dashboard/lottery" class="sidebar-link <%= (typeof currentPage !== 'undefined' && currentPage === 'dashboard') ? 'active' : '' %>">
+      <i class="bi bi-speedometer2"></i>
+      <span>داشبورد</span>
+    </a>
+
+    <span class="nav-section-label">مدیریت</span>
+    <a href="/dashboard/lottery/create-winner" class="sidebar-link <%= (typeof currentPage !== 'undefined' && currentPage === 'create-winner') ? 'active' : '' %>">
+      <i class="bi bi-person-plus"></i>
+      <span>ایجاد برنده</span>
+    </a>
+    <a href="/dashboard/lottery/registration-codes" class="sidebar-link <%= (typeof currentPage !== 'undefined' && currentPage === 'reg-codes') ? 'active' : '' %>">
+      <i class="bi bi-key"></i>
+      <span>کدهای ثبت‌نام</span>
+    </a>
+    <a href="/dashboard/lottery/template" class="sidebar-link <%= (typeof currentPage !== 'undefined' && currentPage === 'templates') ? 'active' : '' %>">
+      <i class="bi bi-palette2"></i>
+      <span>تمپلیت‌ها</span>
+    </a>
+
+    <span class="nav-section-label">مالی</span>
+    <a href="/dashboard/loan" class="sidebar-link <%= (typeof currentPage !== 'undefined' && currentPage === 'loan') ? 'active' : '' %>">
+      <i class="bi bi-cash-coin"></i>
+      <span>داشبورد وام</span>
+    </a>
+
+    <div class="sidebar-divider"></div>
+
+    <a href="/admin/logout" class="sidebar-link logout">
+      <i class="bi bi-box-arrow-left"></i>
+      <span>خروج از پنل</span>
+    </a>
+
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="sidebar-trust-badges">
+      <img src="/public/image/SarayeTala.svg" alt="سرای طلا" title="سرای طلا">
+      <img src="/public/image/Enemad.png" alt="اینماد" title="اینماد">
+      <img src="/public/image/LOGG.png" alt="لوگو" title="لوگو">
+      <img src="/public/image/Lumi.png" alt="لومی" title="لومی">
+    </div>
   </div>
 
-  <div class="nav-right">
-    <div class="icon-btn"><i class="bi bi-bell"></i></div>
-    <div class="icon-btn"><i class="bi bi-person-circle"></i></div>
+</aside>
+
+<!-- ── Top Header ── -->
+<header class="admin-topbar" id="adminTopbar">
+  <div class="topbar-title" id="topbarTitle">داشبورد مدیریت</div>
+
+  <div class="topbar-actions">
+    <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="منو">
+      <i class="bi bi-list"></i>
+    </button>
+    <div class="topbar-icon-btn" title="اعلان‌ها">
+      <i class="bi bi-bell"></i>
+    </div>
+    <div class="topbar-divider"></div>
+    <div class="topbar-avatar" title="مدیر">م</div>
   </div>
+</header>
 
-</div>
-
-<div id="sidebar" class="sidebar">
-
-  <div class="side-menu">
-    <a href="/dashboard/lottery"><i class="bi bi-speedometer2"></i> داشبورد</a>
-    <a href="/dashboard/lottery/create-winner"><i class="bi bi-plus-circle"></i> ایجاد برنده</a>
-    <a href="/dashboard/lottery/registration-codes"><i class="bi bi-key"></i> کدهای ثبت‌نام</a>
-    <a href="/dashboard/lottery/template"><i class="bi bi-palette"></i> ساخت تمپلیت</a>
-    <a href="/dashboard/loan"><i class="bi bi-cash-coin"></i> داشبورد وام</a>
-    <hr style="border-color: rgba(255,255,255,0.1)">
-    <a href="/admin/logout" style="color:#ff6b6b;"><i class="bi bi-box-arrow-right"></i> خروج</a>
-  </div>
-
-  <div class="side-licenses">
-    <img src="/public/image/SarayeTala.svg">
-    <img src="/public/image/Enemad.png">
-    <img src="/public/image/LOGG.png">
-    <img src="/public/image/Lumi.png">
-  </div>
-
-</div>
-
-<div id="overlay" class="overlay"></div>
+<!-- Mobile Overlay -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
 
 <script>
-  const sidebar = document.getElementById("sidebar");
-  const overlay = document.getElementById("overlay");
-  const burger = document.getElementById("hamburgerBtn");
+(function() {
+  const sidebar = document.getElementById('adminSidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  const mobileBtn = document.getElementById('mobileMenuBtn');
 
-  burger.onclick = () => {
-    sidebar.classList.add("open");
-    overlay.classList.add("show");
-  };
+  if (mobileBtn) {
+    mobileBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('mobile-open');
+      overlay.style.display = sidebar.classList.contains('mobile-open') ? 'block' : 'none';
+    });
+  }
 
-  overlay.onclick = () => {
-    sidebar.classList.remove("open");
-    overlay.classList.remove("show");
-  };
+  if (overlay) {
+    overlay.addEventListener('click', () => {
+      sidebar.classList.remove('mobile-open');
+      overlay.style.display = 'none';
+    });
+  }
+
+  // Set active link based on current URL
+  const links = document.querySelectorAll('.sidebar-link');
+  links.forEach(link => {
+    if (link.href && window.location.pathname.startsWith(new URL(link.href).pathname) && link.href !== window.location.origin + '/') {
+      link.classList.add('active');
+    }
+  });
+
+  // Set topbar title based on active page
+  const activeLink = document.querySelector('.sidebar-link.active span');
+  const topbarTitle = document.getElementById('topbarTitle');
+  if (activeLink && topbarTitle) {
+    topbarTitle.textContent = activeLink.textContent.trim();
+  }
+})();
 </script>

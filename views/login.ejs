@@ -2,154 +2,645 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>ورود به پنل مدیریتی</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ورود مدیران | سرای طلای ایرانیان</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Vazir:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
 <style>
-  body {
-    margin: 0;
-    height: 100vh;
-    background: linear-gradient(135deg,#edf2ff,#f8fbff);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: Vazir;
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #F5A623;
+    --gold-light: #FFD700;
+    --gold-pale: rgba(245,166,35,0.12);
+    --gold-border: rgba(245,166,35,0.3);
+    --navy: #0A1628;
+    --navy-mid: #0D1F3C;
+    --navy-light: #122444;
+    --white: #ffffff;
+    --gray-50: #F8FAFC;
+    --gray-100: #F1F5F9;
+    --gray-200: #E2E8F0;
+    --gray-500: #64748B;
+    --gray-700: #334155;
+    --transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
   }
 
-  .login-card {
-    background: #fff;
-    width: 440px;
-    padding: 40px;
-    border-radius: 18px;
-    box-shadow: 0 10px 28px rgba(0,0,0,0.15);
+  html, body {
+    height: 100%;
+    font-family: 'Vazirmatn', sans-serif;
+    direction: rtl;
+  }
+
+  body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 100vh;
+    overflow: hidden;
+  }
+
+  /* ── Left Panel: Brand ── */
+  .brand-panel {
+    background: linear-gradient(160deg, var(--navy) 0%, var(--navy-mid) 40%, #0F2849 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Decorative circles */
+  .brand-panel::before {
+    content: '';
+    position: absolute;
+    top: -120px;
+    right: -120px;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(245,166,35,0.15) 0%, transparent 70%);
+  }
+
+  .brand-panel::after {
+    content: '';
+    position: absolute;
+    bottom: -80px;
+    left: -80px;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,215,0,0.08) 0%, transparent 70%);
+  }
+
+  /* Gold mesh grid */
+  .brand-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(245,166,35,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(245,166,35,0.04) 1px, transparent 1px);
+    background-size: 50px 50px;
+  }
+
+  .brand-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 420px;
+  }
+
+  .brand-logo-wrap {
+    width: 96px;
+    height: 96px;
+    border-radius: 24px;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 32px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  }
+
+  .brand-logo-wrap img {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+    border-radius: 14px;
+  }
+
+  .brand-title {
+    font-size: 30px;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.3;
+    margin-bottom: 14px;
+  }
+
+  .brand-title .gold {
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .brand-subtitle {
+    font-size: 15px;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.8;
+    margin-bottom: 48px;
+  }
+
+  .brand-features {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    text-align: right;
+  }
+
+  .brand-feature {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    transition: var(--transition);
+  }
+
+  .brand-feature:hover {
+    background: rgba(245,166,35,0.08);
+    border-color: rgba(245,166,35,0.2);
+  }
+
+  .feature-dot {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--navy);
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .feature-label {
+    font-size: 13.5px;
+    color: rgba(255,255,255,0.75);
+    font-weight: 500;
+  }
+
+  /* Bottom trust badges */
+  .brand-trust {
+    position: absolute;
+    bottom: 28px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    z-index: 2;
+  }
+
+  .brand-trust img {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    object-fit: contain;
+    background: rgba(255,255,255,0.06);
+    padding: 4px;
+    border: 1px solid rgba(255,255,255,0.1);
+    opacity: 0.7;
+    transition: var(--transition);
+  }
+
+  .brand-trust img:hover { opacity: 1; }
+
+  /* ── Right Panel: Form ── */
+  .form-panel {
+    background: var(--white);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px;
+    overflow-y: auto;
+  }
+
+  .form-container {
+    width: 100%;
+    max-width: 420px;
+  }
+
+  .form-header {
+    margin-bottom: 36px;
     text-align: center;
   }
 
-  .logo {
-    width: 90px;
-    margin-bottom: 20px;
-    border-radius: 14px;
+  .form-header .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--gray-500);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 28px;
+    transition: var(--transition);
+    padding: 6px 12px;
+    border-radius: 8px;
+    background: var(--gray-100);
   }
 
-  h2 {
-    margin-bottom: 25px;
-    font-weight: 700;
-    color: #1e3b8b;
+  .form-header .back-link:hover {
+    color: var(--navy);
+    background: var(--gray-200);
   }
 
-  input {
-    width: 100%;
-    padding: 12px;
-    margin-top: 14px;
-    border-radius: 14px;
-    background: #f5f7ff;
-    border: 1px solid #dce3ff;
-    font-size: 14px;
-    outline: none;
-  }
-
-  input:focus {
-    border-color: #6a90ff;
-  }
-
-  .btn-login {
-    margin-top: 25px;
-    background: linear-gradient(135deg,#3a88ff,#6aa7ff);
-    padding: 12px;
+  .form-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--gold-pale);
+    border: 1px solid var(--gold-border);
+    color: var(--gold);
+    padding: 5px 16px;
     border-radius: 50px;
-    color: #fff;
-    width: 100%;
-    font-weight: 700;
-    font-size: 15px;
-    cursor: pointer;
-    border: none;
-    box-shadow: 0 6px 20px rgba(90,150,255,0.4);
-  }
-
-  .error {
-    background: #ffeded;
-    padding: 12px;
-    border-radius: 12px;
-    color: #d02929;
-    margin-top: 15px;
-  }
-
-  .panel-select {
-    margin-top: 22px;
-    font-size: 14px;
-    color: #555;
-    text-align: right;
+    font-size: 12.5px;
     font-weight: 600;
+    margin-bottom: 16px;
   }
 
-  .radio-box {
-    margin-top: 8px;
-    display: flex;
-    justify-content: space-between;
+  .form-title {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--navy);
+    margin-bottom: 8px;
   }
 
-  .radio-option {
-    padding: 10px 15px;
-    border-radius: 12px;
-    background: #f1f4ff;
-    border: 1px solid #ccd6ff;
+  .form-desc {
+    font-size: 14px;
+    color: var(--gray-500);
+    line-height: 1.7;
+  }
+
+  /* Panel selector */
+  .panel-selector {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 24px;
+    background: var(--gray-100);
+    border-radius: 14px;
+    padding: 6px;
+  }
+
+  .panel-option input[type="radio"] { display: none; }
+
+  .panel-label {
     display: flex;
     align-items: center;
-    gap: 10px;
-    flex: 1;
     justify-content: center;
+    gap: 8px;
+    padding: 12px 14px;
+    border-radius: 10px;
     cursor: pointer;
-    transition: .25s;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--gray-500);
+    transition: var(--transition);
+    user-select: none;
   }
 
-  .radio-option:hover {
-    background: #e3eaff;
+  .panel-label i { font-size: 16px; }
+
+  .panel-option input[type="radio"]:checked + .panel-label {
+    background: var(--white);
+    color: var(--navy);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
   }
 
-  input[type=radio] { display:none; }
-
-  input[type=radio]:checked + label {
-    background: linear-gradient(135deg,#3a88ff,#6aa7ff);
-    color: white;
-    border-color: transparent;
-    box-shadow: 0 5px 15px rgba(90,150,255,0.4);
+  .panel-option input[type="radio"]:checked + .panel-label i {
+    color: var(--gold);
   }
 
+  /* Form fields */
+  .form-group {
+    margin-bottom: 18px;
+    position: relative;
+  }
+
+  .form-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 8px;
+  }
+
+  .input-wrap {
+    position: relative;
+  }
+
+  .input-icon {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--gray-500);
+    font-size: 16px;
+    pointer-events: none;
+    transition: var(--transition);
+  }
+
+  .form-input {
+    width: 100%;
+    padding: 12px 44px 12px 14px;
+    border-radius: 12px;
+    border: 1.5px solid var(--gray-200);
+    font-family: 'Vazirmatn', sans-serif;
+    font-size: 14px;
+    color: var(--navy);
+    background: var(--gray-50);
+    outline: none;
+    transition: var(--transition);
+    direction: rtl;
+  }
+
+  .form-input:focus {
+    border-color: var(--gold);
+    background: var(--white);
+    box-shadow: 0 0 0 4px rgba(245,166,35,0.10);
+  }
+
+  .form-input:focus ~ .input-icon {
+    color: var(--gold);
+  }
+
+  /* Show password toggle */
+  .toggle-password {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--gray-500);
+    font-size: 16px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    transition: var(--transition);
+  }
+
+  .toggle-password:hover { color: var(--navy); }
+
+  /* Submit button */
+  .btn-submit {
+    width: 100%;
+    padding: 13px;
+    border-radius: 12px;
+    border: none;
+    background: linear-gradient(135deg, var(--navy), var(--navy-mid));
+    color: #fff;
+    font-family: 'Vazirmatn', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .btn-submit:hover {
+    background: linear-gradient(135deg, var(--navy-mid), var(--navy-light));
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(10,22,40,0.3);
+  }
+
+  .btn-submit:active { transform: translateY(0); }
+
+  /* Error */
+  .error-box {
+    background: #FEF2F2;
+    border: 1px solid #FECACA;
+    color: #DC2626;
+    padding: 12px 16px;
+    border-radius: 12px;
+    margin-top: 16px;
+    font-size: 13.5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+  }
+
+  /* Footer links */
+  .form-footer {
+    text-align: center;
+    margin-top: 24px;
+  }
+
+  .form-footer a {
+    color: var(--gray-500);
+    text-decoration: none;
+    font-size: 13px;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .form-footer a:hover { color: var(--navy); }
+
+  /* Divider */
+  .form-divider {
+    height: 1px;
+    background: var(--gray-100);
+    margin: 24px 0;
+    position: relative;
+  }
+
+  .form-divider::after {
+    content: 'یا';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--white);
+    padding: 0 12px;
+    color: var(--gray-500);
+    font-size: 12px;
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    body { grid-template-columns: 1fr; }
+    .brand-panel { display: none; }
+    .form-panel { padding: 32px 24px; }
+  }
+
+  @media (max-width: 480px) {
+    .form-panel { padding: 24px 16px; }
+  }
 </style>
 
 </head>
-
 <body>
 
-<div class="login-card">
-  <img src="/public/image/LOGG.png" class="logo">
+  <!-- ── Brand Panel (Left/Top) ── -->
+  <div class="brand-panel">
+    <div class="brand-grid"></div>
 
-  <h2>ورود مدیران</h2>
+    <div class="brand-content">
+      <div class="brand-logo-wrap">
+        <img src="/public/image/LOGG.png" alt="لوگو سرای طلا">
+      </div>
 
-  <form action="/admin/login" method="POST">
+      <h1 class="brand-title">
+        سرای <span class="gold">طلای</span><br>ایرانیان
+      </h1>
+      <p class="brand-subtitle">پنل مدیریت یکپارچه قرعه‌کشی، وام و<br>اطلاعات مشتریان</p>
 
-    <input type="text" name="username" placeholder="نام کاربری" required>
-    <input type="password" name="password" placeholder="رمز عبور" required>
-
-    <div class="panel-select">ورود به کدام پنل؟</div>
-
-    <div class="radio-box">
-      <input type="radio" id="lottery" name="panel" value="lottery" checked>
-      <label for="lottery" class="radio-option">پنل قرعه‌کشی</label>
-
-      <input type="radio" id="loan" name="panel" value="loan">
-      <label for="loan" class="radio-option">پنل وام</label>
+      <div class="brand-features">
+        <div class="brand-feature">
+          <div class="feature-dot"><i class="bi bi-speedometer2"></i></div>
+          <span class="feature-label">مدیریت داشبورد قرعه‌کشی</span>
+        </div>
+        <div class="brand-feature">
+          <div class="feature-dot"><i class="bi bi-cash-coin"></i></div>
+          <span class="feature-label">کنترل کامل داشبورد وام</span>
+        </div>
+        <div class="brand-feature">
+          <div class="feature-dot"><i class="bi bi-people-fill"></i></div>
+          <span class="feature-label">مدیریت اطلاعات مشتریان</span>
+        </div>
+        <div class="brand-feature">
+          <div class="feature-dot"><i class="bi bi-shield-lock-fill"></i></div>
+          <span class="feature-label">دسترسی امن و رمزگذاری‌شده</span>
+        </div>
+      </div>
     </div>
 
-    <button class="btn-login">ورود</button>
+    <div class="brand-trust">
+      <img src="/public/image/SarayeTala.svg" alt="سرای طلا" title="سرای طلا">
+      <img src="/public/image/Enemad.png" alt="اینماد" title="اینماد">
+      <img src="/public/image/LOGG.png" alt="لوگو" title="لوگو">
+      <img src="/public/image/Lumi.png" alt="لومی" title="لومی">
+    </div>
+  </div>
 
-    <% if (error) { %>
-      <div class="error"><%= error %></div>
-    <% } %>
+  <!-- ── Form Panel (Right) ── -->
+  <div class="form-panel">
+    <div class="form-container">
 
-  </form>
-</div>
+      <div class="form-header">
+        <div>
+          <a href="/" class="back-link">
+            <i class="bi bi-arrow-right"></i>
+            بازگشت به سایت
+          </a>
+        </div>
+
+        <div class="form-badge">
+          <i class="bi bi-shield-lock-fill"></i>
+          دسترسی امن
+        </div>
+        <h2 class="form-title">ورود به پنل مدیریتی</h2>
+        <p class="form-desc">اطلاعات حساب کاربری خود را وارد کنید تا وارد پنل شوید.</p>
+      </div>
+
+      <form action="/admin/login" method="POST" autocomplete="on" novalidate>
+
+        <!-- Panel Selector -->
+        <div class="panel-selector">
+          <div class="panel-option">
+            <input type="radio" id="lottery" name="panel" value="lottery" checked>
+            <label for="lottery" class="panel-label">
+              <i class="bi bi-trophy-fill"></i>
+              پنل قرعه‌کشی
+            </label>
+          </div>
+          <div class="panel-option">
+            <input type="radio" id="loan" name="panel" value="loan">
+            <label for="loan" class="panel-label">
+              <i class="bi bi-cash-coin"></i>
+              پنل وام
+            </label>
+          </div>
+        </div>
+
+        <!-- Username -->
+        <div class="form-group">
+          <label class="form-label" for="username">نام کاربری</label>
+          <div class="input-wrap">
+            <input
+              type="text"
+              id="username"
+              name="username"
+              class="form-input"
+              placeholder="نام کاربری خود را وارد کنید"
+              autocomplete="username"
+              required
+            >
+            <i class="bi bi-person-fill input-icon"></i>
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+          <label class="form-label" for="password">رمز عبور</label>
+          <div class="input-wrap">
+            <input
+              type="password"
+              id="password"
+              name="password"
+              class="form-input"
+              placeholder="رمز عبور خود را وارد کنید"
+              autocomplete="current-password"
+              required
+            >
+            <i class="bi bi-lock-fill input-icon"></i>
+            <button type="button" class="toggle-password" id="togglePwd" aria-label="نمایش رمز">
+              <i class="bi bi-eye-slash" id="eyeIcon"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="btn-submit">
+          <i class="bi bi-box-arrow-in-right"></i>
+          ورود به پنل
+        </button>
+
+        <!-- Error -->
+        <% if (error) { %>
+          <div class="error-box">
+            <i class="bi bi-exclamation-triangle-fill"></i>
+            <%= error %>
+          </div>
+        <% } %>
+
+      </form>
+
+      <div class="form-footer">
+        <a href="/">
+          <i class="bi bi-house-fill"></i>
+          بازگشت به صفحه اصلی
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // Toggle password visibility
+    const togglePwd = document.getElementById('togglePwd');
+    const pwdInput = document.getElementById('password');
+    const eyeIcon = document.getElementById('eyeIcon');
+
+    if (togglePwd && pwdInput) {
+      togglePwd.addEventListener('click', () => {
+        const isPassword = pwdInput.type === 'password';
+        pwdInput.type = isPassword ? 'text' : 'password';
+        eyeIcon.className = isPassword ? 'bi bi-eye' : 'bi bi-eye-slash';
+      });
+    }
+  </script>
 
 </body>
 </html>

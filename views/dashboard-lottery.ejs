@@ -4,244 +4,887 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>داشبورد قرعه‌کشی</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>داشبورد قرعه‌کشی | سرای طلای ایرانیان</title>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Vazir:wght@300;400;700&display=swap" rel="stylesheet">
 
 <style>
-  body {
-    margin: 0;
-    background: linear-gradient(135deg,#0d0f1b,#101326,#141a33,#0d1125);
-    font-family: Vazir;
-    color: white;
+  :root {
+    --gold: #F5A623;
+    --gold-light: #FFD700;
+    --gold-pale: rgba(245,166,35,0.10);
+    --gold-border: rgba(245,166,35,0.22);
+    --navy: #0A1628;
+    --navy-mid: #0D1F3C;
+    --white: #ffffff;
+    --gray-50: #F8FAFC;
+    --gray-100: #F1F5F9;
+    --gray-200: #E2E8F0;
+    --gray-300: #CBD5E1;
+    --gray-500: #64748B;
+    --gray-700: #334155;
+    --gray-900: #0F172A;
+    --green: #10B981;
+    --green-pale: rgba(16,185,129,0.10);
+    --red: #EF4444;
+    --red-pale: rgba(239,68,68,0.10);
+    --blue: #3B82F6;
+    --blue-pale: rgba(59,130,246,0.10);
+    --radius: 16px;
+    --shadow-sm: 0 1px 4px rgba(0,0,0,0.06);
+    --shadow-md: 0 4px 20px rgba(0,0,0,0.08);
+    --shadow-lg: 0 16px 50px rgba(0,0,0,0.12);
+    --transition: all 0.25s ease;
   }
 
-  .container {
-    max-width: 1450px;
-    margin: 120px auto;
-    padding: 25px;
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  /* Body already styled by navbar partial */
+  .page-wrapper {
+    min-height: 100vh;
+    background: var(--gray-50);
+    padding: 28px 32px 40px;
   }
 
-  .glass {
-    background: rgba(255,255,255,0.06);
-    backdrop-filter: blur(18px);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 18px;
-    padding: 25px;
-    box-shadow: 0 12px 28px rgba(0,0,0,0.45);
+  /* ── Page Header ── */
+  .page-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .page-header-left h1 {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--navy);
+    margin-bottom: 4px;
+  }
+
+  .page-header-left p {
+    font-size: 13.5px;
+    color: var(--gray-500);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .page-header-left p #clockDate { font-weight: 600; color: var(--gray-700); }
+
+  .page-header-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  /* ── CTA Buttons ── */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: linear-gradient(135deg, var(--navy), var(--navy-mid));
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-family: 'Vazirmatn', sans-serif;
+    font-size: 13.5px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: 0 4px 14px rgba(10,22,40,0.25);
+    white-space: nowrap;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(10,22,40,0.35);
+    color: #fff;
+  }
+
+  .btn-gold {
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    color: var(--navy);
+    box-shadow: 0 4px 14px rgba(245,166,35,0.35);
+  }
+
+  .btn-gold:hover {
+    box-shadow: 0 8px 24px rgba(245,166,35,0.5);
+    color: var(--navy);
+  }
+
+  .btn-outline {
+    background: var(--white);
+    color: var(--gray-700);
+    border: 1.5px solid var(--gray-200);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .btn-outline:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+    background: var(--gold-pale);
+  }
+
+  /* ── Stats Row ── */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
     margin-bottom: 28px;
   }
 
-  .clock-box { 
-    display:flex; justify-content:space-between; 
-    align-items:center;
-    padding: 25px;
+  .stat-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 22px 24px;
+    border: 1px solid var(--gray-100);
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .stat-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    height: 3px;
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+
+  .stat-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+  .stat-card:hover::after { opacity: 1; }
+
+  .stat-card.gold::after { background: linear-gradient(90deg, var(--gold), var(--gold-light)); }
+  .stat-card.green::after { background: linear-gradient(90deg, #10B981, #34D399); }
+  .stat-card.blue::after { background: linear-gradient(90deg, #3B82F6, #60A5FA); }
+  .stat-card.purple::after { background: linear-gradient(90deg, #8B5CF6, #A78BFA); }
+
+  .stat-body { flex: 1; }
+
+  .stat-label {
+    font-size: 12.5px;
+    color: var(--gray-500);
+    font-weight: 500;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .stat-value {
+    font-size: 30px;
+    font-weight: 800;
+    color: var(--navy);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .stat-trend {
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 600;
+  }
+
+  .trend-up { color: var(--green); }
+  .trend-neutral { color: var(--gray-500); }
+
+  .stat-icon-wrap {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+  }
+
+  .icon-gold { background: var(--gold-pale); color: var(--gold); }
+  .icon-green { background: var(--green-pale); color: var(--green); }
+  .icon-blue { background: var(--blue-pale); color: var(--blue); }
+  .icon-purple { background: rgba(139,92,246,0.10); color: #8B5CF6; }
+
+  /* ── Clock card ── */
+  .clock-card {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+    border-radius: var(--radius);
+    padding: 22px 28px;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 8px 32px rgba(10,22,40,0.25);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .clock-card::before {
+    content: '';
+    position: absolute;
+    top: -60px;
+    left: -60px;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(245,166,35,0.12) 0%, transparent 70%);
+  }
+
+  .clock-info { position: relative; z-index: 1; }
+
+  .clock-label {
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    font-weight: 500;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
   }
 
   .clock-time {
-    font-size: 42px;
-    font-weight: 700;
-    color: #4fa3ff;
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--gold-light);
+    letter-spacing: 0.05em;
+    line-height: 1;
+    margin-bottom: 4px;
   }
 
-  .stats {
-    display: flex;
-    gap: 25px;
-    margin-top: 20px;
+  .clock-date {
+    font-size: 14px;
+    color: rgba(255,255,255,0.65);
+    font-weight: 500;
   }
 
-  .stat {
-    flex: 1;
-    background: rgba(255,255,255,0.08);
-    padding: 25px;
-    border-radius: 16px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    box-shadow: 0 12px 22px rgba(0,0,0,0.35);
-  }
-
-  .stat-icon {
+  .clock-icon {
     font-size: 48px;
-    color: #6aa7ff;
+    color: rgba(255,255,255,0.08);
+    position: relative;
+    z-index: 1;
   }
 
-  .stat-label { opacity:.8; }
-  .stat-number { font-size: 32px; font-weight: 700; }
-
-  .btns {
-    display:flex; gap:15px; margin-top:25px;
+  /* ── Toolbar ── */
+  .toolbar {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    border: 1px solid var(--gray-100);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    box-shadow: var(--shadow-sm);
   }
 
-  .btn-main {
-    background: linear-gradient(135deg,#3a8bff,#6aa7ff);
-    padding: 12px 24px;
+  .search-wrap {
+    position: relative;
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .search-icon {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--gray-500);
+    font-size: 15px;
+    pointer-events: none;
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 10px 40px 10px 14px;
     border-radius: 50px;
-    color: #000;
-    text-decoration:none;
-    font-weight:700;
-    cursor:pointer;
-    box-shadow: 0 6px 20px rgba(90,150,255,0.4);
-    transition:.25s;
+    border: 1.5px solid var(--gray-200);
+    font-family: 'Vazirmatn', sans-serif;
+    font-size: 14px;
+    color: var(--gray-700);
+    background: var(--gray-50);
+    outline: none;
+    transition: var(--transition);
+    direction: rtl;
   }
 
-  .btn-main:hover { transform: translateY(-3px); }
+  .search-input:focus {
+    border-color: var(--gold);
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(245,166,35,0.10);
+  }
+
+  .filter-select {
+    padding: 10px 14px;
+    border-radius: 50px;
+    border: 1.5px solid var(--gray-200);
+    font-family: 'Vazirmatn', sans-serif;
+    font-size: 13.5px;
+    color: var(--gray-700);
+    background: var(--gray-50);
+    outline: none;
+    cursor: pointer;
+    transition: var(--transition);
+    direction: rtl;
+  }
+
+  .filter-select:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(245,166,35,0.10);
+  }
+
+  .toolbar-count {
+    font-size: 13px;
+    color: var(--gray-500);
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .toolbar-count strong { color: var(--navy); }
+
+  /* ── Table Card ── */
+  .table-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    border: 1px solid var(--gray-100);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+  }
+
+  .table-card-header {
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--gray-100);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .table-card-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--navy);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .table-card-title i { color: var(--gold); }
+
+  .table-wrapper { overflow-x: auto; }
 
   table {
     width: 100%;
     border-collapse: collapse;
-    background: rgba(255,255,255,0.07);
-    backdrop-filter: blur(10px);
-    border-radius: 16px;
-    overflow: hidden;
-    margin-top: 18px;
+    font-size: 13.5px;
   }
 
-  th {
-    padding: 16px;
-    background: rgba(0,0,0,0.35);
-    font-weight:700;
-  }
-
-  td {
-    padding: 14px;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
+  thead th {
+    padding: 13px 16px;
     text-align: center;
+    font-weight: 700;
+    font-size: 12px;
+    color: var(--gray-500);
+    background: var(--gray-50);
+    border-bottom: 2px solid var(--gray-100);
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
   }
 
-  tr:hover { background: rgba(255,255,255,0.09); }
+  tbody td {
+    padding: 14px 16px;
+    text-align: center;
+    border-bottom: 1px solid var(--gray-100);
+    color: var(--gray-700);
+    vertical-align: middle;
+  }
 
-  .search-box {
-    padding: 12px 18px;
-    width: 260px;
+  tbody tr:last-child td { border-bottom: none; }
+
+  tbody tr {
+    transition: background 0.2s;
+  }
+
+  tbody tr:hover {
+    background: var(--gray-50);
+  }
+
+  /* Name cell */
+  .customer-cell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+  }
+
+  .customer-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--navy);
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .customer-name {
+    font-weight: 600;
+    color: var(--navy);
+    font-size: 13.5px;
+  }
+
+  /* Status badges */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
     border-radius: 50px;
-    border:none;
-    background: rgba(255,255,255,0.12);
-    color:white;
-    margin-bottom:12px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .badge-green { background: var(--green-pale); color: #059669; }
+  .badge-red { background: var(--red-pale); color: #DC2626; }
+  .badge-gold { background: var(--gold-pale); color: #D97706; }
+  .badge-gray { background: var(--gray-100); color: var(--gray-500); }
+  .badge-blue { background: var(--blue-pale); color: #2563EB; }
+
+  /* Link cell */
+  .link-cell {
+    font-size: 12px;
+    color: var(--blue);
+    font-family: monospace;
+    direction: ltr;
+    background: var(--blue-pale);
+    padding: 3px 8px;
+    border-radius: 6px;
+    max-width: 160px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+  }
+
+  /* Action buttons */
+  .action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-family: 'Vazirmatn', sans-serif;
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: var(--transition);
+    border: none;
+  }
+
+  .action-btn-primary {
+    background: var(--navy);
+    color: #fff;
+  }
+
+  .action-btn-primary:hover {
+    background: var(--navy-mid);
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(10,22,40,0.25);
+  }
+
+  /* Empty state */
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--gray-500);
+  }
+
+  .empty-state i {
+    font-size: 52px;
+    color: var(--gray-300);
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .empty-state p {
+    font-size: 15px;
+    font-weight: 500;
+  }
+
+  /* Quick actions bar */
+  .quick-actions {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+
+  /* Responsive */
+  @media (max-width: 1200px) {
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 768px) {
+    .page-wrapper { padding: 20px 16px; }
+    .stats-row { grid-template-columns: 1fr 1fr; }
+    .page-header { flex-direction: column; }
+  }
+
+  @media (max-width: 480px) {
+    .stats-row { grid-template-columns: 1fr; }
   }
 </style>
 
 </head>
-
 <body>
 
-<div class="container">
+<div class="page-wrapper">
 
-  <div class="glass clock-box">
-    <div>
-      <div style="font-size:18px; opacity:.7;">ساعت و تاریخ جاری</div>
+  <!-- ── Page Header ── -->
+  <div class="page-header">
+    <div class="page-header-left">
+      <h1>داشبورد قرعه‌کشی</h1>
+      <p>
+        <i class="bi bi-calendar3"></i>
+        <span id="clockDate">در حال بارگذاری...</span>
+      </p>
+    </div>
+    <div class="page-header-right">
+      <a href="/dashboard/lottery/create-winner" class="btn-primary btn-gold">
+        <i class="bi bi-person-plus-fill"></i>
+        ایجاد برنده جدید
+      </a>
+    </div>
+  </div>
+
+  <!-- ── Clock Card ── -->
+  <div class="clock-card">
+    <div class="clock-info">
+      <div class="clock-label">ساعت و تاریخ جاری</div>
       <div class="clock-time" id="clockTime">--:--:--</div>
-      <div id="clockDate" style="opacity:.7; margin-top:5px;">---</div>
+      <div class="clock-date" id="clockDateFull">---</div>
     </div>
-
-    <i class="bi bi-clock-history" style="font-size:48px;color:#4fa3ff;"></i>
+    <i class="bi bi-clock-history clock-icon"></i>
   </div>
 
-  <div class="stats">
+  <!-- ── Stats Row ── -->
+  <div class="stats-row">
 
-    <div class="stat">
-      <div>
-        <div class="stat-label">کل مشترکین</div>
-        <div class="stat-number"><%= totalCustomers %></div>
+    <div class="stat-card gold">
+      <div class="stat-body">
+        <div class="stat-label">
+          <i class="bi bi-people-fill"></i>
+          کل مشترکین
+        </div>
+        <div class="stat-value"><%= totalCustomers %></div>
+        <div class="stat-trend trend-up">
+          <i class="bi bi-arrow-up-right"></i>
+          ثبت‌شده در سیستم
+        </div>
       </div>
-      <i class="bi bi-people stat-icon"></i>
+      <div class="stat-icon-wrap icon-gold">
+        <i class="bi bi-people-fill"></i>
+      </div>
     </div>
 
-    <div class="stat">
-      <div>
-        <div class="stat-label">دیده شده</div>
-        <div class="stat-number"><%= totalViewed %></div>
+    <div class="stat-card blue">
+      <div class="stat-body">
+        <div class="stat-label">
+          <i class="bi bi-eye-fill"></i>
+          دیده شده
+        </div>
+        <div class="stat-value"><%= totalViewed %></div>
+        <div class="stat-trend trend-neutral">
+          <i class="bi bi-dash"></i>
+          لینک بازدیدشده
+        </div>
       </div>
-      <i class="bi bi-eye stat-icon"></i>
+      <div class="stat-icon-wrap icon-blue">
+        <i class="bi bi-eye-fill"></i>
+      </div>
     </div>
 
-    <div class="stat">
-      <div>
-        <div class="stat-label">کل برندگان</div>
-        <div class="stat-number"><%= totalWinners %></div>
+    <div class="stat-card green">
+      <div class="stat-body">
+        <div class="stat-label">
+          <i class="bi bi-trophy-fill"></i>
+          کل برندگان
+        </div>
+        <div class="stat-value"><%= totalWinners %></div>
+        <div class="stat-trend trend-up">
+          <i class="bi bi-award"></i>
+          برنده قرعه‌کشی
+        </div>
       </div>
-      <i class="bi bi-trophy stat-icon"></i>
+      <div class="stat-icon-wrap icon-green">
+        <i class="bi bi-trophy-fill"></i>
+      </div>
+    </div>
+
+    <div class="stat-card purple">
+      <div class="stat-body">
+        <div class="stat-label">
+          <i class="bi bi-check-circle-fill"></i>
+          اطلاعات کامل
+        </div>
+        <div class="stat-value"><%= winners.filter(w => w.infoComplete).length %></div>
+        <div class="stat-trend trend-up">
+          <i class="bi bi-file-check"></i>
+          مدارک تکمیل‌شده
+        </div>
+      </div>
+      <div class="stat-icon-wrap icon-purple">
+        <i class="bi bi-check-circle-fill"></i>
+      </div>
     </div>
 
   </div>
 
-  <div class="btns">
-    <a href="/dashboard/lottery/create-winner" class="btn-main">ایجاد برنده</a>
-    <a href="/template" class="btn-main" style="background:#7ef3ff;">ساخت تمپلیت</a>
-    <a href="/dashboard/lottery/registration-codes" class="btn-main" style="background:#8affc1;">کدهای ثبت‌نام</a>
-
+  <!-- ── Quick Actions ── -->
+  <div class="quick-actions">
+    <a href="/dashboard/lottery/create-winner" class="btn-primary">
+      <i class="bi bi-person-plus"></i>
+      ایجاد برنده
+    </a>
+    <a href="/dashboard/lottery/template" class="btn-primary btn-outline">
+      <i class="bi bi-palette2"></i>
+      ساخت تمپلیت
+    </a>
+    <a href="/dashboard/lottery/registration-codes" class="btn-primary btn-outline">
+      <i class="bi bi-key-fill"></i>
+      کدهای ثبت‌نام
+    </a>
+    <a href="/dashboard/loan" class="btn-primary btn-outline">
+      <i class="bi bi-cash-coin"></i>
+      داشبورد وام
+    </a>
   </div>
 
-  <input type="text" id="searchInput" placeholder="جستجو..." class="search-box">
+  <!-- ── Toolbar ── -->
+  <div class="toolbar">
+    <div class="search-wrap">
+      <i class="bi bi-search search-icon"></i>
+      <input type="text" id="searchInput" placeholder="جستجو در نام، موبایل یا کد ثبت‌نام..." class="search-input">
+    </div>
+    <select class="filter-select" id="filterViewed">
+      <option value="">همه بازدیدها</option>
+      <option value="viewed">دیده شده</option>
+      <option value="not-viewed">دیده نشده</option>
+    </select>
+    <select class="filter-select" id="filterInfo">
+      <option value="">وضعیت اطلاعات</option>
+      <option value="complete">کامل</option>
+      <option value="incomplete">ناقص</option>
+    </select>
+    <select class="filter-select" id="filterWinner">
+      <option value="">وضعیت برنده</option>
+      <option value="winner">برنده</option>
+      <option value="not-winner">غیربرنده</option>
+    </select>
+    <div class="toolbar-count">
+      نمایش <strong id="visibleCount"><%= winners.length %></strong> از <strong><%= winners.length %></strong> نفر
+    </div>
+  </div>
 
-  <table>
-    <thead>
-      <tr>
-        <th>نام</th>
-        <th>موبایل</th>
-        <th>لینک</th>
-        <th>کد ثبت‌نام</th>
-        <th>مشاهده</th>
-        <th>اطلاعات</th>
-        <th>برنده</th>
-        <th>تاریخ</th>
-        <th>پروفایل</th>
-      </tr>
-    </thead>
+  <!-- ── Table ── -->
+  <div class="table-card">
+    <div class="table-card-header">
+      <div class="table-card-title">
+        <i class="bi bi-table"></i>
+        فهرست مشترکین قرعه‌کشی
+      </div>
+      <div style="font-size:13px; color:var(--gray-500);">
+        مجموع: <strong style="color:var(--navy)"><%= winners.length %></strong> نفر
+      </div>
+    </div>
 
-    <tbody>
-      <% winners.forEach(w => { %>
-        <tr>
-          <td><%= w.fullName %></td>
-          <td><%= w.phone %></td>
-          <td><div style="direction:ltr"><%= w.linkId %></div></td>
-          <td><%= w.registrationCode || '—' %></td>
-
-          <td>
-            <% if(w.viewed) { %>
-              <i class="bi bi-eye" style="color:#7ef3ff;"></i>
-            <% } else { %>
-              <i class="bi bi-eye-slash" style="color:#eee;"></i>
-            <% } %>
-          </td>
-
-          <td>
-            <% if(w.infoComplete) { %>
-              <span style="color:#7ef3ff;">کامل</span>
-            <% } else { %>
-              <span style="color:#ff6262;">ناقص</span>
-            <% } %>
-          </td>
-
-          <td>
-            <% if(w.prize) { %>
-              <span style="color:#7ef3ff;">برنده</span>
-            <% } else { %>
-              —
-            <% } %>
-          </td>
-
-          <td><%= w.createdAt ? w.createdAt.toLocaleString("fa-IR") : "—" %></td>
-
-          <td>
-            <a href="/dashboard/lottery/profile/<%= w.id %>" class="btn-main" style="padding:6px 14px;">پروفایل</a>
-          </td>
-        </tr>
-      <% }) %>
-    </tbody>
-  </table>
+    <div class="table-wrapper">
+      <% if (winners.length === 0) { %>
+        <div class="empty-state">
+          <i class="bi bi-people"></i>
+          <p>هنوز هیچ برنده‌ای ثبت نشده است.</p>
+        </div>
+      <% } else { %>
+      <table id="winnersTable">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>نام و نام‌خانوادگی</th>
+            <th>موبایل</th>
+            <th>شناسه لینک</th>
+            <th>کد ثبت‌نام</th>
+            <th>بازدید</th>
+            <th>اطلاعات</th>
+            <th>برنده</th>
+            <th>تاریخ ثبت</th>
+            <th>عملیات</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% winners.forEach((w, i) => { %>
+            <tr data-name="<%= w.fullName.toLowerCase() %>"
+                data-phone="<%= w.phone %>"
+                data-code="<%= (w.registrationCode || '').toLowerCase() %>"
+                data-viewed="<%= w.viewed ? 'viewed' : 'not-viewed' %>"
+                data-info="<%= w.infoComplete ? 'complete' : 'incomplete' %>"
+                data-winner="<%= w.prize ? 'winner' : 'not-winner' %>">
+              <td style="color:var(--gray-500); font-size:12px; font-weight:600"><%= i + 1 %></td>
+              <td>
+                <div class="customer-cell">
+                  <div class="customer-avatar">
+                    <%= w.fullName ? w.fullName.charAt(0) : '؟' %>
+                  </div>
+                  <span class="customer-name"><%= w.fullName %></span>
+                </div>
+              </td>
+              <td style="direction:ltr; font-size:13px; color:var(--gray-600); letter-spacing:0.03em"><%= w.phone %></td>
+              <td>
+                <span class="link-cell" title="<%= w.linkId %>"><%= w.linkId %></span>
+              </td>
+              <td>
+                <% if (w.registrationCode) { %>
+                  <span class="badge badge-blue">
+                    <i class="bi bi-key"></i>
+                    <%= w.registrationCode %>
+                  </span>
+                <% } else { %>
+                  <span style="color:var(--gray-300)">—</span>
+                <% } %>
+              </td>
+              <td>
+                <% if (w.viewed) { %>
+                  <span class="badge badge-green">
+                    <i class="bi bi-eye-fill"></i>
+                    دیده شده
+                  </span>
+                <% } else { %>
+                  <span class="badge badge-gray">
+                    <i class="bi bi-eye-slash"></i>
+                    ندیده
+                  </span>
+                <% } %>
+              </td>
+              <td>
+                <% if (w.infoComplete) { %>
+                  <span class="badge badge-green">
+                    <i class="bi bi-check-circle-fill"></i>
+                    کامل
+                  </span>
+                <% } else { %>
+                  <span class="badge badge-red">
+                    <i class="bi bi-exclamation-circle-fill"></i>
+                    ناقص
+                  </span>
+                <% } %>
+              </td>
+              <td>
+                <% if (w.prize) { %>
+                  <span class="badge badge-gold">
+                    <i class="bi bi-trophy-fill"></i>
+                    برنده
+                  </span>
+                <% } else { %>
+                  <span style="color:var(--gray-300)">—</span>
+                <% } %>
+              </td>
+              <td style="font-size:12px; color:var(--gray-500); white-space:nowrap">
+                <%= w.createdAt ? w.createdAt.toLocaleString("fa-IR") : "—" %>
+              </td>
+              <td>
+                <a href="/dashboard/lottery/profile/<%= w.id %>" class="action-btn action-btn-primary">
+                  <i class="bi bi-person-lines-fill"></i>
+                  پروفایل
+                </a>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+      <% } %>
+    </div>
+  </div>
 
 </div>
 
 <script>
+// ── Clock ──
 function updateClock() {
   const now = new Date();
-  document.getElementById("clockTime").innerText = now.toLocaleTimeString("fa-IR");
-  document.getElementById("clockDate").innerText = now.toLocaleDateString("fa-IR",{weekday:"long",year:"numeric",month:"long",day:"numeric"});
+  const timeStr = now.toLocaleTimeString("fa-IR");
+  const dateStr = now.toLocaleDateString("fa-IR", { weekday:"long", year:"numeric", month:"long", day:"numeric" });
+  const el = document.getElementById("clockTime");
+  const dateEl = document.getElementById("clockDate");
+  const dateFullEl = document.getElementById("clockDateFull");
+  if (el) el.textContent = timeStr;
+  if (dateEl) dateEl.textContent = dateStr;
+  if (dateFullEl) dateFullEl.textContent = dateStr;
 }
-setInterval(updateClock,1000); updateClock();
+setInterval(updateClock, 1000);
+updateClock();
+
+// ── Search & Filter ──
+const searchInput = document.getElementById('searchInput');
+const filterViewed = document.getElementById('filterViewed');
+const filterInfo = document.getElementById('filterInfo');
+const filterWinner = document.getElementById('filterWinner');
+const visibleCountEl = document.getElementById('visibleCount');
+const rows = document.querySelectorAll('#winnersTable tbody tr');
+
+function applyFilters() {
+  const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
+  const viewedVal = filterViewed ? filterViewed.value : '';
+  const infoVal = filterInfo ? filterInfo.value : '';
+  const winnerVal = filterWinner ? filterWinner.value : '';
+  let visible = 0;
+
+  rows.forEach(row => {
+    const name = row.dataset.name || '';
+    const phone = row.dataset.phone || '';
+    const code = row.dataset.code || '';
+    const viewed = row.dataset.viewed || '';
+    const info = row.dataset.info || '';
+    const winner = row.dataset.winner || '';
+
+    const matchSearch = !query || name.includes(query) || phone.includes(query) || code.includes(query);
+    const matchViewed = !viewedVal || viewed === viewedVal;
+    const matchInfo = !infoVal || info === infoVal;
+    const matchWinner = !winnerVal || winner === winnerVal;
+
+    const show = matchSearch && matchViewed && matchInfo && matchWinner;
+    row.style.display = show ? '' : 'none';
+    if (show) visible++;
+  });
+
+  if (visibleCountEl) visibleCountEl.textContent = visible;
+}
+
+if (searchInput) searchInput.addEventListener('input', applyFilters);
+if (filterViewed) filterViewed.addEventListener('change', applyFilters);
+if (filterInfo) filterInfo.addEventListener('change', applyFilters);
+if (filterWinner) filterWinner.addEventListener('change', applyFilters);
 </script>
 
 </body>
