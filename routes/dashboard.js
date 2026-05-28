@@ -14,6 +14,22 @@ const generateRegistrationCode = () =>
   Math.floor(100000 + Math.random() * 900000).toString();
 
 // -------------------------------------------------------
+// DASHBOARD LOAN PAGE
+// -------------------------------------------------------
+router.get("/loan", requireAuth, async (req, res) => {
+  try {
+    const winners = await Winner.findAll({ order: [["id", "DESC"]] });
+    const totalCustomers = winners.length;
+    const totalInfoComplete = winners.filter(w => w.infoComplete).length;
+    const totalViewed = winners.filter(w => w.viewed).length;
+    res.render("dashboard-loan", { totalCustomers, totalInfoComplete, totalViewed, winners });
+  } catch (err) {
+    console.log("❌ loan dashboard error:", err);
+    res.status(500).send("خطای سرور");
+  }
+});
+
+// -------------------------------------------------------
 // DASHBOARD LOTTERY PAGE
 // -------------------------------------------------------
 router.get("/lottery", requireAuth, async (req, res) => {
@@ -131,6 +147,31 @@ router.get("/lottery/profile/:id", requireAuth, async (req, res) => {
   }
 
   res.render("winner-profile", { customer, docs });
+});
+
+// -------------------------------------------------------
+// EDIT WINNER PAGE
+// -------------------------------------------------------
+router.get("/lottery/edit/:id", requireAuth, async (req, res) => {
+  const winner = await Winner.findByPk(req.params.id);
+  if (!winner) return res.status(404).send("NOT FOUND");
+  const templates = await Template.findAll({ order: [["id", "DESC"]] });
+  res.render("edit-winner", { winner, templates, message: req.query.message || null });
+});
+
+router.post("/lottery/edit/:id", requireAuth, async (req, res) => {
+  const winner = await Winner.findByPk(req.params.id);
+  if (!winner) return res.status(404).send("NOT FOUND");
+
+  const { fullName, phone, prize, templateId, winDate } = req.body;
+  winner.fullName = fullName || winner.fullName;
+  winner.phone = phone || winner.phone;
+  winner.prize = prize;
+  winner.templateId = templateId || winner.templateId;
+  winner.winDate = winDate || winner.winDate;
+  await winner.save();
+
+  res.redirect(`/dashboard/lottery/edit/${winner.id}?message=اطلاعات با موفقیت ذخیره شد`);
 });
 
 // -------------------------------------------------------
