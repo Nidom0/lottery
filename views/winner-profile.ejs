@@ -97,15 +97,21 @@
       <p style="opacity:.7">تاریخ اعلام: <%= customer.winDate || '—' %></p>
       <p style="opacity:.7">کد ثبت‌نام: <%= customer.registrationCode || '—' %> (<%= customer.registrationUsed ? 'استفاده شده' : 'آماده' %>)</p>
 
-      <a href="/winner/<%= customer.linkId %>" class="btn-main">
-        ورود مشتری
-      </a>
+      <div style="display:flex; flex-wrap:wrap; gap:10px; margin-top:15px;">
+        <a href="/winner/<%= customer.linkId %>" class="btn-main">
+          <i class="bi bi-link-45deg" style="margin-left:5px;"></i>صفحه برنده
+        </a>
 
-      <form action="/dashboard/lottery/delete/<%= customer.id %>" 
-            method="POST" 
-            style="margin-top:12px;">
-        <button class="btn-main danger-btn">حذف برنده</button>
-      </form>
+        <a href="/dashboard/lottery/edit/<%= customer.id %>" class="btn-main" style="background:linear-gradient(135deg,#3a9e7a,#5ecfa0);">
+          <i class="bi bi-pencil" style="margin-left:5px;"></i>ویرایش
+        </a>
+
+        <form action="/dashboard/lottery/delete/<%= customer.id %>" method="POST">
+          <button class="btn-main danger-btn" onclick="return confirm('آیا مطمئنید؟')">
+            <i class="bi bi-trash3" style="margin-left:5px;"></i>حذف
+          </button>
+        </form>
+      </div>
     </div>
 
     <div class="avatar-box">
